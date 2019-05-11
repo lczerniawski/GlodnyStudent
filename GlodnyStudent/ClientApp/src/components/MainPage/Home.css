@@ -1,0 +1,40 @@
+.Welcome {
+    position: absolute;
+    top: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-position: center center;
+    background-attachment: fixed;
+    background-image: url(../assets/homeBackground.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -20000;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 100px;
+}
+
+.Welcome h1, .Welcome h2 {
+    color: #fff;
+}
+
+.Welcome .Info {
+    width: 650px;
+    text-align: center;
+    margin-top: 170px;
+}
+
+
+.Welcome h1:after {
+    content: "";
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    width: 450px;
+    height: 3px;
+    background: #F2994A;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

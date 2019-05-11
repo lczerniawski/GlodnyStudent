@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
+import './Layout.css';
 import { NavMenu } from './NavMenu';
 
 export class Layout extends Component {
@@ -9,9 +10,12 @@ export class Layout extends Component {
     return (
       <div>
         <NavMenu />
-        <Container>
+        <main>
           {this.props.children}
-        </Container>
+        </main>
+        <footer>
+            <p>2019 &copy; GłodnyStudent.pl</p>
+        </footer>
       </div>
     );
   }
