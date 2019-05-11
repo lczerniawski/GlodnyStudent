@@ -1,4 +1,4 @@
-﻿a.navbar-brand {
+﻿/* a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
@@ -15,4 +15,73 @@ html {
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+
+.navBarlist{
+  display: flex;
+  justify-content: space-between;
+  background: red;
+} */
+
+.navList{
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items:center;
+  font-size: 24px;
+}
+
+
+#menuBar{
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  background: #F2994A;
+  color: white;
+}
+
+#navLogo{
+  width: 80px;
+}
+
+.menuIconBar{
+     width: 35px;
+    height: 5px;
+    background-color: black;
+    margin: 6px 0;
+}
+
+#menuIcon{
+  padding: 10px;
+}
+
+
+
+/*Extra small devices  */
+@media (max-width: 840px) { 
+  .navList{
+    display: none;
+  }
+}
+/* s Medium devices  */
+@media (min-width: 840px) and (max-width: 1199.98px) {
+  .navList{
+    width: 90%;
+  }
+  #navLogo{
+    width: 70px;
+  }
+  #menuIcon{
+    display: none;
+  }
+ }
+/* Extra large devices  */
+@media (min-width: 1200px) {
+  .navList{
+    width: 60%;
+  }
+  #menuIcon{
+    display: none;
+  }
 }
