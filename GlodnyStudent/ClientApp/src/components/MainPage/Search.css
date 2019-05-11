@@ -1,0 +1,17 @@
+#searchInput{
+    width: 60vw;
+    height: 50px;
+    margin-right: 10px;
+}
+
+#searchBtn{
+    color: white;
+    background: #F2994A;
+    border: none;
+    height: 50px;
+    width: 300px;
+}
+
+#searchContainer{
+    text-align: center;
+}
