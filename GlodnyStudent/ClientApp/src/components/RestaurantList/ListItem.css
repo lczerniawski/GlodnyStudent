@@ -1,0 +1,61 @@
+#listItemContainer{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+    background: #F2F2F2;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    min-height: 400px;
+    align-items: center;
+    padding:10px;
+
+}
+
+#image{
+    background: yellowgreen;
+    width: 60%;
+    height: 350px;
+    border-radius: 10px;
+}
+
+#restaurantInfo{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+#badge{
+    color:#F2994A;
+    border: solid #F2994A;
+    border-radius: 20px;
+    padding: 5px 20px 5px 20px;
+}
+
+/*Extra small devices  */
+@media (max-width: 740px) { 
+    #restaurantInfo{
+        padding: 10px;
+        min-width: 300px;
+    }
+    #image{
+        width: 100%;
+    }
+    #listItemContainer{
+        width: 95%;
+        justify-content:center;
+    }
+  }
+  /* s Medium devices  */
+  @media (min-width: 740px) and (max-width: 1199.98px) {
+  
+    
+   }
+  /* Extra large devices  */
+  @media (min-width: 1200px) {
+
+ 
+  }

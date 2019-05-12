@@ -5,22 +5,22 @@ import './NavMenu.css';
 import logo from'./assets/navbarLogo.png';
 
 export class NavMenu extends Component {
-  static displayName = NavMenu.name;
-
-  constructor (props) {
+  /* static displayName = NavMenu.name;
+ */
+  /* constructor (props) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapsed: true
     };
-  }
+  } */
 
-  toggleNavbar () {
+ /*  toggleNavbar () {
     this.setState({
       collapsed: !this.state.collapsed
     });
-  }
+  } */
 
   render () {
     return (
@@ -49,9 +49,9 @@ export class NavMenu extends Component {
               <li>Zapomnialeś hasła?</li>          
           </ul>
           <div id="menuIcon">
-              <div class="menuIconBar"></div>
-              <div class="menuIconBar"></div>
-              <div class="menuIconBar"></div>
+              <div className="menuIconBar"></div>
+              <div className="menuIconBar"></div>
+              <div className="menuIconBar"></div>
           </div>
       </nav>
        

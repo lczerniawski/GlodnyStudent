@@ -24,12 +24,13 @@ html {
   background: red;
 } */
 
+
 .navList{
   list-style: none;
   display: flex;
   justify-content: space-around;
   align-items:center;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 
@@ -68,6 +69,7 @@ html {
 @media (min-width: 840px) and (max-width: 1199.98px) {
   .navList{
     width: 90%;
+    font-size: 16px;
   }
   #navLogo{
     width: 70px;
@@ -75,11 +77,12 @@ html {
   #menuIcon{
     display: none;
   }
+  
  }
 /* Extra large devices  */
 @media (min-width: 1200px) {
   .navList{
-    width: 60%;
+    width: 75%;
   }
   #menuIcon{
     display: none;
