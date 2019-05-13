@@ -46,9 +46,9 @@ fetch('https://localhost:44331/api/Home/UserData', {
 
   render() {
     return (
-        <form className="searchContainer" onSubmit={this.handleSubmit}>
-          <input className="searchInput" type="text"  placeholder="Tu wpisz adres" onChange={this.handleChange} required/>
-          <input className="searchBtn" type="submit" value="Szukaj"/>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text"  placeholder="Tu wpisz adres" onChange={this.handleChange}/>
+          <input type="submit" value="Szukaj"/>
         </form>
     )
   }

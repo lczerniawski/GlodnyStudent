@@ -1,8 +1,10 @@
-.Welcome {
-    position: absolute;
-    top: 0;
-    min-width: 100%;
-    min-height: 100%;
+.welcome {
+    float: left;
+    clear: both;
+    min-width: 1024px;
+    width: 100%;
+    height: calc(100vh - 148px);
+    left: 0;
     background-position: center center;
     background-attachment: fixed;
     background-image: url(../assets/homeBackground.jpg);
@@ -10,31 +12,54 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    z-index: -20000;
     padding-left: 5%;
     padding-right: 5%;
     padding-top: 100px;
 }
 
-.Welcome h1, .Welcome h2 {
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+    .welcome {
+      left: 50%;
+      margin-left: -512px;   /* 50% */
+    }
+  }
+
+.welcome .info {
+    margin-top: 15vh;
+}
+
+.welcome .info h1, .welcome .info h2 {
     color: #fff;
 }
 
-.Welcome .Info {
-    width: 650px;
-    text-align: center;
-    margin-top: 170px;
+
+.welcome .info h1 {
+    font-size: 60px;
 }
 
+@media(min-width: 1200px)
+{
+    .welcome .info {
+        width: 50vw;
+    }
+}
+@media(max-width: 1199px)
+{
+    .welcome .info {
+        width: 90vw;
+    }
+}
 
-.Welcome h1:after {
+.welcome h1:after {
     content: "";
     display: block;
-    text-align: center;
-    margin: 0 auto;
     width: 450px;
     height: 3px;
     background: #F2994A;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.search {
+    margin-top: 200px;
 }

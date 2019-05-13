@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Layout.css';
 import { NavMenu } from './NavMenu';
 
 export class Layout extends Component {
@@ -11,6 +12,9 @@ export class Layout extends Component {
         <main>
           {this.props.children}
         </main>
+        <footer>
+          <p>2019 &copy; GłodnyStudent.pl. Wszelkie prawa zastrzeżone.</p>
+        </footer>
       </div>
     );
   }

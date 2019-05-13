@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ListItem from './ListItem';
 import './RestaurantList.css'
+import Search from './Search';
 import Filters from './Filters';
 import Sort from './Sort';
 
@@ -40,10 +41,24 @@ export class RestaurantList extends Component {
     const list = this.state.restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} 
                   address={restauration.address}  reviewsCount={restauration.reviewsCount} image={restauration.image}/>)
     return (    
-      <div id="restaurantListContainer">
-        <Filters cuisines={this.state.cuisines} distance={this.state.distance} price={this.state.price} highestPrice={this.state.highestPrice} onSetFilter={this.handleInputChange} />
-        <Sort sort={this.state.sort} restaurations={this.state.restaurations} onSetSort={this.handleInputChange} />
-        <ul id="restaurantList">{list}</ul>
+      <div className="restaurantListContainer">
+
+        <div className="titlePage">
+          <h2>Lista restauracji</h2>
+        </div>
+
+        <div className="searchRestaurant">
+          <Search/>
+        </div>
+
+        <div className="filersBar">
+          <Filters cuisines={this.state.cuisines} distance={this.state.distance} price={this.state.price} highestPrice={this.state.highestPrice} onSetFilter={this.handleInputChange} />
+          <Sort sort={this.state.sort} restaurations={this.state.restaurations} onSetSort={this.handleInputChange} />
+        </div>
+        
+        <div className="restaurantList">
+          {list}
+        </div>
       </div>
     )
   }

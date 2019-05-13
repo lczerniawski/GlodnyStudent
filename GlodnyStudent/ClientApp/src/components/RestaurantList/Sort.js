@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Sort.css'
 
 export default class Sort extends Component {
 
@@ -35,14 +36,17 @@ export default class Sort extends Component {
 
   render() {
     return (
-        <label>Sortowanie: 
-        <select name="sort" onChange={this.handleInputChange}>
-          <option value='priceGrowingly'>Cena rosnąca</option>
-          <option value='priceDecreasing'>Cena malejąca</option>
-          <option value='distanceDecreasing' >Odległość malejąca</option>
-          <option value='distanceGrowingly' >Odległość rosnąca</option>
-        </select>
-      </label>
+      <div className="sort">
+        <div className="form-label-right">
+          <div className="title">Sortowanie:</div> 
+          <select name="sort" onChange={this.handleInputChange}>
+            <option value='priceGrowingly'>Cena rosnąca</option>
+            <option value='priceDecreasing'>Cena malejąca</option>
+            <option value='distanceDecreasing' >Odległość malejąca</option>
+            <option value='distanceGrowingly' >Odległość rosnąca</option>
+          </select>
+        </div>
+      </div>
     )
   }
 }

@@ -1,20 +1,38 @@
+a {
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  transition:.5s;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 main {
-    width: 100%;
     height: 100%;
-    min-height: 100%;
+    margin-top: -2px;
+    clear: both;
+    position: relative;
 }
 
 footer {
+    float: left;
     clear: both;
-    position: absolute;
+    padding: 0;
+    margin: 0 !important;
     bottom: 0;
     width: 100%;
+    height: 70px;
     border-top: 3px solid #F2994A;
     background-color: #404040;
+    z-index: 2000;
 }
 
 footer p {
     color: #fff;
     text-align: center;
-    padding-top: 10px;
+    font-size: 18px;
+    padding-top: 15px;
 }

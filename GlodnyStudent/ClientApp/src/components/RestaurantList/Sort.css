@@ -1,0 +1,23 @@
+.sort {
+    float: left;
+    width: 30%;
+    overflow: hidden;
+    background: #E0E0E0;
+}
+
+.sort .form-label-right {
+    float: right;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+}
+
+.sort .form-label-right .title, .sort .form-label-right .unit {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sort select {
+    padding: 2px;
+}
