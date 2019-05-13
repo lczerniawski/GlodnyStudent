@@ -3,11 +3,12 @@ import Search from './Search';
 
 export class Home extends Component {
 /*   static displayName = Home.name; */
-
+ 
+  
   render () {
     return (
       <div>
-        <Search/>
+        <Search onAddressInput={this.props.onAddressInput} />
       </div>
     );
   }

@@ -12,29 +12,15 @@ export default class Search extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
       }
 
-
-sendData() {
-fetch('https://localhost:44331/api/Home/UserData', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-    body: JSON.stringify({
-                street:this.state.street           
-            })
-        })
-    }
-
-
     handleChange(event) {
         this.setState({street: event.target.value});
       }
 
     handleSubmit(event) {
         
-        /* this.sendData(); */ // odkomentowac do wysyalania danych i dac awaita zeby czekal na info zanim przejdzie czy cos
-        console.log(`Ulica:  ${this.state.street}`); // Do spawdzenia czy dziala
+        
+       // console.log(`Ulica:  ${this.state.street}`); // Do spawdzenia czy dziala
+       this.props.onAddressInput(this.state.street);
         this.context.router.history.push(`/RestaurantList`);
         event.preventDefault();
       }

@@ -9,14 +9,25 @@ import {RestaurantList} from './components/RestaurantList/RestaurantList';
 export default class App extends Component {
   static displayName = App.name;
 
+  constructor(props){
+    super(props);
+    this.state={ address :""}
+    this.setAddress = this.setAddress.bind(this);
+  } 
+
+  setAddress(address){
+    this.setState({address:address});
+  }
+
+
   render () {
     return (
       <Layout>
        {/*  <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} /> */}
-        <Route exact path='/' component={Home} />
-        <Route  path='/RestaurantList' component={RestaurantList} />
+        <Route exact path='/'  render={(props) => <Home {...props} onAddressInput={this.setAddress}  />} />
+        <Route  path='/RestaurantList'  render={(props) => <RestaurantList  {...props} address={this.state.address} />} />
       </Layout>
     );
   }

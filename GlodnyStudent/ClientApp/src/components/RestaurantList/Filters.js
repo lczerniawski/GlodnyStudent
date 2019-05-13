@@ -7,9 +7,14 @@ export default class Filters extends Component {
     constructor(props) {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
+      this.setFilter = this.setFilter.bind(this);
     }
 
     handleInputChange(event) {
+        this.props.onSetFilter(event);
+      }
+
+      setFilter(event){
         this.props.onSetFilter(event);
       }
 
@@ -22,6 +27,7 @@ export default class Filters extends Component {
             <select name="cuisine" onChange={this.handleInputChange}>
             {cuisineOptions}
             </select>
+            <button onClick={this.setFilter}>Filtruj</button>
       </div>
     )
   }
