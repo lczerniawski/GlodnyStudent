@@ -1,6 +1,6 @@
 .filters {
     float: left;
-    width: 70%;
+    padding-left: 10px;
 }
 
 .filters .form-label {
@@ -9,7 +9,12 @@
     font-size: 18px;
 }
 
-.filters .form-label .title, .filters .form-label .unit {
+.filters .form-label .title {
+    float: left;
+    padding-right: 10px;
+}
+
+.filters .form-label .unit {
     float: left;
     padding-left: 10px;
     padding-right: 10px;
@@ -21,7 +26,6 @@
 
 .filters input[type=range] {
     float: left;
-    width: 200px;
     margin-top: 3px;
     -webkit-appearance: none;
     background: transparent;
@@ -108,4 +112,77 @@
 
 .filters input[type=range]:focus::-ms-fill-upper {
     background: #404040;
+}
+
+@media (max-width: 740px) { 
+    .filters {
+        width: 100%;
+    }
+
+    .filters .form-label {
+        float: left;
+        clear: both;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .filters .typeKitchen {
+        clear: both;
+        padding-top: 20px;
+    }
+
+    .filters .typeKitchen select {
+        float: left;
+        clear: both;
+        width: 70vw;
+    }
+
+    .filters input[type=range] {
+        width: 100%;
+    }
+}
+@media (min-width: 740px) and (max-width: 1199px) {
+    .filters {
+        width: 100%;
+    }
+
+    .filters .form-label {
+        float: left;
+        width: 50%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .filters .typeKitchen {
+        float: left;
+        clear: both;
+        padding-top: 20px;
+    }
+
+    .filters .typeKitchen select {
+        float: left;
+        clear: both;
+        width: 90vw;
+    }
+
+    .filters input[type=range] {
+        width: 100%;
+    }
+}
+@media (min-width: 1200px) {
+    .filters {
+        width: 75%;
+    }
+
+    .filters input[type=range] {
+        width: 200px;
+    }
+}
+
+@media (max-width: 1450px) {
+    .filters .typeKitchen {
+        float: left;
+        clear: both;
+        padding-top: 20px;
+    }
 }

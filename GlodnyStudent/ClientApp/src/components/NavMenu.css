@@ -16,27 +16,8 @@ header .navLogo img {
   height: 60px;
 }
 
-header .formLogin, header .navList {
-  float: right;
-}
-
-header .navList {
-  margin-top: 13px;
-}
-
 header .navList li {
   display: inline-block;
-  padding-left: 40px;
-  padding-right: 40px;
-}
-
-header .navList li a {
-  font-size: 20px;
-  color: #404040;
-}
-
-header .navList li a:hover {
-  color: #fff;
 }
 
 header .formLogin {
@@ -48,13 +29,9 @@ header .formLogin input {
   border: none;
   box-shadow: transparent;
   padding: 7px 15px 7px 15px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 header .formLogin input[type=submit] {
-  color: #fff;
-  background: #404040;
   font-size: 18px;
   padding-left: 30px !important;
   padding-right: 30px !important;
@@ -78,29 +55,130 @@ header .formLogin input[type=submit]:hover {
 }
 
 .menuIcon {
-  padding: 10px;
+  float: right;
+  padding: 5px;
+  border: 1px solid #404040;
+  margin-top: 8px;
 }
 
+.menuIcon.visible {
+  background: #404040;
+}
+
+.menuIcon .line {
+  float: left;
+  clear: both;
+  margin-top: 3.5px;
+  margin-bottom: 3.5px;
+  width: 27px;
+  height: 2px;
+  background-color: #404040;
+}
+
+.menuIcon.visible .line {
+  background-color: #fff;
+}
 
 /*Extra small devices  */
-@media (max-width: 840px) { 
-  .navList {
+@media (max-width: 1199px) { 
+  .topnav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 75px;
+    z-index: 3000;
+    background-color: #404040;
+  }
+
+  .topnav.hidden {
     display: none;
   }
-}
-/* s Medium devices  */
-@media (min-width: 840px) and (max-width: 1199px) {
-  .navList {
-    font-size: 16px;
+
+  .topnav.visible {
+    display: block;
   }
-  .menuIcon{
-    display: none;
+
+  header .navList {
+    margin-left: -40px;
+  }
+
+  header .navList li {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #F2994A;
+
+  }
+
+  header .navList li a {
+    font-size: 20px;
+    color: #fff;
   }
   
- }
+  header .navList li a:hover {
+    color: #F2994A;
+  }
+
+  header .formLogin {
+    float: left;
+    clear: both;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 20px;
+  }
+
+  header .formLogin input {
+    width: 90%;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  header .formLogin input[type=submit] {
+    color: #404040;
+    background: #F2994A;
+  }
+
+}
+
 /* Extra large devices  */
 @media (min-width: 1200px) {
-  .menuIcon{
+  header .formLogin, header .navList {
+    float: right;
+  }
+
+  .menuIcon {
     display: none;
+  }
+
+  header .navList {
+    margin-top: 13px;
+  }
+
+  header .navList li {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  header .navList li a {
+    font-size: 20px;
+    color: #404040;
+  }
+  
+  header .navList li a:hover {
+    color: #fff;
+  }
+
+  header .formLogin input {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  header .formLogin input[type=submit] {
+    color: #fff;
+    background: #404040;
   }
 }

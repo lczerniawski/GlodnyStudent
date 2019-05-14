@@ -1,21 +1,18 @@
 .searchContainer {
     width: 100%;
-    margin-top: 200px;
 }
 
-.searchInput{
-    width: 75%;
+.searchInput {
     padding: 15px 20px 15px 20px;
     font-size: 20px;
     margin-right: 10px;
 }
 
-.searchBtn{
+.searchBtn {
     color: #404040;
     background: #F2994A;
     border: none;
     height: 62px;
-    width: 18%;
     text-transform: uppercase;
     font-size: 20px;
     -o-transition:.5s;
@@ -28,4 +25,28 @@
 .searchBtn:hover {
     color: #fff;
     background-color: #404040;
+}
+
+@media(min-width: 1200px) {
+    .searchContainer {
+        margin-top: 200px;
+    }
+
+    .searchInput {
+        width: 75%;
+    }
+
+    .searchBtn {
+        width: 18%;
+    }
+}
+
+@media(max-width: 1199px) {
+    .searchContainer {
+        margin-top: 100px;
+    }
+
+    .searchInput, .searchBtn {
+        width: 100%;
+    }
 }

@@ -26,7 +26,7 @@ export default class Filters extends Component {
               <input type="range" value={this.props.price}  name="price" min="0" max={this.props.highestPrice} onChange={this.handleInputChange}/><span className="unit">{this.props.price} zł</span>
             </div>
 
-            <div className="form-label">
+            <div className="form-label typeKitchen">
               <div className="title">Rodzaj kuchni:</div>
               <select name="cuisine" onChange={this.handleInputChange}>
               {cuisineOptions}
