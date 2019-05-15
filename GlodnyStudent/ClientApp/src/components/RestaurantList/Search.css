@@ -1,0 +1,26 @@
+.searchRestaurant {
+    width: 100%;
+    background-color: #fff;
+}
+
+.searchRestaurant input, .searchRestaurant form {
+    border-color: transparent;
+}
+
+.searchRestaurant input[type=text] {
+    width: calc(100vw - 100px);
+    background-color: #fff;
+    padding: 10px 45px 10px 45px;
+    height: 60px;
+    font-size: 20px;
+}
+
+.searchRestaurant input[type=submit] {
+    float: right;
+    width: 60px;
+    height: 60px;
+    background: url('../assets/icoSearch.png') center center no-repeat;
+    background-size: 50px 50px;
+    background-color: #fff;
+    text-indent: -9999px;
+}

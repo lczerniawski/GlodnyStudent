@@ -1,8 +1,60 @@
-#restaurantList{
+.restaurantList {
     padding: 0;
+    margin-top: 40px;
 }
 
-#restaurantListContainer{
+.restaurantListContainer {
     background: #404040;
+    padding-bottom: 30px;
 }
 
+.titlePage {
+    width: 100%;
+    clear: both;
+    height: 400px;
+    background: url('../assets/homeBackground.jpg') no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.titlePage h2 {
+    float: left;
+    color: #fff;
+    margin-top: 150px;
+    margin-left: 50px;
+}
+
+.search {
+    margin-top: 0;
+}
+
+.filersBar {
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+    background: #E0E0E0;
+    padding: 15px 20px 15px 20px;
+}
+
+@media (min-width: 740px) {
+    .titlePage {
+        background-position: top center; 
+    }
+
+    .titlePage h2 {
+        font-size: 60px;
+    }
+}
+
+@media (max-width: 740px) {
+    .titlePage {
+        background-position: top left; 
+    }
+
+    .titlePage h2 {
+        font-size: 40px;
+    }
+}

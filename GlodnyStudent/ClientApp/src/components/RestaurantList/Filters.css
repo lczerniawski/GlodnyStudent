@@ -1,3 +1,188 @@
-#filters{
-    background: #E0E0E0;
+.filters {
+    float: left;
+    padding-left: 10px;
+}
+
+.filters .form-label {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+}
+
+.filters .form-label .title {
+    float: left;
+    padding-right: 10px;
+}
+
+.filters .form-label .unit {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.filters select {
+    padding: 2px;
+}
+
+.filters input[type=range] {
+    float: left;
+    margin-top: 3px;
+    -webkit-appearance: none;
+    background: transparent;
+}
+  
+/* Point */
+.filters input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #F2994A;
+    cursor: pointer;
+    margin-top: -14px;
+}
+  
+.filters input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #F2994A;
+    cursor: pointer;
+}
+  
+.filters input[type=range]::-ms-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #F2994A;
+    cursor: pointer;
+}
+
+/* Track */
+.filters input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+
+    background: transparent; 
+    border-color: transparent;
+    color: transparent;
+}
+
+.filters input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: #404040;
+}
+  
+.filters input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #404040;
+}
+  
+.filters input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: #404040;
+}
+  
+.filters input[type=range]::-ms-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+}
+
+.filters input[type=range]::-ms-fill-lower {
+    background: #404040;
+    border-radius: 2.6px;
+}
+
+.filters input[type=range]:focus::-ms-fill-lower {
+    background: #404040;
+}
+
+.filters input[type=range]::-ms-fill-upper {
+    background: #404040;
+    border-radius: 2.6px;
+}
+
+.filters input[type=range]:focus::-ms-fill-upper {
+    background: #404040;
+}
+
+@media (max-width: 740px) { 
+    .filters {
+        width: 100%;
+    }
+
+    .filters .form-label {
+        float: left;
+        clear: both;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .filters .typeKitchen {
+        clear: both;
+        padding-top: 20px;
+    }
+
+    .filters .typeKitchen select {
+        float: left;
+        clear: both;
+        width: 70vw;
+    }
+
+    .filters input[type=range] {
+        width: 100%;
+    }
+}
+@media (min-width: 740px) and (max-width: 1199px) {
+    .filters {
+        width: 100%;
+    }
+
+    .filters .form-label {
+        float: left;
+        width: 50%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .filters .typeKitchen {
+        float: left;
+        clear: both;
+        padding-top: 20px;
+    }
+
+    .filters .typeKitchen select {
+        float: left;
+        clear: both;
+        width: 90vw;
+    }
+
+    .filters input[type=range] {
+        width: 100%;
+    }
+}
+@media (min-width: 1200px) {
+    .filters {
+        width: 75%;
+    }
+
+    .filters input[type=range] {
+        width: 200px;
+    }
+}
+
+@media (max-width: 1450px) {
+    .filters .typeKitchen {
+        float: left;
+        clear: both;
+        padding-top: 20px;
+    }
 }

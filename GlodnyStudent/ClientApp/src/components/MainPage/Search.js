@@ -39,9 +39,9 @@ export default class Search extends Component {
   render() {
     const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
     return (
-        <form id="searchContainer" onSubmit={sub}>
-          <input id="searchInput" type="text"  placeholder="Tu wpisz adres" onChange={this.handleChange} />
-          <input id="searchBtn" type="submit" value="Szukaj"/>
+        <form className="searchContainer" onSubmit={sub}>
+          <input className="searchInput" type="text"  placeholder="Tu wpisz adres" onChange={this.handleChange} required/>
+          <input className="searchBtn" type="submit" value="Szukaj"/>
         </form>
     )
   }

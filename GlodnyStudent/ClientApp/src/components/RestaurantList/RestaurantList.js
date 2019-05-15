@@ -3,7 +3,7 @@ import ListItem from './ListItem';
 import './RestaurantList.css'
 import Filters from './Filters';
 import Sort from './Sort';
- import Search from  '../MainPage/Search';
+import Search from  '../MainPage/Search';
 import '../MainPage/Search.css'; 
 /* import {host} from '../../config' */
 
@@ -109,7 +109,6 @@ getDataByAddress(){
   
 
   render() {
-
     const { error, restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
     let list 
     if (error) {
@@ -118,15 +117,26 @@ getDataByAddress(){
        list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} 
         address={restauration.address}  reviewsCount={restauration.reviewsCount} image={restauration.image}/>);
     }   
-      return (        
-        <div id="restaurantListContainer">
-          <Search onAddressUpdate={this.addressUpdate} isMain={false}/>
-          <Filters onConfirmFilters={this.getDataByFilters} cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
-          <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
-          <ul id="restaurantList">{list}</ul>
-        </div>
-      );
-  
+    return (    
+      <div className="restaurantListContainer">
 
+        <div className="titlePage">
+          <h2>Lista restauracji</h2>
+        </div>
+
+        <div className="searchRestaurant">
+          <Search onAddressUpdate={this.addressUpdate} isMain={false}/>
+        </div>
+
+        <div className="filersBar">
+		  <Filters onConfirmFilters={this.getDataByFilters} cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
+          <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
+        </div>
+        
+        <div className="restaurantList">
+          {list}
+        </div>
+      </div>
+    )
   }
 }

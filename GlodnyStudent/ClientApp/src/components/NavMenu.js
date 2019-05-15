@@ -5,6 +5,7 @@ import './NavMenu.css';
 import logo from'./assets/navbarLogo.png';
 
 export class NavMenu extends Component {
+
   /* static displayName = NavMenu.name;
  */
   /* constructor (props) {
@@ -21,6 +22,20 @@ export class NavMenu extends Component {
       collapsed: !this.state.collapsed
     });
   } */
+
+  handleClick = () => {
+    var x = document.getElementById("myTopnav");
+    var icoMenu = document.getElementById("menuIcon");
+
+    if (x.className === "topnav hidden") {
+      x.className = "topnav visible";
+      icoMenu.className = "menuIcon visible";
+    } 
+    else {
+      x.className = "topnav hidden";
+      icoMenu.className = "menuIcon hidden";
+    }
+  }
 
   render () {
     return (
@@ -39,21 +54,32 @@ export class NavMenu extends Component {
             </Collapse>
           </Container>
         </Navbar>  */}
-      <nav id="menuBar">
-          <img id="navLogo" src={logo} alt ="logo"/>
-          <ul className="navList"> 
-              <li><input  type="text" placeholder="Login" /></li>
-              <li><input  type="password" placeholder="Hasło" /></li>
-              <li>Zaloguj się</li>
-              <li>Zarejestruj się</li>
-              <li>Zapomnialeś hasła?</li>          
-          </ul>
-          <div id="menuIcon">
-              <div className="menuIconBar"></div>
-              <div className="menuIconBar"></div>
-              <div className="menuIconBar"></div>
-          </div>
-      </nav>
+        <nav class="menuBar">
+
+            <div className="navLogo">
+              <a href="/">
+                <img src={logo} alt ="logo"/>
+              </a>
+            </div>
+
+            <div className="topnav hidden" id="myTopnav">
+              <ul className="navList"> 
+                <li><a href="#">Zapomnialeś hasła?</a></li>  
+                <li><a href="#">Zarejestruj się</a></li>
+              </ul>
+              <form className="formLogin">
+                  <input type="text" placeholder="Login" />
+                  <input type="password" placeholder="Hasło" /> 
+                  <input type="submit" value="Zaloguj się"></input>
+              </form>
+            </div>
+          
+            <a id="menuIcon" className="menuIcon" onClick={this.handleClick}>
+              <span className="line"></span>
+              <span className="line"></span>
+              <span className="line"></span>
+            </a>
+        </nav>
        
 
       </header>
