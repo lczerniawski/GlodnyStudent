@@ -37,6 +37,7 @@ namespace GlodnyStudent.Controllers
 
             var filteredResult = from r in result
                 where r.Distance <= distance && r.HighestPrice <= highestPrice && r.Cuisine == cuisine
+                orderby r.HighestPrice
                 select r;
 
             if (filteredResult.Any())
