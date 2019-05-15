@@ -8,7 +8,7 @@ export class Home extends Component {
   render () {
     return (
       <div>
-        <Search onAddressInput={this.props.onAddressInput} />
+        <Search isMain="true" onAddressInput={this.props.onAddressInput} />
       </div>
     );
   }

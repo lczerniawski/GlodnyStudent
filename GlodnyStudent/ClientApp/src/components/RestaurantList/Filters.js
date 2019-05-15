@@ -14,8 +14,8 @@ export default class Filters extends Component {
         this.props.onSetFilter(event);
       }
 
-      setFilter(event){
-        this.props.onSetFilter(event);
+      setFilter(){
+        this.props.onConfirmFilters();
       }
 
   render() {

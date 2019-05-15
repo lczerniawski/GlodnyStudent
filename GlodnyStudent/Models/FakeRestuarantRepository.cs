@@ -13,7 +13,7 @@ namespace GlodnyStudent.Models
             new RestaurantViewModel()
             {
                 Address = "Sokratesa",
-                Cuisine = "Amerykanska",
+                Cuisine = "Amerykańska",
                 Distance = 2,
                 HighestPrice = 25,
                 Id = 1,
@@ -23,7 +23,7 @@ namespace GlodnyStudent.Models
             new RestaurantViewModel()
             {
                 Address = "Sokratesa",
-                Cuisine = "Wloska",
+                Cuisine = "Włoska",
                 Distance = 3,
                 HighestPrice = 30,
                 Id = 2,
@@ -33,7 +33,7 @@ namespace GlodnyStudent.Models
             new RestaurantViewModel()
             {
                 Address = "Sokratesa",
-                Cuisine = "Japonska",
+                Cuisine = "Ajaztycka",
                 Distance = 10,
                 HighestPrice = 40,
                 Id = 3,

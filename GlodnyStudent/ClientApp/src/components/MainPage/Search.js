@@ -9,14 +9,15 @@ export default class Search extends Component {
     
         this.state = {street: ''};
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmitMain = this.handleSubmitMain.bind(this);
+        this.handleSubmitRestaurationList= this.handleSubmitRestaurationList.bind(this);
       }
 
     handleChange(event) {
         this.setState({street: event.target.value});
       }
 
-    handleSubmit(event) {
+    handleSubmitMain(event) {
         
         
        // console.log(`Ulica:  ${this.state.street}`); // Do spawdzenia czy dziala
@@ -30,9 +31,15 @@ export default class Search extends Component {
       }
 
 
+      handleSubmitRestaurationList(event){
+        this.props.onAddressUpdate(this.state.street);
+        event.preventDefault();
+      }
+
   render() {
+    const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
     return (
-        <form id="searchContainer" onSubmit={this.handleSubmit}>
+        <form id="searchContainer" onSubmit={sub}>
           <input id="searchInput" type="text"  placeholder="Tu wpisz adres" onChange={this.handleChange} />
           <input id="searchBtn" type="submit" value="Szukaj"/>
         </form>

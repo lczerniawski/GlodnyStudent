@@ -5,6 +5,8 @@ export default class Sort extends Component {
     constructor(props) {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.SortItems = this.SortItems.bind(this);
+       this.SortItems();
     }
 
     handleInputChange(event) {
@@ -12,9 +14,7 @@ export default class Sort extends Component {
         this.props.onSetSort(event);
       }
 
-
-
-    SortItems(){
+     SortItems(){
         switch(this.props.sort) {
           case 'priceGrowingly':
             this.props.restaurations.sort((a,b) => (parseFloat(a.highestPrice) < parseFloat(b.highestPrice)) ? 1 : ((parseFloat(b.highestPrice) < parseFloat(a.highestPrice)) ? -1 : 0)); 
@@ -28,9 +28,8 @@ export default class Sort extends Component {
           case 'distanceGrowingly':
             this.props.restaurations.sort((a,b) => (parseFloat(a.distance) < parseFloat(b.distance)) ? 1 : ((parseFloat(b.distance) < parseFloat(a.distance)) ? -1 : 0)); 
             break;  
-          default:
-            
-        }
+          default:          
+        } 
       }
 
   render() {
