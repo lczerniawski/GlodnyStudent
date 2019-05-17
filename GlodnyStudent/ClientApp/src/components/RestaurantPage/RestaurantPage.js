@@ -10,21 +10,21 @@ export default class RestaurantPage extends Component {
 constructor(props){
     super(props);
     this.state={
-        restaurtion:{headerImage:"",name:"Przykładowa nazwa restauracji",address:"Jana Pawła 2 21/37",galleryImage:[],
+        name:"",
+        address:"",
         menu:[],
+        gallery:[],
         reviews:[],
-        rate:"5"},
+        rate:"",
         newReview:'',
-        addToRate:0
+        //addToRate:0
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.sendReview =this.sendReview.bind(this);
+    this.sendRate = this.sendRate.bind(this);
 }
-
-
-
-    // Ustalić szczegoly komunikacji
-    /*componentDidMount(){
+  
+    componentDidMount(){
         this.getDataById();
       }
       
@@ -40,7 +40,11 @@ constructor(props){
         .then((result) => {
           this.setState({
             error:false,
-            restaurations: result
+            name: result.name,
+            address:result.address,
+            menu:result.menu,
+            gallery:result.gallery,
+            reviews:result.reviews,
           });
         })
         .catch((error) => {
@@ -49,23 +53,46 @@ constructor(props){
             error
           }); 
         });
-      }*/
+      }
+
+ 
+      sendRate(event) {
 
 
-      sendReview(event) {
-        event.preventDefault();
-         /* fetch('', {
+         const adr = (event.target.val == -1)? 'https://localhost:44375/api/Restaurants/2/DownVote':'https://localhost:44375/api/Restaurants/2/UpVote' ;
+        event.preventDefault(adr);
+          fetch('', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            nick: "Tymczasowy nick",// bedzie zmienione jak powstanie logowanie i konta uzytkownikow
-            review: this.state.newReview,
+            id: this.props.id
           })
-        })  */
-      }
+        }).then((res) => res.json())
+        .then((data) =>  console.log(data))
+        .catch((err)=>console.log(err))  
+
+
+        
+      }  
+
+
+      /* sendReview(event) {
+         
+        event.preventDefault();
+          fetch('', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: this.props.id,// bedzie zmienione jak powstanie logowanie i konta uzytkownikow
+          })
+        })  
+      } */
 
 
       
@@ -84,19 +111,18 @@ constructor(props){
 
 
   render() {
-    const { restaurtion} = this.state;
-  const menuList = restaurtion.menu.map((row,i)=><li key={i} className="menuRow">{row.map((rowItem,i)=><span key={i}>{rowItem}</span>)}</li>);
-  const reviewsList = restaurtion.reviews.map((row,i)=><li key={i} className="rewiew">{row.map((rowItem,i)=><span key={i}>{rowItem}</span>)}</li>);
+  const menuList = this.state.menu.map(row=><li key={row.id} className="menuRow"><span>{row.name}</span><span>{row.price}</span></li>);
+  const reviewsList = this.state.reviews.map(row=><li key={row.id} className="menuRow"><span>{row.description}</span><span>{row.addTime}</span></li>);
     return (
       <div>
         <div >TU BEDZIE NAGŁÓWKOWY OBRAZEK</div>
-        <div>{restaurtion.name}</div>
+        <div>{this.state.name}</div>
         <section>
             <div>MAPA</div>
             <div>
                 <h3>Znajdź nas na mapie!</h3>
-                <p>{restaurtion.address}</p>
-                <Rateing rate={restaurtion.rate} onRate={this.handleInputChange}/>
+                <p>{this.state.address}</p>
+                <Rateing rate={this.state.rate} onRate={this.sendRate}/>
                 <button>Zobacz na mapach google</button>
             </div>
         </section>
