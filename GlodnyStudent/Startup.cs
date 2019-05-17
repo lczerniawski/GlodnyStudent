@@ -1,3 +1,5 @@
+using System;
+using AutoMapper;
 using GlodnyStudent.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +24,9 @@ namespace GlodnyStudent
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<IRestaurantRepository, FakeRestuarantRepository>();
+            services.AddSingleton<IRestaurantRepository, MookRestaurantRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

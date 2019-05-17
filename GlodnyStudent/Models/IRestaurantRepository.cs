@@ -7,6 +7,8 @@ namespace GlodnyStudent.Models
 {
     public interface IRestaurantRepository
     {
-        IEnumerable<RestaurantViewModel> GetRestaurantsByStreet(string streetName);
+        IEnumerable<Restaurant> GetRestaurantsByStreet(string streetName);
+        Restaurant GetRestaurantById(int id);
+        IEnumerable<Cuisine> GetAllCuisines();
     }
 }
