@@ -3,31 +3,34 @@ import React, { Component } from 'react';
 import { Layout } from './components/Layout';
 import { Home } from './components/MainPage/Home';
 import {RestaurantList} from './components/RestaurantList/RestaurantList';
-/* import { FetchData } from './components/FetchData'; */
-/* import { Counter } from './components/Counter'; */
+import RestaurantPage from './components/RestaurantPage/RestaurantPage';
 
 export default class App extends Component {
   static displayName = App.name;
 
   constructor(props){
     super(props);
-    this.state={ address :""}
+    this.state={ 
+      address :"",
+      id:""}
     this.setAddress = this.setAddress.bind(this);
+    this.setId = this.setId.bind(this);
   } 
 
   setAddress(address){
     this.setState({address:address});
+  }
+  setId(id){
+    this.setState({id:id});
   }
 
 
   render () {
     return (
       <Layout>
-       {/*  <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} /> */}
         <Route exact path='/'  render={(props) => <Home {...props} onAddressInput={this.setAddress}  />} />
-        <Route  path='/RestaurantList'  render={(props) => <RestaurantList  {...props} address={this.state.address} />} />
+        <Route  path='/ListaRestauracji'  render={(props) => <RestaurantList  {...props}  sendIdForRestaurantPage={this.setId}  address={this.state.address} />} />
+        <Route  path='/Restauracja'  render={(props) => <RestaurantPage  {...props} id={this.state.id} />} />
       </Layout>
     );
   }

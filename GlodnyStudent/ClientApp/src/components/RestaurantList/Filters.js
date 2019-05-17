@@ -7,15 +7,10 @@ export default class Filters extends Component {
     constructor(props) {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
-      this.setFilter = this.setFilter.bind(this);
     }
 
     handleInputChange(event) {
         this.props.onSetFilter(event);
-      }
-
-      setFilter(){
-        this.props.onConfirmFilters();
       }
 
   render() {
@@ -24,7 +19,7 @@ export default class Filters extends Component {
         <div className="filters">
             <div className="form-label">
               <div className="title">Odległość:</div>
-              <input type="range" value={this.props.distance} name="distance" min="0" max="15" onChange={this.handleInputChange}/><span className="unit">{this.props.distance} km</span>
+              <input type="range" value={this.props.distance} name="distance" min="1" max="20" onChange={this.handleInputChange}/><span className="unit">{this.props.distance} km</span>
             </div>
             <div className="form-label">
               <div className="title">Zakres Cen:</div>
@@ -37,7 +32,6 @@ export default class Filters extends Component {
               {cuisineOptions}
               </select>
             </div>
-			<button onClick={this.setFilter}>Filtruj</button>
       </div>
     )
   }

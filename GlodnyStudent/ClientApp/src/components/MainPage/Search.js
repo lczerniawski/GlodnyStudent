@@ -7,7 +7,7 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
     
-        this.state = {street: ''};
+        this.state = {street:this.props.address};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmitMain = this.handleSubmitMain.bind(this);
         this.handleSubmitRestaurationList= this.handleSubmitRestaurationList.bind(this);
@@ -18,11 +18,8 @@ export default class Search extends Component {
       }
 
     handleSubmitMain(event) {
-        
-        
-       // console.log(`Ulica:  ${this.state.street}`); // Do spawdzenia czy dziala
        this.props.onAddressInput(this.state.street);
-        this.context.router.history.push(`/RestaurantList`);
+        this.context.router.history.push(`/ListaRestauracji`);
         event.preventDefault();
       }
 
@@ -40,7 +37,7 @@ export default class Search extends Component {
     const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
     return (
         <form className="searchContainer" onSubmit={sub}>
-          <input className="searchInput" type="text"  placeholder="Tu wpisz adres" onChange={this.handleChange} required/>
+          <input className="searchInput" type="text" defaultValue={this.props.address}  placeholder="Tu wpisz ulice" onChange={this.handleChange} required/>
           <input className="searchBtn" type="submit" value="Szukaj"/>
         </form>
     )
