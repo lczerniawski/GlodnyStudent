@@ -34,7 +34,7 @@ namespace GlodnyStudent.Controllers
 
                 return Ok(_mapper.Map<RestaurantListViewModel[]>(result));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
@@ -93,7 +93,38 @@ namespace GlodnyStudent.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
 
+        [HttpPost("{id:int}/[action]")]
+        public ActionResult<int> UpVote(int id)
+        {
+            try
+            {
+                var result = _restaurantRepository.GetRestaurantById(id);
+                result.Score++;
+
+                return result.Score;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpPost("{id:int}/[action]")]
+        public ActionResult<int> DownVote(int id)
+        {
+            try
+            {
+                var result = _restaurantRepository.GetRestaurantById(id);
+                result.Score--;
+
+                return result.Score;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
         }
     }

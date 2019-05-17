@@ -59,7 +59,6 @@ namespace GlodnyStudent.Models
                             Id = 1,
                             AddTime = DateTime.Now,
                             Description = "Super 20/30",
-                            Score = 8,
                             ReviewerId = 1,
                         },
                         new Review
@@ -67,7 +66,6 @@ namespace GlodnyStudent.Models
                             Id = 2,
                             AddTime = DateTime.Now,
                             Description = "Kozak",
-                            Score = 10,
                             ReviewerId = 1,
                         },
                         new Review
@@ -75,11 +73,11 @@ namespace GlodnyStudent.Models
                             Id = 3,
                             AddTime = DateTime.Now,
                             Description = "Wspaniale",
-                            Score = 7,
                             ReviewerId = 1,
                         }
                     },
                     ReviewsCount = 3,
+                    Score = 10,
                     HighestPrice = 22.5M,
                     OwnerId = 0
                 },
@@ -118,7 +116,6 @@ namespace GlodnyStudent.Models
                             Id = 1,
                             AddTime = DateTime.Now,
                             Description = "Super 20/30",
-                            Score = 8,
                             ReviewerId = 1,
                         },
                         new Review
@@ -126,7 +123,6 @@ namespace GlodnyStudent.Models
                             Id = 2,
                             AddTime = DateTime.Now,
                             Description = "Kozak",
-                            Score = 10,
                             ReviewerId = 1,
                         },
                         new Review
@@ -134,12 +130,12 @@ namespace GlodnyStudent.Models
                             Id = 3,
                             AddTime = DateTime.Now,
                             Description = "Wspaniale",
-                            Score = 7,
                             ReviewerId = 1,
                         }
                     },
                     ReviewsCount = 3,
                     HighestPrice = 22.5M,
+                    Score = 10,
                     OwnerId = 0
                 },
                 new Restaurant()
@@ -177,7 +173,6 @@ namespace GlodnyStudent.Models
                             Id = 1,
                             AddTime = DateTime.Now,
                             Description = "Super 20/30",
-                            Score = 8,
                             ReviewerId = 1,
                         },
                         new Review
@@ -185,7 +180,6 @@ namespace GlodnyStudent.Models
                             Id = 2,
                             AddTime = DateTime.Now,
                             Description = "Kozak",
-                            Score = 10,
                             ReviewerId = 1,
                         },
                         new Review
@@ -193,12 +187,12 @@ namespace GlodnyStudent.Models
                             Id = 3,
                             AddTime = DateTime.Now,
                             Description = "Wspaniale",
-                            Score = 7,
                             ReviewerId = 1,
                         }
                     },
                     ReviewsCount = 3,
                     HighestPrice = 22.5M,
+                    Score = 10,
                     OwnerId = 0
                 }
             };
