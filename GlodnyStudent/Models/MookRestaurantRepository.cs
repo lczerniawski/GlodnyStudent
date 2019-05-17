@@ -217,5 +217,10 @@ namespace GlodnyStudent.Models
         {
             return _cuisines;
         }
+
+        public bool SaveChanges()
+        {
+            return true;
+        }
     }
 }

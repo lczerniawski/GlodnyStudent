@@ -127,5 +127,31 @@ namespace GlodnyStudent.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
         }
+
+        [HttpPut("{id:int}/[action]")]
+        public ActionResult<Review> AddReview([FromBody]Review review,int id)
+        {
+            try
+            {
+                var restaurant = _restaurantRepository.GetRestaurantById(id);
+                var restaurantReview = new Review
+                {
+                    Id = restaurant.Reviews.Count,
+                    ReviewerId = review.ReviewerId,
+                    Description = review.Description,
+                    AddTime = DateTime.Now,
+
+                };
+
+                restaurant.Reviews.Add(restaurantReview);
+                _restaurantRepository.SaveChanges();
+
+                return restaurantReview;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
     }
 }
