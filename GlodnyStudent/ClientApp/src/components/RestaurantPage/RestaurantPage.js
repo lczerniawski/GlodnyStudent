@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './RestaurantPage.css';
 import ReviewsCreator from './ReviewsCreator';
+import Rateing from './Rateing';
 
 
 export default class RestaurantPage extends Component {
@@ -10,11 +11,13 @@ constructor(props){
     super(props);
     this.state={
         restaurtion:{headerImage:"",name:"Przykładowa nazwa restauracji",address:"Jana Pawła 2 21/37",galleryImage:[],
-        menu:[["Danie1", "2137zł"],["Danie2", "911zł"],["Danie3", "666zł"]],
-        reviews:[["Tomke","Sztos","11-09-2001"],["Jan Paweł 2","Polecam i to jeszcze jak","02-04-2005"],["Łukaszke97","może być","01-01-2019"]],},
-        newReview:''
+        menu:[],
+        reviews:[],
+        rate:"5"},
+        newReview:'',
+        addToRate:0
     };
-    this.handlenNewReview = this.handleNewReview.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.sendReview =this.sendReview.bind(this);
 }
 
@@ -66,10 +69,17 @@ constructor(props){
 
 
       
-      handleNewReview(review){
-        this.setState({newReview:review});
-      } 
-
+      handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+          [name]: value
+        });
+        //console.log(`nowa ocena${this.state.addToRate}`);
+        //console.log(`nowa opinia${this.state.newReview}`);
+      }
 
 
 
@@ -82,10 +92,11 @@ constructor(props){
         <div >TU BEDZIE NAGŁÓWKOWY OBRAZEK</div>
         <div>{restaurtion.name}</div>
         <section>
-            <div >MAPA</div>
+            <div>MAPA</div>
             <div>
                 <h3>Znajdź nas na mapie!</h3>
                 <p>{restaurtion.address}</p>
+                <Rateing rate={restaurtion.rate} onRate={this.handleInputChange}/>
                 <button>Zobacz na mapach google</button>
             </div>
         </section>
@@ -99,7 +110,7 @@ constructor(props){
             </ul>
         </section>
         <section>
-            <ReviewsCreator onReviewInput={this.handleNewReview} onSendReview={this.sendReview}/>
+            <ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>
             <ul>
             {reviewsList}
             </ul> 

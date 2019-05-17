@@ -29,8 +29,8 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/'  render={(props) => <Home {...props} onAddressInput={this.setAddress}  />} />
-        <Route  path='/RestaurantList'  render={(props) => <RestaurantList  {...props}  sendIdForRestaurantPage={this.setId}  address={this.state.address} />} />
-        <Route  path='/RestaurantPage'  render={(props) => <RestaurantPage  {...props} id={this.state.id} />} />
+        <Route  path='/ListaRestauracji'  render={(props) => <RestaurantList  {...props}  sendIdForRestaurantPage={this.setId}  address={this.state.address} />} />
+        <Route  path='/Restauracja'  render={(props) => <RestaurantPage  {...props} id={this.state.id} />} />
       </Layout>
     );
   }

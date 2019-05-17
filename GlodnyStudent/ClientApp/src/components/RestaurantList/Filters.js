@@ -19,7 +19,7 @@ export default class Filters extends Component {
         <div className="filters">
             <div className="form-label">
               <div className="title">Odległość:</div>
-              <input type="range" value={this.props.distance} name="distance" min="0" max={this.props.highestDistance} onChange={this.handleInputChange}/><span className="unit">{this.props.distance} km</span>
+              <input type="range" value={this.props.distance} name="distance" min="1" max="20" onChange={this.handleInputChange}/><span className="unit">{this.props.distance} km</span>
             </div>
             <div className="form-label">
               <div className="title">Zakres Cen:</div>

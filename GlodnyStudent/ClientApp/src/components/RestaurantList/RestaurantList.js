@@ -21,7 +21,6 @@ export class RestaurantList extends Component {
       price:99,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
       cuisine:'Amerykańska',
       cuisines: ['Amerykańska','Polska','Włoska','Azjatycka'], // tu wstawic liste wszystkich typow kuchni z serwera
-      highestDistance: 20,// tu wstawić maksymalna wartość dostarczona z serwera
       highestPrice: 99,// tu wstawić maksymalna wartość dostarczona z serwera
       sort:'priceGrowingly',
       restaurations: [ // przykladowe dane statyczne , dane z serwera beda pobierane po 20 i po kliknieciu  "dalej" beda doladowyawane
@@ -63,7 +62,6 @@ getDataByAddress(){
 
 
     getDataByFilters(){
-      console.log("getData");
       const address = `api/Restaurants?address=${this.state.address}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
       fetch(address).then((response) => {
         if (response.ok) {
@@ -109,12 +107,12 @@ getDataByAddress(){
   
 
   render() {
-    const { error, restaurations,cuisines,distance,price,highestPrice,sort,highestDistance} = this.state;
+    const { error, restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
     let list 
     if (error) {
       list= <div>Nie znaleziono restauracji o podanych parametrach.</div>; 
     } else {
-       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} 
+       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.rate}
         reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} sendId={this.props.sendIdForRestaurantPage}/>);
     }   
     return (    
@@ -129,8 +127,7 @@ getDataByAddress(){
         </div>
 
         <div className="filersBar">
-      <Filters  cuisines={cuisines} distance={distance} price={price}
-      highestDistance={highestDistance} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
+      <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
           <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
         </div>
         

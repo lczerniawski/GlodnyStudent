@@ -19,7 +19,7 @@ export default class Search extends Component {
 
     handleSubmitMain(event) {
        this.props.onAddressInput(this.state.street);
-        this.context.router.history.push(`/RestaurantList`);
+        this.context.router.history.push(`/ListaRestauracji`);
         event.preventDefault();
       }
 
