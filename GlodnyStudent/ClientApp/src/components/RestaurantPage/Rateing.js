@@ -15,7 +15,7 @@ export default class Rateing extends Component {
   render() {
     return (
       <div>
-            <p>{this.props.rate}/10</p>
+            <p>Zebrane pkt: {this.props.rate}</p>
             <button value="1" name="addToRate" onClick={this.handleRate}>[+]</button> <button name="addToRate" value="-1" onClick={this.handleRate}>[-]</button>
       </div>
     )

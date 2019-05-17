@@ -97,14 +97,14 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:int}/[action]")]
-        public ActionResult<int> UpVote(int id)
+        public ActionResult<RatingViewModel> UpVote(int id)
         {
             try
             {
                 var result = _restaurantRepository.GetRestaurantById(id);
                 result.Score++;
 
-                return result.Score;
+                return new RatingViewModel{Rating = result.Score};
             }
             catch (Exception)
             {
@@ -113,14 +113,14 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:int}/[action]")]
-        public ActionResult<int> DownVote(int id)
+        public ActionResult<RatingViewModel> DownVote(int id)
         {
             try
             {
                 var result = _restaurantRepository.GetRestaurantById(id);
                 result.Score--;
 
-                return result.Score;
+                return new RatingViewModel{Rating = result.Score};
             }
             catch (Exception)
             {

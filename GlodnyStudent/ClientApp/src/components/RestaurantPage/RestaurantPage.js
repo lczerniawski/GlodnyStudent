@@ -15,12 +15,12 @@ constructor(props){
         menu:[],
         gallery:[],
         reviews:[],
-        rate:"",
+        rate:0,
         newReview:'',
         //addToRate:0
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.sendReview =this.sendReview.bind(this);
+   // this.sendReview =this.sendReview.bind(this);
     this.sendRate = this.sendRate.bind(this);
 }
   
@@ -58,20 +58,24 @@ constructor(props){
  
       sendRate(event) {
 
-
-         const adr = (event.target.val == -1)? 'https://localhost:44375/api/Restaurants/2/DownVote':'https://localhost:44375/api/Restaurants/2/UpVote' ;
-        event.preventDefault(adr);
-          fetch('', {
+        event.preventDefault();
+         const adr = (event.target.value == -1)? `api/Restaurants/${this.props.id}/DownVote`:`api/Restaurants/${this.props.id}/UpVote`;
+        
+          fetch(adr, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: this.props.id
-          })
-        }).then((res) => res.json())
-        .then((data) =>  console.log(data))
+          }
+        }).then(res => res.json())
+        .then((data) => {
+            
+           this.setState({
+           rate:  data.rating
+          }); 
+          console.log(`${this.state.rate}`);
+
+        } )
         .catch((err)=>console.log(err))  
 
 
