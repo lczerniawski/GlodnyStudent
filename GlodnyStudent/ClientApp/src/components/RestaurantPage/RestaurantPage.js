@@ -20,7 +20,7 @@ constructor(props){
         //addToRate:0
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-   // this.sendReview =this.sendReview.bind(this);
+    this.sendReview =this.sendReview.bind(this);
     this.sendRate = this.sendRate.bind(this);
 }
   
@@ -73,7 +73,6 @@ constructor(props){
            this.setState({
            rate:  data.rating
           }); 
-          console.log(`${this.state.rate}`);
 
         } )
         .catch((err)=>console.log(err))  
@@ -83,20 +82,33 @@ constructor(props){
       }  
 
 
-      /* sendReview(event) {
+       sendReview(event) {
          
         event.preventDefault();
-          fetch('', {
-          method: 'POST',
+         const adr = (event.target.value == -1)? `api/Restaurants/${this.props.id}/DownVote`:`api/Restaurants/${this.props.id}/UpVote`;
+        
+          fetch(adr, {
+          method: 'PUT',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            id: this.props.id,// bedzie zmienione jak powstanie logowanie i konta uzytkownikow
+            description:this.state.newReview,
+            reviewerId: "2137"
           })
-        })  
-      } */
+        }).then(res => res.json())
+        .then((data) => {
+
+          this.setState({
+            reviews: this.state.reviews.push(data)
+           }); 
+          
+          console.log(`${this.state.reviews}`);
+
+        } )
+        .catch((err)=>console.log(err))  
+      } 
 
 
       
