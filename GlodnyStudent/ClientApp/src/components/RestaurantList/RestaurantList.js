@@ -17,18 +17,20 @@ export class RestaurantList extends Component {
     this.state = {
       address:this.props.address,
       error: null,
-      distance:5,// przykladowe dane statyczne ("polowa" najwyzej wsrod cen)
-      price:55,// przykladowe dane statyczne ("polowa" najwyzej wsrod cen)
+      distance:20,// tu wstawić jako poczatkowa wartosc wartosc highestDistance
+      price:99,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
       cuisine:'Amerykańska',
-      highestPrice: 99,
+      cuisines: ['Amerykańska','Polska','Włoska','Azjatycka'], // tu wstawic liste wszystkich typow kuchni z serwera
+      highestDistance: 20,// tu wstawić maksymalna wartość dostarczona z serwera
+      highestPrice: 99,// tu wstawić maksymalna wartość dostarczona z serwera
       sort:'priceGrowingly',
       restaurations: [ // przykladowe dane statyczne , dane z serwera beda pobierane po 20 i po kliknieciu  "dalej" beda doladowyawane
         /* {id:"0",name: "Piękna restauracja1", cuisine: "Włoska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:99,distance:11},
         {id:"1",name: "Piękna restauracja2", cuisine: "Polska", address: "Jana Pawła2 21/37",reviewsCount:"169", image: '',highestPrice:50,distance:100},
         {id:"2",name: "Piękna restauracja3", cuisine: "Azjatycka", address: "Jana Pawła2 21/37",reviewsCount:"169", image: '',highestPrice:25,distance:13},
         {id:"3",name: "Piękna restauracja4", cuisine: "Amerykańska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:100,distance:12}    */
-      ],
-      cuisines: ['Amerykańska','Polska','Włoska','Azjatycka'] // przykladowe dane statyczne
+      ]
+      
     };
   }
 
@@ -60,9 +62,7 @@ getDataByAddress(){
 }
 
 
-
-
-    getDataByFilters(event){
+    getDataByFilters(){
       console.log("getData");
       const address = `api/Restaurants?address=${this.state.address}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
       fetch(address).then((response) => {
@@ -102,20 +102,20 @@ getDataByAddress(){
     this.setState({
       address:addr
   }, () => {
-    this.getDataByAddress();
+    this.getDataByFilters();
   });
   }
 
   
 
   render() {
-    const { error, restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
+    const { error, restaurations,cuisines,distance,price,highestPrice,sort,highestDistance} = this.state;
     let list 
     if (error) {
       list= <div>Nie znaleziono restauracji o podanych parametrach.</div>; 
     } else {
-       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} 
-        address={restauration.address}  reviewsCount={restauration.reviewsCount} image={restauration.image}/>);
+       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} 
+        reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} sendId={this.props.sendIdForRestaurantPage}/>);
     }   
     return (    
       <div className="restaurantListContainer">
@@ -125,11 +125,12 @@ getDataByAddress(){
         </div>
 
         <div className="searchRestaurant">
-          <Search onAddressUpdate={this.addressUpdate} isMain={false}/>
+          <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.address}/>
         </div>
 
         <div className="filersBar">
-		  <Filters onConfirmFilters={this.getDataByFilters} cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
+      <Filters  cuisines={cuisines} distance={distance} price={price}
+      highestDistance={highestDistance} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
           <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
         </div>
         
