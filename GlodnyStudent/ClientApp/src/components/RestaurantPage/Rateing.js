@@ -16,7 +16,7 @@ export default class Rateing extends Component {
     return (
       <div>
             <p>Zebrane pkt: {this.props.rate}</p>
-            <button value="1" name="addToRate" onClick={this.handleRate}>[+]</button> <button name="addToRate" value="-1" onClick={this.handleRate}>[-]</button>
+            <button value="Up" name="addToRate" onClick={this.handleRate}>[+]</button> <button name="addToRate" value="Down" onClick={this.handleRate}>[-]</button>
       </div>
     )
   }

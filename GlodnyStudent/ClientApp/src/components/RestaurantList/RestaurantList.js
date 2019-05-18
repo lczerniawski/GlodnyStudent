@@ -112,7 +112,7 @@ getDataByAddress(){
     if (error) {
       list= <div>Nie znaleziono restauracji o podanych parametrach.</div>; 
     } else {
-       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.rate}
+       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.score}
         reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} sendId={this.props.sendIdForRestaurantPage}/>);
     }   
     return (    

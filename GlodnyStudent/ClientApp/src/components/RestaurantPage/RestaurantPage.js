@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './RestaurantPage.css';
 import ReviewsCreator from './ReviewsCreator';
 import Rateing from './Rateing';
-
+import PropTypes from 'prop-types';
 
 export default class RestaurantPage extends Component {
 
@@ -16,12 +16,12 @@ constructor(props){
         gallery:[],
         reviews:[],
         rate:0,
-        newReview:'',
-        //addToRate:0
+        newReview:''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.sendReview =this.sendReview.bind(this);
     this.sendRate = this.sendRate.bind(this);
+    this.backToRestaurationList = this.backToRestaurationList.bind(this);
 }
   
     componentDidMount(){
@@ -45,6 +45,7 @@ constructor(props){
             menu:result.menu,
             gallery:result.gallery,
             reviews:result.reviews,
+            rate:result.score
           });
         })
         .catch((error) => {
@@ -59,7 +60,7 @@ constructor(props){
       sendRate(event) {
 
         event.preventDefault();
-         const adr = (event.target.value == -1)? `api/Restaurants/${this.props.id}/DownVote`:`api/Restaurants/${this.props.id}/UpVote`;
+         const adr = (event.target.value === "Down")? `api/Restaurants/${this.props.id}/DownVote`:`api/Restaurants/${this.props.id}/UpVote`;
         
           fetch(adr, {
           method: 'POST',
@@ -85,7 +86,7 @@ constructor(props){
        sendReview(event) {
          
         event.preventDefault();
-         const adr = (event.target.value == -1)? `api/Restaurants/${this.props.id}/DownVote`:`api/Restaurants/${this.props.id}/UpVote`;
+         const adr =`api/Restaurants/${this.props.id}/AddReview`;
         
           fetch(adr, {
           method: 'PUT',
@@ -99,13 +100,13 @@ constructor(props){
           })
         }).then(res => res.json())
         .then((data) => {
+ 
+          this.state.reviews.push(data);
 
           this.setState({
-            reviews: this.state.reviews.push(data)
-           }); 
-          
-          console.log(`${this.state.reviews}`);
-
+            reviews:  this.state.reviews
+           });
+        
         } )
         .catch((err)=>console.log(err))  
       } 
@@ -120,9 +121,17 @@ constructor(props){
         this.setState({
           [name]: value
         });
-        //console.log(`nowa ocena${this.state.addToRate}`);
-        //console.log(`nowa opinia${this.state.newReview}`);
+
       }
+
+
+      backToRestaurationList() {
+         this.context.router.history.push(`/ListaRestauracji`);
+       }
+ 
+       static contextTypes = {
+         router: PropTypes.object
+       }
 
 
 
@@ -131,6 +140,7 @@ constructor(props){
   const reviewsList = this.state.reviews.map(row=><li key={row.id} className="menuRow"><span>{row.description}</span><span>{row.addTime}</span></li>);
     return (
       <div>
+        <button onClick={this.backToRestaurationList}>Powrót do listy</button>
         <div >TU BEDZIE NAGŁÓWKOWY OBRAZEK</div>
         <div>{this.state.name}</div>
         <section>

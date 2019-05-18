@@ -13,6 +13,7 @@ namespace GlodnyStudent.Models
         public string Cuisine { get; set; }
         public int HighestPrice { get; set; }
         public int ReviewsCount { get; set; }
+        public int Score { get; set; }
 
     }
 }

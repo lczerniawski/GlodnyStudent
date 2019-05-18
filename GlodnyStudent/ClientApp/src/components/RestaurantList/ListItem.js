@@ -37,7 +37,7 @@ export default class listItem extends Component {
             <div>
               <h3>{this.props.name}</h3>
               <address>{this.props.address}</address>
-              <p>Ocena: {this.props.rate} </p>
+              <p>Liczba punktów: {this.props.rate} </p>
               <p>Ilość komentarzy: {this.props.reviewsCount}</p>
               {badge}
             </div>

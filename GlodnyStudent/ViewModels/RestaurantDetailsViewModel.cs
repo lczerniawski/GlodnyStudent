@@ -15,5 +15,6 @@ namespace GlodnyStudent.ViewModels
         public List<MenuItem> Menu { get; set; }
         public List<IFormFile> Gallery { get; set; }
         public List<Review> Reviews { get; set; }
+        public int Score { get; set; }
     }
 }

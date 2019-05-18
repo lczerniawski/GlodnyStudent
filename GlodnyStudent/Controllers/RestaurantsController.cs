@@ -136,7 +136,7 @@ namespace GlodnyStudent.Controllers
                 var restaurant = _restaurantRepository.GetRestaurantById(id);
                 var restaurantReview = new Review
                 {
-                    Id = restaurant.Reviews.Count,
+                    Id = restaurant.Reviews.Count+1,
                     ReviewerId = review.ReviewerId,
                     Description = review.Description,
                     AddTime = DateTime.Now,
