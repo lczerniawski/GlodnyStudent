@@ -10,6 +10,7 @@ namespace GlodnyStudent.Models
         IEnumerable<Restaurant> GetRestaurantsByStreet(string streetName);
         Restaurant GetRestaurantById(int id);
         IEnumerable<Cuisine> GetAllCuisines();
+        Review AddReview(Restaurant restaurant, Review review);
         bool SaveChanges();
     }
 }

@@ -134,19 +134,14 @@ namespace GlodnyStudent.Controllers
             try
             {
                 var restaurant = _restaurantRepository.GetRestaurantById(id);
-                var restaurantReview = new Review
-                {
-                    Id = restaurant.Reviews.Count+1,
-                    ReviewerId = review.ReviewerId,
-                    Description = review.Description,
-                    AddTime = DateTime.Now,
 
-                };
+                if (restaurant == null)
+                    return BadRequest();
 
-                restaurant.Reviews.Add(restaurantReview);
+                var addedReview = _restaurantRepository.AddReview(restaurant, review);
                 _restaurantRepository.SaveChanges();
 
-                return restaurantReview;
+                return addedReview;
             }
             catch (Exception)
             {

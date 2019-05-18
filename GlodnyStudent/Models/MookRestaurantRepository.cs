@@ -218,6 +218,21 @@ namespace GlodnyStudent.Models
             return _cuisines;
         }
 
+        public Review AddReview(Restaurant restaurant, Review review)
+        {
+            var restaurantReview = new Review
+            {
+                Id = restaurant.Reviews.Count+1,
+                ReviewerId = review.ReviewerId,
+                Description = review.Description,
+                AddTime = DateTime.Now
+            };
+
+            restaurant.Reviews.Add(restaurantReview);
+
+            return restaurantReview;
+        }
+
         public bool SaveChanges()
         {
             return true;
