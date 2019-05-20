@@ -1,0 +1,52 @@
+.rating .ratingButtons button {
+    color: #fff;
+    border-color: transparent;
+    box-shadow: transparent;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+}
+
+.rating .ratingButtons button.rateUp {
+    background: rgb(93, 199, 93);
+}
+
+.rating .ratingButtons button.rateDown {
+    background: rgb(238, 63, 63);
+}
+
+.rating .ratingButtons button.rateUp:hover {
+    background: rgb(44, 201, 44);
+}
+
+.rating .ratingButtons button.rateDown:hover {
+    background: red;
+}
+
+.rating p {
+    padding-right: 15px;
+}
+
+@media(max-width: 780px) {
+    .rating, .rating .ratingButtons {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
+
+@media(min-width: 781px) {
+    .rating {
+        margin-top: -40px;
+    }
+
+    .rating, .rating p, .rating .ratingButtons {
+        float: right;
+    }
+
+    .rating .ratingButtons button {
+        float: left;
+    }
+}

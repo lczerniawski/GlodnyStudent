@@ -1,9 +1,275 @@
-.menuRow{
-    display: flex;
-    justify-content: space-between;
+.singleRestaurant {
+    background-color: #404040;
 }
 
-.rewiew{
+.singleRestaurant .header button.back {
+    position: absolute;
+    border-radius: 10px;
+    padding: 10px 20px 10px 20px;
+    background-color: #fff;
+    box-shadow: transparent;
+    border: 1px solid #F2994A;
+    margin-top: 40px;
+    margin-left: 40px;
+    font-weight: bold;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+}
+
+.singleRestaurant .header button:hover {
+    color: #fff;
+    background-color: #F2994A;
+}
+
+.singleRestaurant .header .title {
+    width: 100%;
+    color: #404040;
+    background-color: #fff;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.singleRestaurant .mainImage {
+    width: 100%;
+    height: 400px;
+}
+
+.singleRestaurant .mainImage img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.singleRestaurant .localization {
+    width: 100%;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.singleRestaurant .localization .map {
+    float: left;
+    background-color: green;
+}
+
+.singleRestaurant .localization .mapInfo {
+    float: left;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.singleRestaurant .localization .mapInfo h3 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.singleRestaurant .localization .mapInfo address i {
+    width: 100%;
+    padding-bottom: 8px;
+}
+
+.singleRestaurant .localization .mapInfo button {
+    color:#404040;
+    background-color: #F2994A;
+    border-color: transparent;
+    border-radius: 20px;
+    padding: 15px 20px 15px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.singleRestaurant .importantInformation {
+    width: 100%;
+    overflow: hidden;
+    padding-top: 40px;
+}
+
+.singleRestaurant .importantInformation .gallery, .importantInformation .menu {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 20px 20px 0 20px;
+}
+
+.singleRestaurant .importantInformation .gallery {
+    float: left;
+}
+
+.singleRestaurant .importantInformation .menu {
+    float: right;
+}
+
+.singleRestaurant .importantInformation .gallery h3, .importantInformation .menu h3 {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.singleRestaurant .importantInformation .gallery ul {
+    margin-left: -40px;
+}
+
+.singleRestaurant .importantInformation .gallery ul li {
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.singleRestaurant .importantInformation .gallery ul li img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.singleRestaurant .importantInformation .menu ul {
+    margin-left: -40px;
+}
+
+.singleRestaurant .importantInformation .menu ul li {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    list-style: none;
+    padding: 10px 0 10px 0;
+    font-size: 20px;
+}
+
+.singleRestaurant .importantInformation .menu ul li:nth-of-type(n+2) {
+    border-top: 1px solid #F2994A;
+}
+
+.singleRestaurant .importantInformation .menu ul li span.price:after {
+    content: "zł";
+    padding-left: 5px;
+}
+
+.singleRestaurant .reviews {
+    padding: 10px;
+    border-radius: 5px;
+    color: #404040;
+    background-color: #F2994A;
+    margin-top: 40px;
+}
+
+.singleRestaurant .reviews ul {
+    margin-left: -40px;
+}
+
+.singleRestaurant .singleReview {
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+}
+
+.singleRestaurant .singleReview:nth-of-type(n+2) {
+    margin-top: 10px;
+}
+
+.singleRestaurant .singleReview .details li {
+    display: inline-block;
+}
+
+.singleRestaurant .singleReview .details li:nth-of-type(1) {
+    
+    font-weight: bold;
+}
+
+.singleRestaurant .singleReview .details li:nth-of-type(2) {
+    text-align: right;
+}
+
+@media(max-width: 780px) {
+    .singleRestaurant .entryContent {
+        padding: 40px 15px 40px 15px;
+    }
+
+    .singleRestaurant .header .rating {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        padding-top: 15px;
+    }
+
+    .singleRestaurant .localization .map {
+        width: 100%;
+        height: 250px;
+    }
+
+    .singleRestaurant .localization .mapInfo {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .singleRestaurant .importantInformation .gallery, .singleRestaurant .importantInformation .menu, .singleRestaurant .singleReview .details li:nth-of-type(1), .singleRestaurant .singleReview .details li:nth-of-type(2) {
+        width: 100%;
+    }
+
+    .singleRestaurant .importantInformation .menu {
+        margin-top: 40px;
+    }
+
+    .singleRestaurant .importantInformation .gallery ul li {
+        width: 100%;
+    }
+
+    .singleRestaurant .importantInformation .gallery ul li img {
+        height: 200px;
+    }
+}
+
+@media(min-width: 781px) {
+    .singleRestaurant .entryContent {
+        padding: 40px;
+    }
+
+    .singleRestaurant .header .rating {
+        float: right;
+    }
+
+    .singleRestaurant .localization .map {
+        width: 50%;
+        height: 400px;
+    }
+
+    .singleRestaurant .localization .mapInfo {
+        width: 50%;
+        padding: 50px;
+    }
+
+    .singleRestaurant .localization .mapInfo address {
+        padding-top: 30px;
+        padding-bottom: 20px;
+    }
+
+    .singleRestaurant .importantInformation .gallery, .singleRestaurant .importantInformation .menu {
+        min-height: 750px;
+    }
+
+    .singleRestaurant .importantInformation .gallery {
+        width: 40%;
+    }
+
+    .singleRestaurant .importantInformation .gallery ul li {
+        width: 50%;
+    }
+
+    .singleRestaurant .importantInformation .gallery ul li img {
+        height: 300px;
+    }
+    
+    .singleRestaurant .importantInformation .menu {
+        width: 58%;
+    }
+
+    .singleRestaurant .singleReview .details li:nth-of-type(1) {
+        width: calc(100% - 300px);
+    }
+
+    .singleRestaurant .singleReview .details li:nth-of-type(2) {
+        width: 300px;
+    }
 }

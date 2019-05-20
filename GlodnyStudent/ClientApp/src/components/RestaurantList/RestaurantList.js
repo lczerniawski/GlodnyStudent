@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import ListItem from './ListItem';
-import './RestaurantList.css'
 import Filters from './Filters';
 import Sort from './Sort';
 import Search from  '../MainPage/Search';
-import '../MainPage/Search.css'; 
+import './RestaurantList.css';
+import './Search.css'; 
 /* import {host} from '../../config' */
 
 export class RestaurantList extends Component {
@@ -110,7 +110,11 @@ getDataByAddress(){
     const { error, restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
     let list 
     if (error) {
-      list= <div>Nie znaleziono restauracji o podanych parametrach.</div>; 
+      list= <div className="notFound wow bounce" data-wow-duration="1s">
+        <i className="fas fa-bug fa-4x"></i>
+        <h2>Upsss... nic nie znaleziono</h2>
+        <p>Nie znaleziono restauracji o podanych parametrach.</p>
+        </div>; 
     } else {
        list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.score}
         reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} sendId={this.props.sendIdForRestaurantPage}/>);
@@ -119,7 +123,7 @@ getDataByAddress(){
       <div className="restaurantListContainer">
 
         <div className="titlePage">
-          <h2>Lista restauracji</h2>
+          <h2 className="wow fadeInLeft" data-wow-duration="3s">Lista restauracji</h2>
         </div>
 
         <div className="searchRestaurant">

@@ -3,6 +3,7 @@ import './RestaurantPage.css';
 import ReviewsCreator from './ReviewsCreator';
 import Rateing from './Rateing';
 import PropTypes from 'prop-types';
+import imageRestaurant from'../assets/restaurantImage.jpg';
 
 export default class RestaurantPage extends Component {
 
@@ -136,37 +137,75 @@ constructor(props){
 
 
   render() {
-  const menuList = this.state.menu.map(row=><li key={row.id} className="menuRow"><span>{row.name}</span><span>{row.price}</span></li>);
-  const reviewsList = this.state.reviews.map(row=><li key={row.id} className="menuRow"><span>{row.description}</span><span>{row.addTime}</span></li>);
+  const menuList = this.state.menu.map(row=><li className="wow fadeIn" data-wow-duration="3s" key={row.id}><span>{row.name}</span> <span className="price">{row.price}</span></li>);
+  const reviewsList = this.state.reviews.map(row=>
+    <div className="singleReview wow fadeIn" data-wow-duration="3s" key={row.id}>
+      <div className="details">
+        <ul>
+          <li><i class="far fa-user"></i> Użyszkownik</li>
+          <li>{row.addTime}</li>
+        </ul>
+      </div>
+      <div className="description">
+        {row.description}
+      </div>
+    </div>);
+
     return (
-      <div>
-        <button onClick={this.backToRestaurationList}>Powrót do listy</button>
-        <div >TU BEDZIE NAGŁÓWKOWY OBRAZEK</div>
-        <div>{this.state.name}</div>
-        <section>
-            <div>MAPA</div>
-            <div>
-                <h3>Znajdź nas na mapie!</h3>
-                <p>{this.state.address}</p>
-                <Rateing rate={this.state.rate} onRate={this.sendRate}/>
-                <button>Zobacz na mapach google</button>
-            </div>
-        </section>
-            Tu będzie galleria
-        <section>
-        <section>
-            Tu będzie menu
-        </section>    
-            <ul>
-                {menuList}
-            </ul>
-        </section>
-        <section>
-            <ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>
-            <ul>
-            {reviewsList}
-            </ul> 
-        </section>
+      <div className="singleRestaurant">
+        <div className="header">
+          <button className="back wow fadeInDown" data-wow-duration="3s" onClick={this.backToRestaurationList}>Powrót do listy</button>
+
+          <div className="mainImage">
+            <img src={imageRestaurant} alt={this.state.name}/>
+          </div>
+          <div className="title wow fadeInDown" data-wow-duration="3s">
+            <h2>{this.state.name}</h2>
+
+            <Rateing rate={this.state.rate} onRate={this.sendRate}/>
+          </div>
+        </div>
+        <div className="entryContent">
+          <section className="localization">
+              <div className="map">
+              
+              </div>
+              <div className="mapInfo">
+                  <h3 className="wow fadeIn" data-wow-duration="3s">Znajdź nas na mapie!</h3>
+                  
+                  <address className="wow fadeIn" data-wow-duration="3s">
+                    <i className="fas fa-map-marker-alt fa-2x"></i> {this.state.address}
+                  </address>
+
+                  <button className="wow fadeIn" data-wow-duration="3s">Zobacz na mapach google</button>
+              </div>
+          </section>
+          <section className="importantInformation">
+              <div className="gallery">
+                  <h3>Galeria</h3>
+
+                  <ul>
+                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                  </ul>
+              </div>
+
+              <div className="menu">
+                <h3>Menu</h3>
+                <ul>
+                    {menuList}
+                </ul>
+              </div>
+          </section>
+          <section className="reviews">
+              <div className="reviewsList">
+                {reviewsList}
+              </div> 
+              <ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>
+          </section>
+        </div>
       </div>
     )
   }

@@ -17,7 +17,7 @@ export class Layout extends Component {
           {this.props.children}
         </main>
         <footer>
-          <p>2019 &copy; GłodnyStudent.pl. Wszelkie prawa zastrzeżone.</p>
+          <p className="wow fadeIn" data-wow-duration="3s">2019 &copy; GłodnyStudent.pl. Wszelkie prawa zastrzeżone.</p>
         </footer>
       </div>
     );
