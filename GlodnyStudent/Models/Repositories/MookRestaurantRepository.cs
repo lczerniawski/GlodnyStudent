@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Remotion.Linq.Clauses;
+using GlodnyStudent.Models.Domain;
 
-namespace GlodnyStudent.Models
+namespace GlodnyStudent.Models.Repositories
 {
     public class MookRestaurantRepository : IRestaurantRepository
     {

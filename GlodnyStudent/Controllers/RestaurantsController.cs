@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GlodnyStudent.Models;
+using GlodnyStudent.Models.Domain;
+using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +42,7 @@ namespace GlodnyStudent.Controllers
             }
         }
         
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Filters(string address,int distance,int highestPrice,string cuisine)
         {
             try
@@ -62,7 +64,7 @@ namespace GlodnyStudent.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
 
             }
-        }
+        }*/
         
         [HttpGet("[action]")]
         public ActionResult<Cuisine[]> Cuisines()

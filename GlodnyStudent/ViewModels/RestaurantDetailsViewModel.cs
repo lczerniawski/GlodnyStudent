@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GlodnyStudent.Models;
+using GlodnyStudent.Models.Domain;
 using Microsoft.AspNetCore.Http;
 
 namespace GlodnyStudent.ViewModels
