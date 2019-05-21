@@ -27,7 +27,7 @@ namespace GlodnyStudent.Models
                 new Restaurant()
                 {
                     Id = 1,
-                    Name = "Tomke Biedronke",
+                    Name = "PizzBurg",
                     CuisineType = _cuisines.First(r => r.Name == "Amerykańska"),
                     Address = "Sokratesa",
                     Menu = new List<MenuItem>()
@@ -41,14 +41,8 @@ namespace GlodnyStudent.Models
                         new MenuItem
                         {
                             Id = 2,
-                            Name = "Surufka",
+                            Name = "Pizza",
                             Price = 10.5M,
-                        },
-                        new MenuItem
-                        {
-                            Id = 3,
-                            Name = "Mienso",
-                            Price = 5.5M,
                         },
                     },
                     Gallery = new List<IFormFile>(),
@@ -58,21 +52,21 @@ namespace GlodnyStudent.Models
                         {
                             Id = 1,
                             AddTime = DateTime.Now,
-                            Description = "Super 20/30",
+                            Description = "Super 10/10",
                             ReviewerId = 1,
                         },
                         new Review
                         {
                             Id = 2,
                             AddTime = DateTime.Now,
-                            Description = "Kozak",
+                            Description = "Super!!!",
                             ReviewerId = 1,
                         },
                         new Review
                         {
                             Id = 3,
                             AddTime = DateTime.Now,
-                            Description = "Wspaniale",
+                            Description = "Świetny wybór!",
                             ReviewerId = 1,
                         }
                     },
@@ -104,7 +98,7 @@ namespace GlodnyStudent.Models
                         new MenuItem
                         {
                             Id = 3,
-                            Name = "Pizza Mienso",
+                            Name = "Wege Pizza",
                             Price = 5.5M,
                         },
                     },
@@ -122,14 +116,14 @@ namespace GlodnyStudent.Models
                         {
                             Id = 2,
                             AddTime = DateTime.Now,
-                            Description = "Kozak",
+                            Description = "Super!!",
                             ReviewerId = 1,
                         },
                         new Review
                         {
                             Id = 3,
                             AddTime = DateTime.Now,
-                            Description = "Wspaniale",
+                            Description = "Wspaniałe miejsce",
                             ReviewerId = 1,
                         }
                     },
@@ -179,14 +173,14 @@ namespace GlodnyStudent.Models
                         {
                             Id = 2,
                             AddTime = DateTime.Now,
-                            Description = "Kozak",
+                            Description = "Super miejsce",
                             ReviewerId = 1,
                         },
                         new Review
                         {
                             Id = 3,
                             AddTime = DateTime.Now,
-                            Description = "Wspaniale",
+                            Description = "Wspaniały wybór!",
                             ReviewerId = 1,
                         }
                     },

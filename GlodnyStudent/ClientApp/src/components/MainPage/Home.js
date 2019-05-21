@@ -13,7 +13,7 @@ export class Home extends Component {
           <h2>a my wskażemy Ci miejsca warte uwagi</h2>
         </div>
         <div className="search">
-          <Search isMain="true" onAddressInput={this.props.onAddressInput} />
+          <Search isMain="true" address= {this.props.address} onAddressInput={this.props.onAddressInput} />
         </div>
       </div>
     );
