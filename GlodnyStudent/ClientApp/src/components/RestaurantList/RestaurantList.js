@@ -123,7 +123,7 @@ getDataByAddress(){
       <div className="restaurantListContainer">
 
         <div className="titlePage">
-          <h2 className="wow fadeInLeft" data-wow-duration="3s">Lista restauracji</h2>
+          <h2 className="wow fadeInLeft" data-wow-duration="1s">Lista restauracji</h2>
         </div>
 
         <div className="searchRestaurant">

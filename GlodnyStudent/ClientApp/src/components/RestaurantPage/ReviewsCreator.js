@@ -16,7 +16,7 @@ export default class ReviewsCreator extends Component {
 
   render() {
     return (
-      <form className="reviewForm wow fadeInDown" data-wow-duration="3s" onSubmit={this.props.onSendReview}>
+      <form className="reviewForm wow fadeInDown" data-wow-duration="1s" onSubmit={this.props.onSendReview}>
           <textarea name="newReview" type="text" onChange={this.handleReviewChange}></textarea>
 
           <input  type="submit" value="Wyślij"/>

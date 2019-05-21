@@ -36,7 +36,7 @@ export default class Search extends Component {
   render() {
     const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
     return (
-        <form className="searchContainer wow fadeInLeft" data-wow-duration="3s" onSubmit={sub}>
+        <form className="searchContainer wow fadeInLeft" data-wow-duration="2s" onSubmit={sub}>
           <input className="searchInput" type="text" defaultValue={this.props.address}  placeholder="Tu wpisz ulice" onChange={this.handleChange} required/>
           <input className="searchBtn" type="submit" value="Szukaj"/>
         </form>

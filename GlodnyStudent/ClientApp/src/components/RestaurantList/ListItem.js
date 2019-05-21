@@ -31,7 +31,7 @@ export default class listItem extends Component {
   render() {
     const badge = this.PopularityBadge();
     return (
-        <div className="listItemContainer wow fadeInDown" data-wow-duration="3s" onClick={this.handleClickElement}>
+        <div className="listItemContainer wow fadeInDown" data-wow-duration="1s" onClick={this.handleClickElement}>
           <div className="image"></div> {/* <- w tym divie docelowo bedzie zdjecie  */}
           <div className="restaurantName">
               <h3>{this.props.name}</h3>

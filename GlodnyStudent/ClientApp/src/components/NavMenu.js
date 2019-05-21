@@ -21,7 +21,7 @@ export class NavMenu extends Component {
   render () {
     return (
       <header>
-        <nav className="menuBar wow fadeInDown" data-wow-duration="3s">
+        <nav className="menuBar wow fadeInDown" data-wow-duration="2s">
 
             <div className="navLogo">
               <a href="/">
