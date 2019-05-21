@@ -10,7 +10,7 @@ export class NavMenu extends Component {
 
     if (x.className === "topnav hidden") {
       x.className = "topnav visible";
-      icoMenu.className = "menuIcon visible";
+      icoMenu.className = "menuIcon";
     } 
     else {
       x.className = "topnav hidden";
@@ -21,11 +21,11 @@ export class NavMenu extends Component {
   render () {
     return (
       <header>
-        <nav className="menuBar">
+        <nav className="menuBar wow fadeInDown" data-wow-duration="3s">
 
             <div className="navLogo">
               <a href="/">
-                <img src={logo} alt ="logo"/>
+                <img src={logo} alt ="Głodny Student Logo"/>
               </a>
             </div>
 
@@ -42,9 +42,7 @@ export class NavMenu extends Component {
             </div>
           
             <a id="menuIcon" className="menuIcon" onClick={this.handleClick}>
-              <span className="line"></span>
-              <span className="line"></span>
-              <span className="line"></span>
+              <i class="fas fa-bars fa-2x"></i>
             </a>
         </nav>
        

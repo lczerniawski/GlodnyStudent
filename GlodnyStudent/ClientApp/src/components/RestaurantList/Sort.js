@@ -36,7 +36,7 @@ export default class Sort extends Component {
   render() {
     return (
       <div className="sort">
-        <div className="form-label-right">
+        <div className="form-label-right wow fadeIn" data-wow-duration="3s">
           <div className="title">Sortowanie:</div> 
           <select name="sort" onChange={this.handleInputChange}>
             <option value='priceGrowingly'>Cena rosnąca</option>

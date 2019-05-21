@@ -1,9 +1,12 @@
 ﻿header {
+  position: fixed;
   overflow: hidden;
+  top: 0;
   width: 100%;
+  height: 80px;
   background-color: #F2994A;
   padding: 10px;
-  height: 80px;
+  z-index: 3000;
 }
 
 header .navLogo {
@@ -57,7 +60,6 @@ header .formLogin input[type=submit]:hover {
 .menuIcon {
   float: right;
   padding: 5px;
-  border: 1px solid #404040;
   margin-top: 8px;
 }
 
@@ -65,86 +67,7 @@ header .formLogin input[type=submit]:hover {
   background: #404040;
 }
 
-.menuIcon .line {
-  float: left;
-  clear: both;
-  margin-top: 3.5px;
-  margin-bottom: 3.5px;
-  width: 27px;
-  height: 2px;
-  background-color: #404040;
-}
 
-.menuIcon.visible .line {
-  background-color: #fff;
-}
-
-/*Extra small devices  */
-@media (max-width: 1199px) { 
-  .topnav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin-top: 75px;
-    z-index: 3000;
-    background-color: #404040;
-  }
-
-  .topnav.hidden {
-    display: none;
-  }
-
-  .topnav.visible {
-    display: block;
-  }
-
-  header .navList {
-    margin-left: -40px;
-  }
-
-  header .navList li {
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #F2994A;
-
-  }
-
-  header .navList li a {
-    font-size: 20px;
-    color: #fff;
-  }
-  
-  header .navList li a:hover {
-    color: #F2994A;
-  }
-
-  header .formLogin {
-    float: left;
-    clear: both;
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    padding-bottom: 20px;
-  }
-
-  header .formLogin input {
-    width: 90%;
-    margin-top: 20px;
-    text-align: center;
-  }
-
-  header .formLogin input[type=submit] {
-    color: #404040;
-    background: #F2994A;
-  }
-
-}
-
-/* Extra large devices  */
 @media (min-width: 1200px) {
   header .formLogin, header .navList {
     float: right;
@@ -181,4 +104,76 @@ header .formLogin input[type=submit]:hover {
     color: #fff;
     background: #404040;
   }
+}
+
+@media (max-width: 1199px) { 
+  #myTopnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    margin-top: 78px;
+    z-index: 3000;
+    background-color: #404040;
+    transition: all 1s ease;
+    z-index: 3000;
+  }
+
+  #myTopnav.hidden {
+    opacity: 0;
+    width: 0;
+    transition: all 1s ease;
+  }
+
+  header .navList {
+    margin-top: 30px;
+    margin-left: -20px;
+  }
+
+  header .navList li {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  }
+
+  header .navList li a {
+    float: left;
+    width: 95%;
+    font-size: 20px;
+    color: #fff;
+    border: 1px solid #F2994A;
+    text-transform: uppercase;
+    padding: 10px 0 10px 0;
+  }
+  
+  header .navList li a:hover {
+    color: #F2994A;
+  }
+
+  header .formLogin {
+    float: left;
+    clear: both;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 20px;
+  }
+
+  header .formLogin input {
+    width: 90%;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  header .formLogin input[type=submit] {
+    color: #404040;
+    background: #F2994A;
+    padding: 10px 0 10px 0;
+  }
+
 }

@@ -59,11 +59,11 @@
     }
 }
 
-@media(max-width: 1199px)
+@media (min-width: 781px) and (max-width: 1199px)
 {
     .welcome .info {
         width: 90vw;
-        margin-top: 5vh;
+        margin-top: 4vh;
     }
 
     .welcome .info h1 {
@@ -81,4 +81,20 @@
     .search {
         margin-top: 20px;
     }
+}
+
+@media(max-width: 780px)
+{
+    .welcome .info h1 {
+        font-size: 30px;
+    }
+
+    .welcome h1:after {
+        width: 140px;
+    }
+
+    .welcome .info h2 {
+        font-size: 20px;
+    }
+    
 }

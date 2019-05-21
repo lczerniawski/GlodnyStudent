@@ -1,0 +1,53 @@
+.reviewForm {
+    overflow: hidden;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.reviewForm textarea {
+    float: left;
+    height: 120px !important;
+    resize: none;
+    padding: 15px;
+}
+
+.reviewForm input[type=submit] {
+    float: left;
+    color: #fff;
+    height: 70px;
+    font-size: 17px;
+    margin-top: 25px;
+    box-shadow: transparent;
+    border-color: transparent;
+    background-color: #404040;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+}
+
+.reviewForm input[type=submit]:hover {
+    color: #F2994A;
+}
+
+@media(max-width: 780px) {
+    .reviewForm textarea {
+        width: 100%;
+    } 
+
+    .reviewForm input[type=submit] {
+        width: 100%;
+    }
+}
+
+@media(min-width: 781px) {
+    .reviewForm textarea {
+        width: calc(100% - 210px);
+    }    
+
+    .reviewForm input[type=submit] {
+        width: 200px;
+        margin-left: 10px;
+    }
+}

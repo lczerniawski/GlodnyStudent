@@ -31,18 +31,23 @@ export default class listItem extends Component {
   render() {
     const badge = this.PopularityBadge();
     return (
-        <div className="listItemContainer" onClick={this.handleClickElement}>
+        <div className="listItemContainer wow fadeInDown" data-wow-duration="3s" onClick={this.handleClickElement}>
           <div className="image"></div> {/* <- w tym divie docelowo bedzie zdjecie  */}
-          <div className="restaurantInfo">
-            <div>
+          <div className="restaurantName">
               <h3>{this.props.name}</h3>
-              <address>{this.props.address}</address>
-              <p>Liczba punktów: {this.props.rate} </p>
-              <p>Ilość komentarzy: {this.props.reviewsCount}</p>
               {badge}
+          </div>
+          <div className="restaurantInfo">
+              <address>
+                <i className="fas fa-map-marker-alt fa-2x"></i> {this.props.address}
+              </address>
+
+              <ul>
+                <li><i className="far fa-star fa-2x"></i> Liczba punktów: {this.props.rate} </li>
+                <li><i className="far fa-comments fa-2x"></i> Ilość komentarzy: {this.props.reviewsCount}</li>
+              </ul>
             </div>
           </div>
-        </div>
     )
   }
 }

@@ -3,8 +3,6 @@
 }
 
 .searchInput {
-    padding: 15px 20px 15px 20px;
-    font-size: 20px;
     margin-right: 10px;
 }
 
@@ -12,9 +10,7 @@
     color: #404040;
     background: #F2994A;
     border: none;
-    height: 62px;
     text-transform: uppercase;
-    font-size: 20px;
     -o-transition:.5s;
     -ms-transition:.5s;
     -moz-transition:.5s;
@@ -28,8 +24,13 @@
 }
 
 @media(min-width: 1200px) {
+    .searchInput {
+        padding: 15px 20px 15px 20px;
+        font-size: 20px;
+    }
+
     .searchContainer {
-        margin-top: 200px;
+        margin-top: 150px;
     }
 
     .searchInput {
@@ -39,9 +40,19 @@
     .searchBtn {
         width: 18%;
     }
+    
+    .searchBtn {
+        height: 62px;
+        font-size: 20px;
+    }  
 }
 
-@media(max-width: 1199px) {
+@media(min-width: 781px) and (max-width: 1199px) {
+    .searchInput {
+        padding: 15px 20px 15px 20px;
+        font-size: 20px;
+    }
+
     .searchContainer {
         margin-top: 100px;
     }
@@ -49,4 +60,29 @@
     .searchInput, .searchBtn {
         width: 100%;
     }
+
+    .searchBtn {
+        height: 62px;
+        font-size: 20px;
+    }  
+}
+
+@media(max-width: 780px) {
+    .searchInput {
+        padding: 10px 15px 10px 15px;
+        font-size: 18px;
+    }
+
+    .searchContainer {
+        margin-top: 40px;
+    }
+
+    .searchInput, .searchBtn {
+        width: 100%;
+    }
+
+    .searchBtn {
+        height: 45px;
+        font-size: 16px;
+    }  
 }

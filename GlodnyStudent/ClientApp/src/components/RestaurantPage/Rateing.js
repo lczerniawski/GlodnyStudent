@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Rateing.css';
 
 export default class Rateing extends Component {
 
@@ -14,9 +15,12 @@ export default class Rateing extends Component {
 
   render() {
     return (
-      <div>
-            <p>Zebrane pkt: {this.props.rate}</p>
-            <button value="Up" name="addToRate" onClick={this.handleRate}>[+]</button> <button name="addToRate" value="Down" onClick={this.handleRate}>[-]</button>
+      <div className="rating">
+          <div className="ratingButtons">
+              <button className="rateUp" value="Up" name="addToRate" onClick={this.handleRate}><i className="fas fa-plus fa-xs"></i></button>
+              <button className="rateDown" name="addToRate" value="Down" onClick={this.handleRate}><i className="fas fa-minus fa-xs"></i></button>
+          </div>
+          <p>Zebrane pkt: {this.props.rate}</p>
       </div>
     )
   }

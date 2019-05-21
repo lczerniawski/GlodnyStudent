@@ -12,7 +12,7 @@ a:hover {
 
 main {
     height: 100%;
-    margin-top: -2px;
+    margin-top: 78px;
     clear: both;
     position: relative;
 }
@@ -24,7 +24,7 @@ footer {
     margin: 0 !important;
     bottom: 0;
     width: 100%;
-    height: 70px;
+    min-height: 70px;
     border-top: 3px solid #F2994A;
     background-color: #404040;
     z-index: 2000;
@@ -33,6 +33,17 @@ footer {
 footer p {
     color: #fff;
     text-align: center;
-    font-size: 18px;
-    padding-top: 15px;
+    padding-top: 20px;
+}
+
+@media(min-width: 781px) {
+    footer p {
+        font-size: 18px;
+    }
+}
+
+@media(max-width: 780px) {
+    footer p {
+        font-size: 13px;
+    }
 }
