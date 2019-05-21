@@ -34,6 +34,7 @@
     min-height: 250px;
     align-items: center;
     padding: 10px;
+    cursor: pointer;
 }
 
 .listItemContainer:nth-of-type(n+2) {

@@ -137,9 +137,9 @@ constructor(props){
 
 
   render() {
-  const menuList = this.state.menu.map(row=><li className="wow fadeIn" data-wow-duration="3s" key={row.id}><span>{row.name}</span> <span className="price">{row.price}</span></li>);
+  const menuList = this.state.menu.map(row=><li className="wow fadeIn" data-wow-duration="2s" key={row.id}><span>{row.name}</span> <span className="price">{row.price}</span></li>);
   const reviewsList = this.state.reviews.map(row=>
-    <div className="singleReview wow fadeIn" data-wow-duration="3s" key={row.id}>
+    <div className="singleReview wow fadeIn" data-wow-duration="1s" key={row.id}>
       <div className="details">
         <ul>
           <li><i class="far fa-user"></i> Użyszkownik</li>
@@ -154,12 +154,12 @@ constructor(props){
     return (
       <div className="singleRestaurant">
         <div className="header">
-          <button className="back wow fadeInDown" data-wow-duration="3s" onClick={this.backToRestaurationList}>Powrót do listy</button>
+          <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>
 
           <div className="mainImage">
             <img src={imageRestaurant} alt={this.state.name}/>
           </div>
-          <div className="title wow fadeInDown" data-wow-duration="3s">
+          <div className="title wow fadeInDown" data-wow-duration="1s">
             <h2>{this.state.name}</h2>
 
             <Rateing rate={this.state.rate} onRate={this.sendRate}/>
@@ -171,13 +171,13 @@ constructor(props){
               
               </div>
               <div className="mapInfo">
-                  <h3 className="wow fadeIn" data-wow-duration="3s">Znajdź nas na mapie!</h3>
+                  <h3 className="wow fadeIn" data-wow-duration="2s">Znajdź nas na mapie!</h3>
                   
-                  <address className="wow fadeIn" data-wow-duration="3s">
+                  <address className="wow fadeIn" data-wow-duration="2s">
                     <i className="fas fa-map-marker-alt fa-2x"></i> {this.state.address}
                   </address>
 
-                  <button className="wow fadeIn" data-wow-duration="3s">Zobacz na mapach google</button>
+                  <button className="wow fadeIn" data-wow-duration="2s">Zobacz na mapach google</button>
               </div>
           </section>
           <section className="importantInformation">
@@ -185,10 +185,10 @@ constructor(props){
                   <h3>Galeria</h3>
 
                   <ul>
-                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
-                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
-                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
-                    <li className="wow fadeIn" data-wow-duration="3s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="2s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="2s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="2s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
+                    <li className="wow fadeIn" data-wow-duration="2s"><a data-fancybox="gallery" href={imageRestaurant}><img src={imageRestaurant}/></a></li>
                   </ul>
               </div>
 
