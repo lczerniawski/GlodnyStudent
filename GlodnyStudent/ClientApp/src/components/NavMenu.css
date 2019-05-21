@@ -117,6 +117,10 @@ header .formLogin input[type=submit]:hover {
     margin-top: 78px;
     z-index: 3000;
     background-color: #404040;
+    -o-transition:  all 1s ease;
+    -ms-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -webkit-transition: all 1s ease;
     transition: all 1s ease;
     z-index: 3000;
   }
@@ -124,6 +128,11 @@ header .formLogin input[type=submit]:hover {
   #myTopnav.hidden {
     opacity: 0;
     width: 0;
+    height: 0;
+    -o-transition:  all 1s ease;
+    -ms-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -webkit-transition: all 1s ease;
     transition: all 1s ease;
   }
 
@@ -174,6 +183,10 @@ header .formLogin input[type=submit]:hover {
     color: #404040;
     background: #F2994A;
     padding: 10px 0 10px 0;
+  }
+
+  header .formLogin input[type=submit]:hover {
+    color: #fff !important;
   }
 
 }

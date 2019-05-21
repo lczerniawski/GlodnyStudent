@@ -3,6 +3,13 @@
     background-color: #fff;
 }
 
+.fixedSearch {
+    position: fixed;
+    top: 0;
+    margin-top: 80px;
+    background-color: #fff;
+}
+
 .searchRestaurant input, .searchRestaurant form {
     border-color: transparent;
 }

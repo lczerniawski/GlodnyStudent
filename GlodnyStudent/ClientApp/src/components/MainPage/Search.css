@@ -30,7 +30,7 @@
     }
 
     .searchContainer {
-        margin-top: 150px;
+        margin-top: 120px;
     }
 
     .searchInput {
@@ -54,17 +54,18 @@
     }
 
     .searchContainer {
-        margin-top: 100px;
+        margin-top: 60px;
     }
 
-    .searchInput, .searchBtn {
-        width: 100%;
+    .searchInput {
+        width: 75%;
     }
 
     .searchBtn {
-        height: 62px;
+        width: 18%;
         font-size: 20px;
-    }  
+        height: 62px;
+    }
 }
 
 @media(max-width: 780px) {
