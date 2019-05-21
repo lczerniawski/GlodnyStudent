@@ -26,7 +26,7 @@
 
 .filters input[type=range] {
     float: left;
-    margin-top: 3px;
+    margin-top: 10px;
     -webkit-appearance: none;
     background: transparent;
 }
@@ -39,7 +39,7 @@
     border-radius: 50%;
     background: #F2994A;
     cursor: pointer;
-    margin-top: -14px;
+    margin-top: -10px;
 }
   
 .filters input[type=range]::-moz-range-thumb {
@@ -48,6 +48,16 @@
     border-radius: 50%;
     background: #F2994A;
     cursor: pointer;
+    margin-top: -14px;
+}
+
+.filters input[type=range]::-o-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #F2994A;
+    cursor: pointer;
+    margin-top: -14px;
 }
   
 .filters input[type=range]::-ms-thumb {
@@ -56,6 +66,7 @@
     border-radius: 50%;
     background: #F2994A;
     cursor: pointer;
+    margin-top: -14px;
 }
 
 /* Track */
@@ -139,6 +150,10 @@
 
     .filters input[type=range] {
         width: 100%;
+    }
+
+    .filters .form-label .unit { 
+        padding-top: 15px;
     }
 }
 @media (min-width: 740px) and (max-width: 1199px) {
