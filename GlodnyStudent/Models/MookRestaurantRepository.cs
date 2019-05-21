@@ -87,7 +87,7 @@ namespace GlodnyStudent.Models
                         {
                             Id = 1,
                             Name = "Pizza Hawajska",
-                            Price = 22.5M,
+                            Price = 32.5M,
                         },
                         new MenuItem
                         {
@@ -128,7 +128,7 @@ namespace GlodnyStudent.Models
                         }
                     },
                     ReviewsCount = 3,
-                    HighestPrice = 22.5M,
+                    HighestPrice = 32.5M,
                     Score = 10,
                     OwnerId = 0
                 },
@@ -144,7 +144,7 @@ namespace GlodnyStudent.Models
                         {
                             Id = 1,
                             Name = "Lody Kremowkowe",
-                            Price = 22.5M,
+                            Price = 12.5M,
                         },
                         new MenuItem
                         {
@@ -185,7 +185,7 @@ namespace GlodnyStudent.Models
                         }
                     },
                     ReviewsCount = 3,
-                    HighestPrice = 22.5M,
+                    HighestPrice = 12.5M,
                     Score = 10,
                     OwnerId = 0
                 }
