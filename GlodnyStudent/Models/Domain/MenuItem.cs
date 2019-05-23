@@ -11,11 +11,11 @@ namespace GlodnyStudent.Models.Domain
         [RegularExpression(@"^[\p{Lu}\p{Ll} ]*$", ErrorMessage = "Name is invalid")]
         public string Name { get; set; }
 
+        [Column(TypeName = "decimal(13,2)")]
         public decimal Price { get; set; }
+        
+        public long RestaurantId { get; set; }
 
-        [ForeignKey("Restaurant")]
-        public int RestaurantId { get; set; }
-
-        public Restaurant Restaurant { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

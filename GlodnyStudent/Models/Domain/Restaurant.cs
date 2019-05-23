@@ -6,13 +6,13 @@ namespace GlodnyStudent.Models.Domain
 {
     public class Restaurant
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
         [RegularExpression(@"^[\p{Lu}\p{Ll} ]*$", ErrorMessage = "Name is invalid")]
         public string Name { get; set; }
 
-        public virtual Cuisine CuisineType { get; set; }
+        public virtual Cuisine Cuisine { get; set; }
 
         public virtual RestaurantAddress Address { get; set; }
 
@@ -21,7 +21,7 @@ namespace GlodnyStudent.Models.Domain
         public int Score { get; set; }
 
         [ForeignKey("User")]
-        public int OwnerId { get; set; }
+        public long OwnerId { get; set; }
 
         public virtual User Owner { get; set; }
 

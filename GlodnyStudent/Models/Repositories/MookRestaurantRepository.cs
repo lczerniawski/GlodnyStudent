@@ -8,7 +8,7 @@ using GlodnyStudent.Models.Domain;
 
 namespace GlodnyStudent.Models.Repositories
 {
-    public class MookRestaurantRepository : IRestaurantRepository
+    public class MookRestaurantRepository
     {
         private readonly List<Cuisine> _cuisines;
         private readonly List<Restaurant> _restaurants;
@@ -23,7 +23,7 @@ namespace GlodnyStudent.Models.Repositories
                 new Cuisine {Name = "Polska"},
             };
 
-            _restaurants = new List<Restaurant>
+            /*_restaurants = new List<Restaurant>
             {
                 new Restaurant()
                 {
@@ -196,11 +196,11 @@ namespace GlodnyStudent.Models.Repositories
                     Score = 10,
                     OwnerId = 0
                 }
-            };
+            };*/
         }
 
 
-        public IEnumerable<Restaurant> GetRestaurantsByStreet(string streetName)
+        /*public IEnumerable<Restaurant> GetRestaurantsByStreet(string streetName)
         {
             var restaurants = from r in _restaurants
                 where r.Address == streetName
@@ -237,6 +237,6 @@ namespace GlodnyStudent.Models.Repositories
         public bool SaveChanges()
         {
             return true;
-        }
+        }*/
     }
 }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GlodnyStudent.Models.Domain
 {
@@ -19,11 +20,11 @@ namespace GlodnyStudent.Models.Domain
 
         [Required]
         public string Password { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
+        
+        [Column(TypeName = "nvarchar(16)")]
         public RoleType Role { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
+        
+        [Column(TypeName = "nvarchar(16)")]
         public StatusType Status { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }

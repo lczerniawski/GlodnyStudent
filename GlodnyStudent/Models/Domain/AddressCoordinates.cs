@@ -6,11 +6,10 @@ namespace GlodnyStudent.Models.Domain
     {
         public long Id { get; set; }
 
-        public double Lat { get; set; }
+        public double Latitude { get; set; }
 
-        public double Lon { get; set; }
-
-        [ForeignKey("RestaurantAddress")]
+        public double Longitude { get; set; }
+        
         public long RestaurantAddressId { get; set; }
 
         public virtual RestaurantAddress RestaurantAddress { get; set; }

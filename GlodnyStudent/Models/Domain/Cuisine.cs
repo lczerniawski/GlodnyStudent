@@ -9,8 +9,8 @@ namespace GlodnyStudent.Models.Domain
         public string Name { get; set; }
 
         [ForeignKey("Restaurant")]
-        public int RestaurantId { get; set; }
+        public long RestaurantId { get; set; }
 
-        public Restaurant Restaurant { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

@@ -7,10 +7,9 @@ namespace GlodnyStudent.Models.Domain
         public long Id { get; set; }
 
         public byte[] ImageSource { get; set; }
+        
+        public long RestaurantId { get; set; }
 
-        [ForeignKey("Restaurant")]
-        public int RestaurantId { get; set; }
-
-        public Restaurant Restaurant { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

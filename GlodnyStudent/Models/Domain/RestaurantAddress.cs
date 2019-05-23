@@ -29,8 +29,7 @@ namespace GlodnyStudent.Models.Domain
         public string City { get; set; }
 
         public virtual AddressCoordinates Coordinates { get; set; }
-
-        [ForeignKey("Restaurant")]
+        
         public long RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }

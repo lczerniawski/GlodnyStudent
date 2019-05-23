@@ -12,13 +12,12 @@ namespace GlodnyStudent.Models.Domain
 
         public DateTime AddTime { get; set; }
 
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
-        public User User { get; set; }
-
-        [ForeignKey("Restaurant")]
+        public virtual User User { get; set; }
+        
         public long RestaurantId { get; set; }
 
-        public Restaurant Restaurant { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

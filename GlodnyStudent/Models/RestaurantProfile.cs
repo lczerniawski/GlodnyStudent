@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using GlodnyStudent.Models.Domain;
 using GlodnyStudent.ViewModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace GlodnyStudent.Models
 {
@@ -12,7 +8,7 @@ namespace GlodnyStudent.Models
     {
         public RestaurantProfile()
         {
-            this.CreateMap<Restaurant, RestaurantListViewModel>().ForMember(c=>c.Cuisine, o => o.MapFrom(m => m.CuisineType.Name));
+            this.CreateMap<Restaurant, RestaurantListViewModel>().ForMember(c=>c.Cuisine, o => o.MapFrom(m => m.Cuisine.Name));
             this.CreateMap<Restaurant, RestaurantDetailsViewModel>();
         }
     }
