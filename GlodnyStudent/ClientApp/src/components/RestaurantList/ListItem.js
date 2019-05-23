@@ -17,7 +17,6 @@ export default class listItem extends Component {
 
 
   handleClickElement(event) {
-    this.props.sendId(this.props.id);
      this.context.router.history.push(`/Restauracja/${this.props.id}`);
      event.preventDefault();
    }

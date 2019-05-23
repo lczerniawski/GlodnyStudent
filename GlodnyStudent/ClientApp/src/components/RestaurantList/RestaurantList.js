@@ -15,7 +15,7 @@ export class RestaurantList extends Component {
     this.getDataByFilters = this.getDataByFilters.bind(this);
     this.addressUpdate = this.addressUpdate.bind(this);
     this.state = {
-      address:this.props.address,
+      location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
       error: null,
       distance:20,// tu wstawić jako poczatkowa wartosc wartosc highestDistance
       price:99,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
@@ -38,7 +38,7 @@ componentDidMount(){
 }
 
 getDataByAddress(){
-  const address = `api/Restaurants/${this.state.address}`;
+  const address = `api/Restaurants/${this.state.location}`;
   fetch(address).then((response) => {
     if (response.ok) {
       return response.json();
@@ -62,7 +62,7 @@ getDataByAddress(){
 
 
     getDataByFilters(){
-      const address = `api/Restaurants?address=${this.state.address}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
+      const address = `api/Restaurants?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
       fetch(address).then((response) => {
         if (response.ok) {
           return response.json();
@@ -98,7 +98,7 @@ getDataByAddress(){
 
   addressUpdate(addr){
     this.setState({
-      address:addr
+      location:addr
   }, () => {
     this.getDataByFilters();
   });
@@ -117,7 +117,7 @@ getDataByAddress(){
         </div>; 
     } else {
        list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.score}
-        reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} sendId={this.props.sendIdForRestaurantPage}/>);
+        reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} />);
     }   
     return (    
       <div className="restaurantListContainer">
@@ -127,7 +127,7 @@ getDataByAddress(){
         </div>
 
         <div className="searchRestaurant">
-          <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.address}/>
+          <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.location}/>
         </div>
 
         <div className="filersBar">

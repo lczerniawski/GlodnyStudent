@@ -43,7 +43,7 @@ export class NavMenu extends Component {
             </div>
           
             <a id="menuIcon" className="menuIcon" onClick={this.handleClick}>
-              <i class="fas fa-bars fa-2x"></i>
+              <i className="fas fa-bars fa-2x"></i>
             </a>
         </nav>
        

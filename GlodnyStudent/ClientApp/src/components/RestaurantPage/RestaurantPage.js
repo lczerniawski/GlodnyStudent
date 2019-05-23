@@ -11,26 +11,35 @@ export default class RestaurantPage extends Component {
 constructor(props){
     super(props);
     this.state={
+        location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
         name:"",
         address:"",
         menu:[],
         gallery:[],
         reviews:[],
         rate:0,
-        newReview:''
+        newReview:'',
+        /* Edycja */
+        /* headerImage:null, */
+        file: null,
+        imagePreviewUrl: null
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.sendReview =this.sendReview.bind(this);
     this.sendRate = this.sendRate.bind(this);
     this.backToRestaurationList = this.backToRestaurationList.bind(this);
+
+    this.handleImageChange =this.handleImageChange.bind(this);
 }
   
+  
+
     componentDidMount(){
-        this.getDataById();
+      this.getDataById();
       }
       
       getDataById(){
-        const address = `api/Restaurants/${this.props.id}`;
+        const address = `api/Restaurants/${this.state.location}`;
         fetch(address).then((response) => {
           if (response.ok) {
             return response.json();
@@ -61,7 +70,7 @@ constructor(props){
       sendRate(event) {
 
         event.preventDefault();
-         const adr = (event.target.value === "Down")? `api/Restaurants/${this.props.id}/DownVote`:`api/Restaurants/${this.props.id}/UpVote`;
+         const adr = (event.target.value === "Down")? `api/Restaurants/${this.state.location}/DownVote`:`api/Restaurants/${this.state.location}/UpVote`;
         
           fetch(adr, {
           method: 'POST',
@@ -87,7 +96,7 @@ constructor(props){
        sendReview(event) {
          
         event.preventDefault();
-         const adr =`api/Restaurants/${this.props.id}/AddReview`;
+         const adr =`api/Restaurants/${this.state.location}/AddReview`;
         
           fetch(adr, {
           method: 'PUT',
@@ -127,7 +136,7 @@ constructor(props){
 
 
       backToRestaurationList() {
-         this.context.router.history.push(`/ListaRestauracji`);
+         this.context.router.history.push(`/ListaRestauracji/${this.state.address}`); // Tu musi byc adress bez numerkow, albo z swerwera podzielone albo ja moge dzielic
        }
  
        static contextTypes = {
@@ -136,13 +145,33 @@ constructor(props){
 
 
 
+       /* ########################################## */
+
+       handleImageChange(e) {
+        e.preventDefault();
+    
+        let reader = new FileReader();
+        let file = e.target.files[0];
+    
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result
+          });
+        }
+    
+        reader.readAsDataURL(file)
+      }
+       /* ########################################### */
+
+
   render() {
   const menuList = this.state.menu.map(row=><li className="wow fadeIn" data-wow-duration="2s" key={row.id}><span>{row.name}</span> <span className="price">{row.price}</span></li>);
   const reviewsList = this.state.reviews.map(row=>
     <div className="singleReview wow fadeIn" data-wow-duration="1s" key={row.id}>
       <div className="details">
         <ul>
-          <li><i class="far fa-user"></i> Użyszkownik</li>
+          <li><i className="far fa-user"></i> Użyszkownik</li>
           <li>{row.addTime}</li>
         </ul>
       </div>
@@ -150,14 +179,16 @@ constructor(props){
         {row.description}
       </div>
     </div>);
+    const imageHeadre = this.state.imagePreviewUrl ? this.state.imagePreviewUrl :imageRestaurant;
+
 
     return (
       <div className="singleRestaurant">
         <div className="header">
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>
-
+          <input type="file" name="headerImage"/>
           <div className="mainImage">
-            <img src={imageRestaurant} alt={this.state.name}/>
+            <img src={imageHeadre} alt={this.state.name}/>
           </div>
           <div className="title wow fadeInDown" data-wow-duration="1s">
             <h2>{this.state.name}</h2>
