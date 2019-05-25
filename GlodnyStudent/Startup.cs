@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using GlodnyStudent.Data;
 using GlodnyStudent.Models.Repositories;
+using GlodnyStudent.Models.Repositories.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,21 @@ namespace GlodnyStudent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));*/
+            services.AddDbContext<ApplicationDbContext>(
+                options => options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opts => opts.UseNetTopologySuite()));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<ICuisineRepository, CuisineRepository>();
+            services.AddSingleton<IImageRepository, ImageRepository>();
+            services.AddSingleton<IMenuItemRepository, MenuItemRepository>();
+            services.AddSingleton<IRestaurantAddressRepository, RestaurantAddressRepository>();
+            services.AddSingleton<IRestaurantRepository, RestaurantRepository>();
+            services.AddSingleton<IReviewRepository, ReviewRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+
             //services.AddSingleton<IRestaurantRepository, MookRestaurantRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

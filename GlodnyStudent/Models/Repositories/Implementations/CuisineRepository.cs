@@ -8,60 +8,47 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 {
     public class CuisineRepository : ICuisineRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public CuisineRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task<Cuisine> Create(Cuisine cuisine)
         {
-            Cuisine result = null;
+            Cuisine result = _context.Cuisines.Add(cuisine).Entity;
 
-            using (var context = new ApplicationDbContext())
-            {
-                result = context.Cuisines.Add(cuisine).Entity;
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return result;
         }
 
         public async Task Delete(string name)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                Cuisine result = await context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name);
+            Cuisine result = await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name);
 
-                context.Entry(result).State = EntityState.Deleted;
+            _context.Entry(result).State = EntityState.Deleted;
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Cuisine>> FindAll()
         {
-            var result = new List<Cuisine>();
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Cuisines.ToListAsync();
-            }
-            return result;
+            return await _context.Cuisines.ToListAsync();
         }
 
         public async Task<Cuisine> FindById(string name)
         {
-            Cuisine result = null;
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name);
-            }
-            return result;
+            return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name); ;
         }
 
         public async Task<Cuisine> Update(Cuisine cuisine)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Entry(cuisine).State = EntityState.Modified;
+            _context.Entry(cuisine).State = EntityState.Modified;
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return cuisine;
         }
     }

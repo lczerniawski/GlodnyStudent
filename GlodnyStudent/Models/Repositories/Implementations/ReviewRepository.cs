@@ -10,74 +10,56 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 {
     public class ReviewRepository : IReviewRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public ReviewRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task<Review> Create(Review review)
         {
-            Review result = null;
+            Review result = _context.Reviews.Add(review).Entity;
 
-            using (var context = new ApplicationDbContext())
-            {
-                result = context.Reviews.Add(review).Entity;
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return result;
         }
 
         public async Task Delete(long id)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                Review result = await context.Reviews
+            Review result = await _context.Reviews
                     .FirstOrDefaultAsync(review => review.Id == id);
 
-                context.Entry(result).State = EntityState.Deleted;
+            _context.Entry(result).State = EntityState.Deleted;
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Review>> FindAll()
         {
-            var result = new List<Review>();
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Reviews.ToListAsync();
-            }
-            return result;
+            return await _context.Reviews.ToListAsync();
         }
 
         public async Task<IEnumerable<Review>> FindAllByRestaurantId(long restaurantId)
         {
-            var result = new List<Review>();
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Reviews
+            return await _context.Reviews
                     .Where(image => image.RestaurantId == restaurantId)
                     .ToListAsync();
-            }
-            return result;
         }
 
         public async Task<Review> FindById(long id)
         {
-            Review result = null;
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Reviews.FirstOrDefaultAsync(review => review.Id == id);
-            }
-            return result;
+            return await _context.Reviews
+                .FirstOrDefaultAsync(review => review.Id == id);
         }
 
         public async Task<Review> Update(Review review)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Entry(review).State = EntityState.Modified;
+            _context.Entry(review).State = EntityState.Modified;
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return review;
         }
     }

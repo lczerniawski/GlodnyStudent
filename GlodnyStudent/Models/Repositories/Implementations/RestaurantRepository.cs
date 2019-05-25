@@ -8,60 +8,48 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 {
     public class RestaurantRepository : IRestaurantRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public RestaurantRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task<Restaurant> Create(Restaurant restaurant)
         {
-            Restaurant result = null;
+            Restaurant result = _context.Restaurants.Add(restaurant).Entity;
 
-            using (var context = new ApplicationDbContext())
-            {
-                result = context.Restaurants.Add(restaurant).Entity;
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return result;
         }
 
         public async Task Delete(long id)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                Restaurant result = await context.Restaurants.FirstOrDefaultAsync(restaurant => restaurant.Id == id);
+            Restaurant result = await _context.Restaurants.FirstOrDefaultAsync(restaurant => restaurant.Id == id);
 
-                context.Entry(result).State = EntityState.Deleted;
+            _context.Entry(result).State = EntityState.Deleted;
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Restaurant>> FindAll()
         {
-            var result = new List<Restaurant>();
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Restaurants.ToListAsync();
-            }
-            return result;
+            return await _context.Restaurants.ToListAsync(); ;
         }
 
         public async Task<Restaurant> FindById(long id)
         {
-            Restaurant result = null;
-
-            using (var context = new ApplicationDbContext())
-            {
-                result = await context.Restaurants.FirstOrDefaultAsync(restaurant => restaurant.Id == id);
-            }
-            return result;
+            return await _context.Restaurants
+                .FirstOrDefaultAsync(restaurant => restaurant.Id == id);
         }
 
         public async Task<Restaurant> Update(Restaurant restaurant)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                context.Entry(restaurant).State = EntityState.Modified;
+            _context.Entry(restaurant).State = EntityState.Modified;
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return restaurant;
         }
     }

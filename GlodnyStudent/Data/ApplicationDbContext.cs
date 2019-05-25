@@ -23,7 +23,7 @@ namespace GlodnyStudent.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -32,7 +32,7 @@ namespace GlodnyStudent.Data
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString, opts => opts.UseNetTopologySuite());
             optionsBuilder.UseLazyLoadingProxies();
-        }
+        }*/
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
