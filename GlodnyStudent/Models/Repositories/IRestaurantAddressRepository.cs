@@ -2,8 +2,7 @@
 
 namespace GlodnyStudent.Models.Repositories
 {
-    public interface IRestaurantRepository : ICrudRepository<Restaurant>
+    interface IRestaurantAddressRepository : ICrudRepository<RestaurantAddress>
     {
-
     }
 }

@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -45,10 +46,10 @@
     <Compile Remove="Migrations\20190523180137_FirstMigration.Designer.cs" />
     <Compile Remove="Migrations\20190523182352_SecondMigration.cs" />
     <Compile Remove="Migrations\20190523182352_SecondMigration.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Services\" />
+    <Compile Remove="Migrations\20190523182912_FirstMigration.cs" />
+    <Compile Remove="Migrations\20190523182912_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190525195016_FirstMigration.cs" />
+    <Compile Remove="Migrations\20190525195016_FirstMigration.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

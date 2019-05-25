@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,5 +30,18 @@ namespace GlodnyStudent.Models.Domain
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<Restaurant> Restaurants { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is User user &&
+                   Id == user.Id &&
+                   Name == user.Name &&
+                   Email == user.Email;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, Email);
+        }
     }
 }

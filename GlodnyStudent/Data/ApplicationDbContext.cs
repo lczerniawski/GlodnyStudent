@@ -1,11 +1,12 @@
 ﻿using GlodnyStudent.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace GlodnyStudent.Data
 {
     public class ApplicationDbContext : DbContext
-    {
-        public DbSet<AddressCoordinates> AddressCoordinates { get; set; }
+    {        
         public DbSet<Cuisine> Cuisines { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
@@ -24,6 +25,12 @@ namespace GlodnyStudent.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(connectionString, opts => opts.UseNetTopologySuite());
             optionsBuilder.UseLazyLoadingProxies();
         }
 

@@ -19,5 +19,19 @@ namespace GlodnyStudent.Models.Domain
         public long RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Review review &&
+                   Id == review.Id &&
+                   AddTime == review.AddTime &&
+                   UserId == review.UserId &&
+                   RestaurantId == review.RestaurantId;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, AddTime, UserId, RestaurantId);
+        }
     }
 }

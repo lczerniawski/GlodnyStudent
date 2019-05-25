@@ -19,7 +19,7 @@ namespace GlodnyStudent.Controllers
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IMapper _mapper;
 
-        public RestaurantsController(IRestaurantRepository restaurantRepository, IMapper mapper)
+        /*public RestaurantsController(IRestaurantRepository restaurantRepository, IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
             _mapper = mapper;
@@ -42,7 +42,7 @@ namespace GlodnyStudent.Controllers
             }
         }
         
-        /*[HttpGet]
+        [HttpGet]
         public IActionResult Filters(string address,int distance,int highestPrice,string cuisine)
         {
             try
@@ -64,7 +64,7 @@ namespace GlodnyStudent.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
 
             }
-        }*/
+        }
         
         [HttpGet("[action]")]
         public ActionResult<Cuisine[]> Cuisines()
@@ -149,6 +149,6 @@ namespace GlodnyStudent.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
-        }
+        }*/
     }
 }

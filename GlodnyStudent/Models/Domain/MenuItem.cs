@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GlodnyStudent.Models.Domain
@@ -17,5 +18,17 @@ namespace GlodnyStudent.Models.Domain
         public long RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MenuItem item &&
+                   Id == item.Id &&
+                   Name == item.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name);
+        }
     }
 }

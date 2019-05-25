@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,5 +29,18 @@ namespace GlodnyStudent.Models.Domain
         public virtual ICollection<Image> Gallery { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Restaurant restaurant &&
+                   Id == restaurant.Id &&
+                   Name == restaurant.Name &&
+                   EqualityComparer<RestaurantAddress>.Default.Equals(Address, restaurant.Address);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, Address);
+        }
     }
 }
