@@ -10,7 +10,7 @@ export class Home extends Component {
       <div className="welcome">
         <div className="info wow fadeInLeft" data-wow-duration="2s">
           <h1>Podaj nam swój adres</h1>
-          <h2>a my wskażemy Ci miejsca warte uwagi</h2>
+          <h2>a my wskażemy Ci miejsca w Warszawie, warte Twojej uwagi</h2>
         </div>
         <div className="search">
           <Search isMain="true"/>

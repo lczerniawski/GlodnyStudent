@@ -273,3 +273,8 @@
         width: 300px;
     }
 }
+
+/* CSS OD TOMASZA MOZANa  USUNAC , POTRZEBNE BYLy TYLKO TYMCZASOWO */
+#addressInfo label{
+    display: block;
+}
