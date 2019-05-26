@@ -36,7 +36,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 
         public async Task<IEnumerable<Image>> FindAll()
         {
-            return await _context.Images.ToListAsync(); ;
+            return await _context.Images.ToListAsync();
         }
 
         public async Task<IEnumerable<Image>> FindAllByRestaurantId(long restaurantId)

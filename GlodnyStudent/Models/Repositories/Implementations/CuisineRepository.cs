@@ -40,7 +40,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 
         public async Task<Cuisine> FindByName(string name)
         {
-            return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name); ;
+            return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name);
         }
 
         public async Task<Cuisine> Update(Cuisine cuisine)
