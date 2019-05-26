@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GeoAPI.Geometries;
 using GlodnyStudent.Data;
 using GlodnyStudent.Models.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,13 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         public async Task<IEnumerable<RestaurantAddress>> FindAll()
         {
             return await _context.RestaurantAddresses.ToListAsync();
+        }
+
+        public async Task<IEnumerable<RestaurantAddress>> FindAllByDistance(int distance, IPoint userLocation)
+        {
+            return await _context.RestaurantAddresses
+                .Where(address => address.Location.Distance(userLocation) <= distance)
+                .ToListAsync();
         }
 
         public async Task<RestaurantAddress> FindById(long id)
