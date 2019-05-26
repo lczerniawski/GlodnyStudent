@@ -31,14 +31,14 @@ namespace GlodnyStudent
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opts => opts.UseNetTopologySuite()));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddSingleton<ICuisineRepository, CuisineRepository>();
-            services.AddSingleton<IImageRepository, ImageRepository>();
-            services.AddSingleton<IMenuItemRepository, MenuItemRepository>();
-            services.AddSingleton<IRestaurantAddressRepository, RestaurantAddressRepository>();
-            services.AddSingleton<IRestaurantRepository, RestaurantRepository>();
-            services.AddSingleton<IReviewRepository, ReviewRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            
+            services.AddTransient<ICuisineRepository, CuisineRepository>();
+            services.AddTransient<IImageRepository, ImageRepository>();
+            services.AddTransient<IMenuItemRepository, MenuItemRepository>();
+            services.AddTransient<IRestaurantAddressRepository, RestaurantAddressRepository>();
+            services.AddTransient<IRestaurantRepository, RestaurantRepository>();
+            services.AddTransient<IReviewRepository, ReviewRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             //services.AddSingleton<IRestaurantRepository, MookRestaurantRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
