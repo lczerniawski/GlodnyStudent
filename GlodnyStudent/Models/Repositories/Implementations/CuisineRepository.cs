@@ -38,7 +38,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             return await _context.Cuisines.ToListAsync();
         }
 
-        public async Task<Cuisine> FindById(string name)
+        public async Task<Cuisine> FindByName(string name)
         {
             return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name); ;
         }

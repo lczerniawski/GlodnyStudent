@@ -8,7 +8,7 @@ namespace GlodnyStudent.Models.Repositories
     {
         Task<Cuisine> Create(Cuisine cuisine);
 
-        Task<Cuisine> FindById(string name);
+        Task<Cuisine> FindByName(string name);
 
         Task<IEnumerable<Cuisine>> FindAll();
 
