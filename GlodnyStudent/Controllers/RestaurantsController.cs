@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GlodnyStudent.Models;
+using GlodnyStudent.Models.Domain;
+using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,7 @@ namespace GlodnyStudent.Controllers
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IMapper _mapper;
 
-        public RestaurantsController(IRestaurantRepository restaurantRepository, IMapper mapper)
+        /*public RestaurantsController(IRestaurantRepository restaurantRepository, IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
             _mapper = mapper;
@@ -147,6 +149,6 @@ namespace GlodnyStudent.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
-        }
+        }*/
     }
 }
