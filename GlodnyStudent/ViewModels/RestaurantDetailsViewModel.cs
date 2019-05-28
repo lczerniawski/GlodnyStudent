@@ -12,10 +12,10 @@ namespace GlodnyStudent.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Address { get; set; }
-        public List<MenuItem> Menu { get; set; }
+        public AddressViewModel Address { get; set; }
+        public List<MenuViewModel> Menu { get; set; }
         public List<IFormFile> Gallery { get; set; }
-        public List<Review> Reviews { get; set; }
+        public List<ReviewViewModel> Reviews { get; set; }
         public int Score { get; set; }
     }
 }

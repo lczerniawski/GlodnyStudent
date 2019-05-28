@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GlodnyStudent.Data;
 using GlodnyStudent.Models.Domain;
@@ -32,6 +33,15 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Restaurant[]> GetRestaurantsByStreet(string address)
+        {
+            var query = from r in _context.Restaurants
+                where r.Address.Street == address
+                select r;
+
+            return await query.ToArrayAsync();
+;        }
 
         public async Task<IEnumerable<Restaurant>> FindAll()
         {

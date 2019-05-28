@@ -8,8 +8,12 @@ namespace GlodnyStudent.Models
     {
         public RestaurantProfile()
         {
-            this.CreateMap<Restaurant, RestaurantListViewModel>().ForMember(c=>c.Cuisine, o => o.MapFrom(m => m.Cuisine.Name));
-            this.CreateMap<Restaurant, RestaurantDetailsViewModel>();
+            CreateMap<Restaurant, RestaurantListViewModel>()
+                .ForMember(c=>c.Cuisine, o => o.MapFrom(m => m.Cuisine.Name))
+                .ForMember(a=>a.Address,o=> o.MapFrom(m=>m.Address.Street + ' ' + m.Address.StreetNumber + '/' + m.Address.LocalNumber));
+
+            CreateMap<Restaurant, RestaurantDetailsViewModel>();
+            CreateMap<Review, ReviewViewModel>();
         }
     }
 }

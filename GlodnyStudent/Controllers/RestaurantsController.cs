@@ -17,21 +17,27 @@ namespace GlodnyStudent.Controllers
     public class RestaurantsController : ControllerBase
     {
         private readonly IRestaurantRepository _restaurantRepository;
+        private readonly ICuisineRepository _cuisineRepository;
+        private readonly IReviewRepository _reviewRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        /*public RestaurantsController(IRestaurantRepository restaurantRepository, IMapper mapper)
+        public RestaurantsController(IRestaurantRepository restaurantRepository,ICuisineRepository cuisineRepository ,IReviewRepository reviewRepository,IUserRepository userRepository,IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
+            _cuisineRepository = cuisineRepository;
+            _reviewRepository = reviewRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
         [HttpGet("{address}")]
-        public IActionResult Get(string address)
+        public async Task<IActionResult> Get(string address)
         {
             try
             {
-                var result = _restaurantRepository.GetRestaurantsByStreet(address);
-                if (!result.Any())
+                var result = await _restaurantRepository.GetRestaurantsByStreet(address);
+                if (result == null)
                     return NotFound();
 
                 return Ok(_mapper.Map<RestaurantListViewModel[]>(result));
@@ -43,14 +49,13 @@ namespace GlodnyStudent.Controllers
         }
         
         [HttpGet]
-        public IActionResult Filters(string address,int distance,int highestPrice,string cuisine)
+        public  async Task<IActionResult> Filters(string address,int distance,int highestPrice,string cuisine)
         {
             try
             {
-                var result = _restaurantRepository.GetRestaurantsByStreet(address);
-
+                var result = await _restaurantRepository.GetRestaurantsByStreet(address);
                 var filteredResult = from r in result
-                    where r.HighestPrice <= highestPrice && r.CuisineType.Name == cuisine //TODO Dodac filtorwanie po adresie jak zostanie napisany algorytm
+                    where r.HighestPrice <= highestPrice && r.Cuisine.Name == cuisine
                     orderby r.HighestPrice
                     select r;
 
@@ -67,11 +72,11 @@ namespace GlodnyStudent.Controllers
         }
         
         [HttpGet("[action]")]
-        public ActionResult<Cuisine[]> Cuisines()
+        public  async Task<ActionResult<Cuisine[]>> Cuisines()
         {
             try
             {
-                return _restaurantRepository.GetAllCuisines().ToArray();
+                return await _cuisineRepository.FindAll();
 
             }
             catch (Exception)
@@ -82,11 +87,11 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<RestaurantDetailsViewModel> RestaurantDetails(int id)
+        public async Task<ActionResult<RestaurantDetailsViewModel>> RestaurantDetails(int id)
         {
             try
             {
-                var result = _restaurantRepository.GetRestaurantById(id);
+                var result = await _restaurantRepository.FindById(id);
                 if (result == null)
                     return NotFound();
 
@@ -99,11 +104,11 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:int}/[action]")]
-        public ActionResult<RatingViewModel> UpVote(int id)
+        public async Task<ActionResult<RatingViewModel>> UpVote(int id)
         {
             try
             {
-                var result = _restaurantRepository.GetRestaurantById(id);
+                var result = await _restaurantRepository.FindById(id);
                 result.Score++;
 
                 return new RatingViewModel{Rating = result.Score};
@@ -115,11 +120,11 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:int}/[action]")]
-        public ActionResult<RatingViewModel> DownVote(int id)
+        public async Task<ActionResult<RatingViewModel>> DownVote(int id)
         {
             try
             {
-                var result = _restaurantRepository.GetRestaurantById(id);
+                var result = await _restaurantRepository.FindById(id);
                 result.Score--;
 
                 return new RatingViewModel{Rating = result.Score};
@@ -131,24 +136,28 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPut("{id:int}/[action]")]
-        public ActionResult<Review> AddReview([FromBody]Review review,int id)
+        public  async Task<ActionResult<ReviewViewModel>> AddReview([FromBody]Review review,int id)
         {
             try
             {
-                var restaurant = _restaurantRepository.GetRestaurantById(id);
+                var users = await _userRepository.FindAll();
+                var restaurant = await _restaurantRepository.FindById(id);
 
                 if (restaurant == null)
                     return BadRequest();
 
-                var addedReview = _restaurantRepository.AddReview(restaurant, review);
-                _restaurantRepository.SaveChanges();
+                review.AddTime = DateTime.Now;
+                review.UserId = users.First().Id;
+                review.RestaurantId = id;
 
-                return addedReview;
+                var addedReview = await _reviewRepository.Create(review);
+
+                return _mapper.Map<Review, ReviewViewModel>(addedReview);
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
-        }*/
+        }
     }
 }

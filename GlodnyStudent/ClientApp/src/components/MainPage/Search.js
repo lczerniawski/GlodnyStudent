@@ -11,6 +11,7 @@ export default class Search extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmitMain = this.handleSubmitMain.bind(this);
         this.handleSubmitRestaurationList= this.handleSubmitRestaurationList.bind(this);
+        
       }
 
     handleChange(event) {
@@ -18,8 +19,7 @@ export default class Search extends Component {
       }
 
     handleSubmitMain(event) {
-       this.props.onAddressInput(this.state.street);
-        this.context.router.history.push(`/ListaRestauracji`);
+        this.context.router.history.push(`/ListaRestauracji/${this.state.street}`);
         event.preventDefault();
       }
 
@@ -33,11 +33,13 @@ export default class Search extends Component {
         event.preventDefault();
       }
 
+
   render() {
     const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
     return (
+
         <form id="search" className="searchContainer wow fadeInLeft" data-wow-duration="2s" onSubmit={sub}>
-          <input className="searchInput" type="text" defaultValue={this.props.address}  placeholder="Tu wpisz ulice" onChange={this.handleChange} required/>
+          <input className="searchInput" type="text" defaultValue={this.props.address}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
           <input className="searchBtn" type="submit" value="Szukaj"/>
         </form>
     )

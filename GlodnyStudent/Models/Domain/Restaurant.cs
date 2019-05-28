@@ -20,15 +20,20 @@ namespace GlodnyStudent.Models.Domain
         public virtual ICollection<MenuItem> Menu { get; set; }        
 
         public int Score { get; set; }
-
+        
         [ForeignKey("User")]
         public long OwnerId { get; set; }
-
+        
         public virtual User Owner { get; set; }
+        
 
         public virtual ICollection<Image> Gallery { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public int ReviewsCount { get; set; }
+
+        public decimal HighestPrice { get; set; }
 
         public override bool Equals(object obj)
         {

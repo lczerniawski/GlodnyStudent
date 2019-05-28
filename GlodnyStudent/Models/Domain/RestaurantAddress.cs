@@ -25,6 +25,8 @@ namespace GlodnyStudent.Models.Domain
 
         public long RestaurantId { get; set; }
 
+        public string District { get; set; }
+
         public virtual Restaurant Restaurant { get; set; }
 
         public override bool Equals(object obj)

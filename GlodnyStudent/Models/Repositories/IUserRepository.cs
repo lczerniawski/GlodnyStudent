@@ -2,7 +2,7 @@
 
 namespace GlodnyStudent.Models.Repositories
 {
-    interface IUserRepository : ICrudRepository<User>
+    public interface IUserRepository : ICrudRepository<User>
     {
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GlodnyStudent.Data;
 using GlodnyStudent.Models.Domain;
@@ -33,9 +34,9 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Cuisine>> FindAll()
+        public async Task<Cuisine[]> FindAll()
         {
-            return await _context.Cuisines.ToListAsync();
+            return await _context.Cuisines.ToArrayAsync();
         }
 
         public async Task<Cuisine> FindByName(string name)

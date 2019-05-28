@@ -11,11 +11,11 @@ namespace GlodnyStudent.Models.Domain
         public string Description { get; set; }
 
         public DateTime AddTime { get; set; }
-
+        
         public long UserId { get; set; }
 
         public virtual User User { get; set; }
-        
+
         public long RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
@@ -25,13 +25,13 @@ namespace GlodnyStudent.Models.Domain
             return obj is Review review &&
                    Id == review.Id &&
                    AddTime == review.AddTime &&
-                   UserId == review.UserId &&
+                   //UserId == review.UserId &&
                    RestaurantId == review.RestaurantId;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, AddTime, UserId, RestaurantId);
+            return HashCode.Combine(Id, AddTime, RestaurantId);
         }
     }
 }
