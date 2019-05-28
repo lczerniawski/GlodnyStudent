@@ -2,6 +2,7 @@
     overflow: hidden;
     width: 100%;
     padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 .reviewForm textarea {
@@ -20,11 +21,6 @@
     box-shadow: transparent;
     border-color: transparent;
     background-color: #404040;
-    -o-transition:.5s;
-    -ms-transition:.5s;
-    -moz-transition:.5s;
-    -webkit-transition:.5s;
-    transition:.5s;
 }
 
 .reviewForm input[type=submit]:hover {

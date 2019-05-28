@@ -9,7 +9,7 @@ import Menu from './Menu';
 import ReviewsList from './ReviewsList';
 import HeaderImage from './HeaderImage';
 import imageRestaurant from'../assets/restaurantImage.jpg';
-import Map from './Map';
+import MapSection from './MapSection';
 import RestaurantName from './RestaurantName';
 
 export default class RestaurantPage extends Component {
@@ -245,7 +245,7 @@ constructor(props){
         </div>
         <div className="entryContent">
           <section className="localization">
-              <Map address={this.state.address} updateAddress={this.updateRestaurantInfo} />
+              <MapSection address={this.state.address} updateAddress={this.updateRestaurantInfo} />
           </section>
           <section className="importantInformation">
               <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.gallery} />

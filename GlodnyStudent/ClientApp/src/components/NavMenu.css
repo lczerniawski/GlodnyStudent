@@ -106,25 +106,60 @@ header .formLogin input[type=submit]:hover {
   }
 }
 
-@media (max-width: 1199px) { 
+@media (min-width: 901px) and (max-width: 1199px) {
+  header .formLogin, header .navList {
+    float: right;
+  }
+
+  .menuIcon {
+    display: none;
+  }
+
+  header .navList {
+    margin-top: 19px;
+  }
+
+  header .navList li:nth-of-type(1) {
+    padding-left: 0 !important;
+  }
+
+  header .navList li {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  header .navList li a {
+    font-size: 17px;
+    color: #404040;
+  }
+  
+  header .navList li a:hover {
+    color: #fff;
+  }
+
+  header .formLogin input[type=text], header .formLogin input[type=password] {
+    width: 170px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  header .formLogin input[type=submit] {
+    color: #fff;
+    background: #404040;
+    width: 140px;
+  }
+}
+
+@media (max-width: 900px) { 
   #myTopnav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 1;
     margin-top: 78px;
-    z-index: 3000;
     background-color: #404040;
-    transition: all 1s ease;
     z-index: 3000;
-  }
-
-  #myTopnav.hidden {
-    opacity: 0;
-    width: 0;
-    transition: all 1s ease;
   }
 
   header .navList {

@@ -1,0 +1,73 @@
+.singleRestaurant .importantInformation .gallery .emptyGallery {
+    text-align: center;
+}
+
+.singleRestaurant .importantInformation .gallery ul {
+    margin-left: -40px;
+}
+
+.singleRestaurant .importantInformation .gallery ul li {
+    display: inline-block;
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.singleRestaurant .importantInformation .gallery button {
+    float: right;
+    margin-top: -43px;
+    z-index: 2000;
+}
+
+.singleRestaurant .importantInformation .gallery button span {
+    display: none;
+}
+
+.singleRestaurant .importantInformation .gallery button:before {
+    content: "\f00d";
+    font-family: 'Font Awesome 5 Free'; 
+    font-weight: 900; 
+    font-style: normal; 
+    font-size: 20px;
+}
+
+.singleRestaurant .importantInformation .gallery ul li img {
+    float: left;
+    width: 100%;
+    object-fit: cover;
+}
+
+.singleRestaurant .importantInformation .gallery label {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.singleRestaurant .importantInformation .gallery label:hover {
+    background-color: rgb(19, 129, 65);
+}
+
+.singleRestaurant .importantInformation .gallery input[type=file] {
+    display: none;
+}
+
+@media(min-width: 1200px) {
+    .singleRestaurant .importantInformation .gallery ul li {
+        width: 50%;
+    }
+
+    .singleRestaurant .importantInformation .gallery ul li img {
+        height: 220px;
+    }
+}
+
+@media(max-width: 1199px) {
+    .singleRestaurant .importantInformation .gallery ul li {
+        width: 100%;
+    }
+
+    .singleRestaurant .importantInformation .gallery ul li img {
+        height: 200px;
+    }
+}

@@ -2,23 +2,43 @@
     color: #fff;
     border-color: transparent;
     box-shadow: transparent;
-    -o-transition:.5s;
-    -ms-transition:.5s;
-    -moz-transition:.5s;
-    -webkit-transition:.5s;
-    transition:.5s;
+    font-size: 14px;
+    font-weight: bold;
+    width: 35px;
+    height: 35px;
+}
+
+.rating .ratingButtons button span {
+    display: none;
+}
+
+.rating .ratingButtons button.rateUp:before {
+    float: left;
+    content: "\f067";
+    font-family: 'Font Awesome 5 Free'; 
+    font-weight: 900; 
+    font-style: normal; 
+    margin-top: -1px;
+    margin-left: -2px;
+}
+
+.rating .ratingButtons button.rateDown:before {
+    content: "\f068";
+    font-family: 'Font Awesome 5 Free'; 
+    font-weight: 900; 
+    font-style: normal; 
 }
 
 .rating .ratingButtons button.rateUp {
-    background: rgb(93, 199, 93);
+    background: #27AE60;
 }
 
 .rating .ratingButtons button.rateDown {
-    background: rgb(238, 63, 63);
+    background: rgb(180, 12, 12);
 }
 
 .rating .ratingButtons button.rateUp:hover {
-    background: rgb(44, 201, 44);
+    background: rgb(19, 129, 65);
 }
 
 .rating .ratingButtons button.rateDown:hover {
@@ -29,21 +49,30 @@
     padding-right: 15px;
 }
 
-@media(max-width: 780px) {
+@media(max-width: 900px) {
     .rating, .rating .ratingButtons {
         width: 100%;
         text-align: center;
         margin: 0 auto;
+        margin-left: -20px;
+    }
+
+    .rating .ratingButtons button.rateDown {
+        position: absolute;
     }
 }
 
-@media(min-width: 781px) {
+@media(min-width: 901px) {
     .rating {
         margin-top: -40px;
     }
 
     .rating, .rating p, .rating .ratingButtons {
         float: right;
+    }
+
+    .rating p {
+        margin-top: 2px;
     }
 
     .rating .ratingButtons button {

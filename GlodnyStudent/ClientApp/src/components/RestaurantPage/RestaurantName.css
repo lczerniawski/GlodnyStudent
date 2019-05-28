@@ -1,0 +1,34 @@
+.changeName input {
+    float: left;
+    height: 42px;
+}
+
+.changeName button {
+    float: left;
+    height: 42.5px;
+}
+
+@media(min-width: 901px) {
+    .changeName {
+        float: left;
+        margin-top: -45px;
+    }
+
+    .changeName input {
+        width: 300px;
+    }
+}
+
+@media(max-width: 900px) {
+    .changeName {
+        overflow: hidden;
+        width: 100%;
+        clear: both;
+        margin-top: 15px;
+    }
+
+    .changeName input, .changeName button {
+        width: 100%;
+        text-align: center;
+    }
+}
