@@ -14,6 +14,8 @@ namespace GlodnyStudent.Models
 
             CreateMap<Restaurant, RestaurantDetailsViewModel>();
             CreateMap<Review, ReviewViewModel>();
+            CreateMap<MenuItemViewModel, MenuItem>();
+            CreateMap<MenuItem, MenuViewModel>();
         }
     }
 }

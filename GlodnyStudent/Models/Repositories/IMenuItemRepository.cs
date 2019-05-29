@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace GlodnyStudent.Models.Repositories
 {
-    interface IMenuItemRepository : ICrudRepository<MenuItem>
+    public interface IMenuItemRepository : ICrudRepository<MenuItem>
     {
         Task<IEnumerable<MenuItem>> FindAllByRestaurantId(long restaurantId);
     }

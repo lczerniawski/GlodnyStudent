@@ -31,61 +31,6 @@ namespace GlodnyStudent.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{address}")]
-        public async Task<IActionResult> Get(string address)
-        {
-            try
-            {
-                var result = await _restaurantRepository.GetRestaurantsByStreet(address);
-                if (result == null)
-                    return NotFound();
-
-                return Ok(_mapper.Map<RestaurantListViewModel[]>(result));
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
-            }
-        }
-        
-        [HttpGet]
-        public  async Task<IActionResult> Filters(string address,int distance,int highestPrice,string cuisine)
-        {
-            try
-            {
-                var result = await _restaurantRepository.GetRestaurantsByStreet(address);
-                var filteredResult = from r in result
-                    where r.HighestPrice <= highestPrice && r.Cuisine.Name == cuisine
-                    orderby r.HighestPrice
-                    select r;
-
-                if (filteredResult.Any())
-                    return Ok(_mapper.Map<RestaurantListViewModel[]>(filteredResult));
-
-                return BadRequest();
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
-
-            }
-        }
-        
-        [HttpGet("[action]")]
-        public  async Task<ActionResult<Cuisine[]>> Cuisines()
-        {
-            try
-            {
-                return await _cuisineRepository.FindAll();
-
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
-
-            }
-        }
-
         [HttpGet("{id:int}")]
         public async Task<ActionResult<RestaurantDetailsViewModel>> RestaurantDetails(int id)
         {

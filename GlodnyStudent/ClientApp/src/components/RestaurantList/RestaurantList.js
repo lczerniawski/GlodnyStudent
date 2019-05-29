@@ -18,10 +18,10 @@ export class RestaurantList extends Component {
       location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
       error: null,
       distance:20,// tu wstawić jako poczatkowa wartosc wartosc highestDistance
-      price:99,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
-      cuisine:'Amerykańska',
-      cuisines: ['Amerykańska','Polska','Włoska','Azjatycka'], // tu wstawic liste wszystkich typow kuchni z serwera
-      highestPrice: 99,// tu wstawić maksymalna wartość dostarczona z serwera
+      price:0,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
+      cuisine:'Wszystkie',
+      cuisines: [/* 'Amerykańska','Polska','Włoska','Azjatycka' */], // tu wstawic liste wszystkich typow kuchni z serwera
+      highestPrice:0,// tu wstawić maksymalna wartość dostarczona z serwera
       sort:'priceGrowingly',
       restaurations: [ // przykladowe dane statyczne , dane z serwera beda pobierane po 20 i po kliknieciu  "dalej" beda doladowyawane
         /* {id:"0",name: "Piękna restauracja1", cuisine: "Włoska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:99,distance:11},
@@ -35,10 +35,11 @@ export class RestaurantList extends Component {
 
 componentDidMount(){
   this.getDataByAddress();
+  this.getCuisinesAndHighestPrice();
 }
 
 getDataByAddress(){
-  const address = `api/Restaurants/${this.state.location}`;
+  const address = `api/Search/${this.state.location}`;
   fetch(address).then((response) => {
     if (response.ok) {
       return response.json();
@@ -61,8 +62,35 @@ getDataByAddress(){
 }
 
 
+getCuisinesAndHighestPrice(){
+  const address = `api/Search/Cuisines/${this.state.location}`;
+  fetch(address).then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Cuisines not found');
+    }
+  })
+  .then((result) => {
+
+      this.setState({
+      error:false,
+      cuisines:result.cuisinesList,
+      highestPrice: result.highestPrice,
+      price:result.highestPrice
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+    this.setState({
+      error
+    }); 
+  });
+}
+
+
     getDataByFilters(){
-      const address = `api/Restaurants?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
+      const address = `api/Search?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
       fetch(address).then((response) => {
         if (response.ok) {
           return response.json();
@@ -82,6 +110,7 @@ getDataByAddress(){
           error
         }); 
       });
+      this.getCuisinesAndHighestPrice();
     }
 
 

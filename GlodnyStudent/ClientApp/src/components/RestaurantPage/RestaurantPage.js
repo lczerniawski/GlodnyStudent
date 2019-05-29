@@ -46,8 +46,9 @@ constructor(props){
     this.handleImageAdd =this.handleImageAdd.bind(this);
     this.handleImageRemove = this.handleImageRemove.bind(this);
     this.handleRemoveMenuItem = this.handleRemoveMenuItem.bind(this);
-    this.handleAddMenuItem = this.handleAddMenuItem.bind(this);
-    this.updateRestaurantInfo = this.updateRestaurantInfo.bind(this);
+    
+    //this.updateRestaurantInfo = this.updateRestaurantInfo.bind(this);
+    this.SendRestaurantInfo = this.SendRestaurantInfo.bind(this);
 }
   
   
@@ -166,7 +167,7 @@ constructor(props){
         }).then(res => res.json())
         .then((data) => {
  
-          this.state.restaurant.reviews.push(data);
+          this.state.restaurant.reviews.unshift(data);
 
          /*  this.setState({
             reviews:  this.state.reviews
@@ -271,92 +272,70 @@ constructor(props){
       } 
 
       
-      handleRemoveMenuItem(e){       
+      handleRemoveMenuItem(e,addressToFetch){       
         const value = e.target.value;
+
         let index = this.state.restaurant.menu.findIndex((item)=>item.id == value); // Celowo ==
         if ( index !== -1){ 
             this.state.restaurant.menu.splice(index,1);
             this.setState({
               menu: this.state.restaurant.menu
             });
-        }       
-      }
-
-      handleAddMenuItem(e,id,name,price){
-        e.preventDefault();
-        this.state.menu.restaurant.push({id,name,price});
-       /*  this.setState({
-          menu: this.state.restaurant.menu
-        });    */  
-
-        this.setState(prevState => ({
-          restaurant: {
-              ...prevState.restaurant,
-              menu: this.state.restaurant.menu
-          }
-        }));
-
+        }
         
-      }
 
-      updateRestaurantInfo(adr){
-        /* this.setState({
-          address: adr
-        }); */
+        const adr =`api/Restaurants/${addressToFetch}`;
 
-
-        this.setState(prevState => ({
-          restaurant: {
-              ...prevState.restaurant,
-              address: adr
-          }
-        }));
-
-
-
-      }
-
-     /*  updateRestaurantInfo(event,method,names,values) {
-       
-        event.preventDefault();
-         const adr =`api/Restaurants/${this.state.location}`;
-        
-          fetch(adr, {
-          method: {method},
+        fetch(adr, {
+          method: 'DELETE',
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-              name:this.state.name,
-              address:this.state.address,
-              menu:this.setState.menu,
-              gallery:this.state.gallery,
-              reviews:this.state.reviews,
-              rate:this.state.reviews,
-              headerImage:this.state.headerImage
-          })
-        }).then(res => res.json())
-        .then((data) => {
- 
-          this.state.reviews.push(data.reviews);
-          this.state.reviews.push(data.menu);
-          this.state.reviews.push(data.r);
+          body: JSON.stringify(
+              
+          )
+      })
 
-          this.setState({
-              name:this.state.name,
-              address:this.state.address,
-              menu:this.setState.menu,
-              gallery:this.state.gallery,
-              reviews:this.state.reviews,
-              rate:this.state.reviews,
-              headerImage:this.state.headerImage
-           });
+      }
+
+      
+
+     SendRestaurantInfo(event,method,name,value,addressToFetch) {
+       
+         event.preventDefault();
+         const adr =`api/Restaurants/${addressToFetch}`;
         
-        } )
-        .catch((err)=>console.log(err))
+         fetch(adr, {
+                 method: method,
+                 headers: {
+                     'Accept': 'application/json',
+                     'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify(
+                     value
+                 )
+             }).then(res => res.json())
+             .then((data) => {         
+                 let flag=0;
+                if(name === "menu"){
+                  this.state.restaurant.menu.push(data);
+                 }
+                 else if (name === "gallery") {
+                  this.state.restaurant.gallery.push(data);
+                 }
+                 else {
+                     flag = 1;
+                 }
+
+                 this.setState({
+                     [name]:(flag === 1)?value:this.state.restaurant[name]
+                 });
         
-      }  */ 
+             } )
+             .catch((err)=>console.log(err))
+        
+     }
 
        /* ########################################### */
 
@@ -380,7 +359,7 @@ constructor(props){
           </section>
           <section className="importantInformation">
               <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} />
-              <Menu addMenuItem={this.handleAddMenuItem}  menu={this.state.restaurant.menu} removeMenuItem={this.handleRemoveMenuItem} />
+              <Menu   restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
           <section className="reviews">
             <ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>
