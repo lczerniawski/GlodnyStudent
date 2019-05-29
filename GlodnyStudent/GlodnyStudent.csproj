@@ -52,6 +52,8 @@
     <Compile Remove="Migrations\20190525195016_FirstMigration.Designer.cs" />
     <Compile Remove="Migrations\20190527144014_Fix.cs" />
     <Compile Remove="Migrations\20190527144014_Fix.Designer.cs" />
+    <Compile Remove="Migrations\20190529222139_Regex MenuItem Name Off.cs" />
+    <Compile Remove="Migrations\20190529222139_Regex MenuItem Name Off.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

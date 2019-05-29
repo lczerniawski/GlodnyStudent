@@ -33,6 +33,7 @@ namespace GlodnyStudent.Models.Domain
 
         public int ReviewsCount { get; set; }
 
+        [Column(TypeName = "decimal(13,2)")]
         public decimal HighestPrice { get; set; }
 
         public override bool Equals(object obj)

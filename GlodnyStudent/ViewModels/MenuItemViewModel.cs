@@ -10,7 +10,7 @@ namespace GlodnyStudent.ViewModels
     public class MenuItemViewModel
     {
         [Required]
-        [RegularExpression(@"^[\p{Lu}\p{Ll} ]*$", ErrorMessage = "Name is invalid")]
+        //[RegularExpression(@"^[\p{Lu}\p{Ll} ]*$", ErrorMessage = "Name is invalid")]
         public string Name { get; set; }
 
         [Column(TypeName = "decimal(13,2)")]

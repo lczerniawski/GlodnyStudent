@@ -20,14 +20,16 @@ namespace GlodnyStudent.Controllers
         private readonly ICuisineRepository _cuisineRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IRestaurantAddressRepository _restaurantAddressRepository;
         private readonly IMapper _mapper;
 
-        public RestaurantsController(IRestaurantRepository restaurantRepository,ICuisineRepository cuisineRepository ,IReviewRepository reviewRepository,IUserRepository userRepository,IMapper mapper)
+        public RestaurantsController(IRestaurantRepository restaurantRepository,ICuisineRepository cuisineRepository ,IReviewRepository reviewRepository,IUserRepository userRepository,IRestaurantAddressRepository restaurantAddressRepository,IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
             _cuisineRepository = cuisineRepository;
             _reviewRepository = reviewRepository;
             _userRepository = userRepository;
+            _restaurantAddressRepository = restaurantAddressRepository;
             _mapper = mapper;
         }
 
@@ -98,6 +100,57 @@ namespace GlodnyStudent.Controllers
                 var addedReview = await _reviewRepository.Create(review);
 
                 return _mapper.Map<Review, ReviewViewModel>(addedReview);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpPost("{id:long}/[Action]")]
+        public async Task<ActionResult<string>> UpdateName([FromBody]string name, long id)
+        {
+            try
+            {
+                var result = await _restaurantRepository.FindById(id);
+                if (result == null)
+                    return NotFound();
+
+                result.Name = name;
+
+                result = await _restaurantRepository.Update(result);
+
+                return result.Name;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpPost("{id:long}/[Action]")]
+        public async Task<ActionResult<AddressViewModel>> UpdateAddress([FromBody]AddressViewModel addressViewModel, long id)
+        {
+            try
+            {
+                var restaurant = await _restaurantRepository.FindById(id);
+                if (restaurant == null)
+                    return NotFound();
+                var restaurantAddressToUpdate = await _restaurantAddressRepository.FindById(restaurant.Address.Id);
+                if (restaurantAddressToUpdate == null)
+                    return NotFound();
+
+                restaurantAddressToUpdate.District = addressViewModel.District;
+                restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
+                restaurantAddressToUpdate.Street = addressViewModel.Street;
+                restaurantAddressToUpdate.StreetNumber = addressViewModel.StreetNumber;
+
+                var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
+
+                if (result == null)
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+
+                return _mapper.Map<RestaurantAddress,AddressViewModel>(result);
             }
             catch (Exception)
             {

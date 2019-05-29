@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GlodnyStudent.Models.Repositories
 {
-    interface IRestaurantAddressRepository : ICrudRepository<RestaurantAddress>
+    public interface IRestaurantAddressRepository : ICrudRepository<RestaurantAddress>
     {
         Task<IEnumerable<RestaurantAddress>> FindAllByDistance(int distance, IPoint userLocation);
     }
