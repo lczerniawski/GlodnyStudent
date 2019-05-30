@@ -15,7 +15,8 @@ export default class Gallery extends Component {
                   <ul>
                     {galleryList}
                   </ul>
-                  <label>Wgraj nowe zdjęcie do galerii: <input type="file" name="gallery" onChange={(e)=>this.props.addImage(e)}/></label>
+                  <label>Wgraj nowe zdjęcie do galerii:  <input type="file" id="case-one" onChange={this.props.filesOnChange} /></label>
+                  <button type="text" onClick={this.props.uploadJustFile}>Wyślij plik</button>
               </div>
         )
     }

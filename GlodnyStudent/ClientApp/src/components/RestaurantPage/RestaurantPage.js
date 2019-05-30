@@ -11,6 +11,7 @@ import HeaderImage from './HeaderImage';
 import imageRestaurant from'../assets/restaurantImage.jpg';
 import Map from './Map';
 import RestaurantName from './RestaurantName';
+import axios from 'axios';
 
 export default class RestaurantPage extends Component {
 
@@ -18,6 +19,9 @@ export default class RestaurantPage extends Component {
 constructor(props){
     super(props);
     this.state={
+      justFileServiceResponse: 'Click to upload!',
+            formServiceResponse: 'Click to upload the form!',
+            fields: {},
         location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
       /*   name:"",
         address:[], // Do przerobienia na talice obiektów
@@ -43,12 +47,17 @@ constructor(props){
     this.sendRate = this.sendRate.bind(this);
     this.backToRestaurationList = this.backToRestaurationList.bind(this);
 
-    this.handleImageAdd =this.handleImageAdd.bind(this);
     this.handleImageRemove = this.handleImageRemove.bind(this);
     this.handleRemoveMenuItem = this.handleRemoveMenuItem.bind(this);
     
     //this.updateRestaurantInfo = this.updateRestaurantInfo.bind(this);
     this.SendRestaurantInfo = this.SendRestaurantInfo.bind(this);
+
+
+this.uploadJustFile = this.uploadJustFile.bind(this);
+this.filesOnChange = this.filesOnChange.bind(this);
+
+
 }
   
   
@@ -210,36 +219,6 @@ constructor(props){
 
        /* ############## EDITION MODE ################## */
 
-       handleImageAdd(e) {
-        e.preventDefault();
-        const name = e.target.name;
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        let addToGallery = null;
- 
-        reader.onloadend = () => {
-          if(name === "gallery"){
-            this.state.restaurant.gallery.push({id:uniqid(),file:file,dataUrl:reader.result});
-            addToGallery = this.state.restaurant.gallery;
-          }
-      
-         /*  this.setState({
-            [name]: addToGallery? addToGallery:{id:uniqid(),file:file,dataUrl:reader.result}
-          }); */
-          
-
-          this.setState(prevState => ({
-            restaurant: {
-                ...prevState.restaurant,
-                [name]: addToGallery? addToGallery:{id:uniqid(),file:file,dataUrl:reader.result}
-            }
-          }));
-
-
-
-        }
-        reader.readAsDataURL(file);
-      }
 
 
        handleImageRemove(e) {
@@ -342,6 +321,63 @@ constructor(props){
         
      }
 
+
+     /* Upload Gallery */
+     uploadJustFile(e) {
+      e.preventDefault();
+      let state = this.state;
+
+      this.setState({
+          ...state,
+          justFileServiceResponse: 'Please wait'
+      });
+
+      if (!state.hasOwnProperty('files')) {
+          this.setState({
+              ...state,
+              justFileServiceResponse: 'First select a file!'
+          });
+          return;
+      }
+
+      let form = new FormData();
+
+      for (var index = 0; index < state.files.length; index++) {
+          var element = state.files[index];
+          form.append('file', element);
+      }
+
+      axios.post('api/Image/Upload', form)
+          .then((result) => {
+              let message = "Success!"
+              if (!result.data.success) {
+                  message = result.data.message;
+              }
+              this.setState({
+                  ...state,
+                  justFileServiceResponse: message
+              });
+          })
+          .catch((ex) => {
+              console.error(ex);
+          });
+  }
+
+ 
+
+  filesOnChange(sender) {
+      let files = sender.target.files;
+      let state = this.state;
+
+      this.setState({
+          ...state,
+          files: files
+      });
+  }
+
+ 
+    
+
        /* ########################################### */
 
 
@@ -360,10 +396,10 @@ constructor(props){
         <div className="entryContent">
           <section className="localization">
 
-              <Map address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo} />
+              <Map address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo}  />
           </section>
           <section className="importantInformation">
-              <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} />
+              <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />
               <Menu   restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
           <section className="reviews">
