@@ -16,8 +16,8 @@ export default class Map extends Component {
             streetNumberErrorMessage:""
         }
        /*  this.handleInputChange = this.handleInputChange.bind(this); */
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.inputValidate = this.inputValidate.bind(this);
+        this.makeAddresObject = this.makeAddresObject.bind(this);
     }
 
    /*  handleInputChange(event) {
@@ -31,12 +31,11 @@ export default class Map extends Component {
 
       } */
 
-      handleSubmit(e){    
+    
+      makeAddresObject(){
         const {street,streetNumber,localNumber,district} = this.state;
-        this.props.updateAddress({street,streetNumber,localNumber,district});
-        e.preventDefault();
-    }
-
+       return {street,streetNumber,localNumber,district};
+      }
 
 
     inputValidate(event){
@@ -99,7 +98,7 @@ export default class Map extends Component {
                   <address className="wow fadeIn" data-wow-duration="2s">
                     <i className="fas fa-map-marker-alt fa-2x"></i> {street} {streetNumber}/{localNumber} {district}
                   </address>
-                  <form onSubmit={this.handleSubmit} id="addressInfo">
+                  <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
                       <label>Ulica <input type="text" name="street" onChange={this.inputValidate} /></label>
                       <label>Numer ulicy <input type="text" name="streetNumber" onChange={this.inputValidate} />{this.state.streetNumberErrorMessage}</label>
                       <label>Numer lokalu <input type="number" min="0" name="localNumber" onChange={this.inputValidate} /></label>

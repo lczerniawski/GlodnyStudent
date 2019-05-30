@@ -274,40 +274,40 @@ constructor(props){
       
       handleRemoveMenuItem(e,addressToFetch){       
         const value = e.target.value;
-
-        let index = this.state.restaurant.menu.findIndex((item)=>item.id == value); // Celowo ==
-        if ( index !== -1){ 
-            this.state.restaurant.menu.splice(index,1);
-            this.setState({
-              menu: this.state.restaurant.menu
-            });
-        }
-        
-
         const adr =`api/Restaurants/${addressToFetch}`;
 
-        fetch(adr, {
-          method: 'DELETE',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(
-              
-          )
-      })
+          fetch(adr, {
+              method: 'DELETE',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(
+                  
+              )
+          }).then((data) => {
+
+            let index = this.state.restaurant.menu.findIndex((item)=>item.id == value); // Celowo ==
+            if ( index !== -1){ 
+                this.state.restaurant.menu.splice(index,1);
+                this.setState({
+                  menu: this.state.restaurant.menu
+                });
+            }
+
+          });
 
       }
 
       
 
-     SendRestaurantInfo(event,method,name,value,addressToFetch) {
+     SendRestaurantInfo(event,name,value,addressToFetch) {
        
          event.preventDefault();
          const adr =`api/Restaurants/${addressToFetch}`;
         
          fetch(adr, {
-                 method: method,
+                 method: "POST",
                  headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
@@ -316,7 +316,7 @@ constructor(props){
                      value
                  )
              }).then(res => res.json())
-             .then((data) => {         
+             .then((data) => {    
                  let flag=0;
                 if(name === "menu"){
                   this.state.restaurant.menu.push(data);
@@ -328,9 +328,14 @@ constructor(props){
                      flag = 1;
                  }
 
-                 this.setState({
-                     [name]:(flag === 1)?value:this.state.restaurant[name]
-                 });
+                 this.setState(prevState => ({
+                  restaurant: {
+                      ...prevState.restaurant,
+                      [name]:(flag === 1)?data:this.state.restaurant[name]
+                  }
+                }));
+
+
         
              } )
              .catch((err)=>console.log(err))
@@ -348,14 +353,14 @@ constructor(props){
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        
           <HeaderImage headerImage={this.state.headerImage} addImage={this.handleImageAdd} removeImage={this.handleImageRemove}/>
           <div className="title wow fadeInDown" data-wow-duration="1s">
-            <RestaurantName name={this.state.restaurant.name} setName={this.updateRestaurantInfo}/>
+            <RestaurantName name={this.state.restaurant.name} setName={this.SendRestaurantInfo} restaurantId={this.state.restaurant.id}/>
             <Rateing rate={this.state.restaurant.rate} onRate={this.sendRate}/>
           </div>
         </div>
         <div className="entryContent">
           <section className="localization">
 
-              <Map address={this.state.restaurant.address} updateAddress={this.updateRestaurantInfo} />
+              <Map address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo} />
           </section>
           <section className="importantInformation">
               <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} />
