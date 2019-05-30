@@ -347,7 +347,7 @@ this.filesOnChange = this.filesOnChange.bind(this);
           form.append('file', element);
       }
 
-      axios.post('api/Image/Upload', form)
+      axios.post(`api/Image/${this.state.restaurant.id}/Upload`, form)
           .then((result) => {
               let message = "Success!"
               if (!result.data.success) {

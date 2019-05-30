@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using AutoMapper;
 using GlodnyStudent.Data;
 using GlodnyStudent.Models.Repositories;
@@ -10,13 +11,17 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace GlodnyStudent
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public Startup(IConfiguration configuration,IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             Configuration = configuration;
         }
 
@@ -25,7 +30,12 @@ namespace GlodnyStudent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
+            if (string.IsNullOrWhiteSpace(_hostingEnvironment.WebRootPath))
+            {
+                _hostingEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp");
+            }
+
             services.AddDbContext<ApplicationDbContext>(
                 options => options
                 .UseLazyLoadingProxies()
@@ -67,6 +77,14 @@ namespace GlodnyStudent
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "UploadImages")),
+                RequestPath = "/UploadImages"
+            });
+
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>

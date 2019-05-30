@@ -7,7 +7,7 @@ namespace GlodnyStudent.Models.Domain
     {
         public long Id { get; set; }
 
-        public byte[] ImageSource { get; set; }
+        public string FilePath { get; set; }
         
         public long RestaurantId { get; set; }
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using GlodnyStudent.Models.Domain;
+using GlodnyStudent.Models.Repositories;
+using GlodnyStudent.Models.Repositories.Implementations;
 using GlodnyStudent.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +17,13 @@ namespace GlodnyStudent.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IImageRepository _imageRepository;
+        private readonly IRestaurantRepository _restaurantRepository;
 
-        public ImageController(IHostingEnvironment hostingEnvironment)
+        public ImageController(IImageRepository imageRepository,IRestaurantRepository restaurantRepository)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _imageRepository = imageRepository;
+            _restaurantRepository = restaurantRepository;
         }
 
         /*
@@ -41,38 +46,39 @@ namespace GlodnyStudent.Controllers
         */
 
         [HttpPost]
-        [Route("Upload")]
-        public dynamic UploadJustFile(IFormCollection form)
+        [Route("{id:long}/Upload")]
+        public async Task<IActionResult> UploadFile(IFormFile file,long id)
         {
             try
             {
-                foreach (var file in form.Files)
+                if (file == null || file.Length == 0)
+                    return BadRequest();
+
+                var restaurant = await _restaurantRepository.FindById(id);
+
+                if (restaurant == null)
+                    return NotFound();
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "UploadImages");
+                using (var fs = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
                 {
-                    UploadFile(file);
+                    await file.CopyToAsync(fs);
                 }
 
-                return new { Success = true };
+                string filePath = Url.Content($"/UploadImages/{file.FileName}");
+
+                var result = await _imageRepository.Create(new Image
+                {
+                    RestaurantId = restaurant.Id,
+                    FilePath = filePath
+                });
+
+                return Ok(filePath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new { Success = false, ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
-        }
-
-        private static void UploadFile(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                throw new Exception("File is empty!");
-
-            byte[] fileArray;
-            using (var stream = file.OpenReadStream())
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                fileArray = memoryStream.ToArray();
-            }
-
-            //TODO: You can do it what you want with you file, I just skip this step
         }
     }
 }
