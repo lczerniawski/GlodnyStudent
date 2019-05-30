@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -75,6 +76,30 @@ namespace GlodnyStudent.Controllers
 
                 return Ok(filePath);
             }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete/{id:long}")]
+        public async Task<IActionResult> DeleteFile(long id)
+        {
+            try
+            {
+                var file = await _imageRepository.FindById(id);
+                if (file == null)
+                    return NotFound();
+
+                string path = Url.Content($"{Directory.GetCurrentDirectory()}{file.FilePath}");
+                System.IO.File.Delete(path);
+
+                await _imageRepository.Delete(id);
+
+                return Ok();
+            }
+
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
