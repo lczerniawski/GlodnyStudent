@@ -45,7 +45,7 @@ export default class Map extends Component {
       const {streetNumberValidResult,streetValidResult,localNumberValidResult} = this.state;
       let validResult =true;
       let eventValid = false;
-      const regNumbersAndOneLetterAtEnd = /\d+[a-zA-Z]?$/;
+      const regNumbersAndOneLetterAtEnd = /^\d+[a-zA-Z]?$/;
       const regEmp = /^$/;
       let errorMessage = "";  
 
