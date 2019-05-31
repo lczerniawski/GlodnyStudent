@@ -74,7 +74,11 @@ namespace GlodnyStudent.Controllers
                     FilePath = filePath
                 });
 
-                return Ok(filePath);
+                return Ok(new
+                {
+                    id = result.Id,
+                    filePath = result.FilePath
+                });
             }
             catch (Exception)
             {
