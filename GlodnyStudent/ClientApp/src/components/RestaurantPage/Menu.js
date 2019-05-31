@@ -52,7 +52,7 @@ export default class Menu extends Component {
                     <form>
                        <label>Danie: <input type="text" name="name"  onChange={this.inputValidate} /></label>
                         <label>Cena: <input type="number" name="price" onChange={this.inputValidate} /> zł</label>
-                        <input type="submit" disabled={this.state.disabledSubmit} onClick={(e)=>this.props.addMenuItem(e,"POST","menu",{name:name,price:price,restaurantId:this.props.restaurantId},"Menu")} value="Dodaj"/>
+                        <input type="submit" disabled={this.state.disabledSubmit} onClick={(e)=>this.props.addMenuItem(e,"menu",{name:name,price:price,restaurantId:this.props.restaurantId},"Menu")} value="Dodaj"/>
                     </form>
                 </label>               
               </div>

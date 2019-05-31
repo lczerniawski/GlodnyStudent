@@ -56,6 +56,63 @@
     <Compile Remove="Migrations\20190529222139_Regex MenuItem Name Off.Designer.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="ClientApp\.gitignore" />
+    <Content Include="ClientApp\package-lock.json" />
+    <Content Include="ClientApp\package.json" />
+    <Content Include="ClientApp\public\assets\css\animate.css" />
+    <Content Include="ClientApp\public\assets\js\animate.min.js" />
+    <Content Include="ClientApp\public\favicon.ico" />
+    <Content Include="ClientApp\public\index.html" />
+    <Content Include="ClientApp\public\manifest.json" />
+    <Content Include="ClientApp\README.md" />
+    <Content Include="ClientApp\scss\custom.scss" />
+    <Content Include="ClientApp\src\App.js" />
+    <Content Include="ClientApp\src\App.test.js" />
+    <Content Include="ClientApp\src\components\assets\homeBackground.jpg" />
+    <Content Include="ClientApp\src\components\assets\icoSearch.png" />
+    <Content Include="ClientApp\src\components\assets\navbarLogo.png" />
+    <Content Include="ClientApp\src\components\assets\restaurantImage.jpg" />
+    <Content Include="ClientApp\src\components\Layout.css" />
+    <Content Include="ClientApp\src\components\Layout.js" />
+    <Content Include="ClientApp\src\components\MainPage\Home.css" />
+    <Content Include="ClientApp\src\components\MainPage\Home.js" />
+    <Content Include="ClientApp\src\components\MainPage\Search.css" />
+    <Content Include="ClientApp\src\components\MainPage\Search.js" />
+    <Content Include="ClientApp\src\components\NavMenu.css" />
+    <Content Include="ClientApp\src\components\NavMenu.js" />
+    <Content Include="ClientApp\src\components\Registration\Registration.css" />
+    <Content Include="ClientApp\src\components\Registration\Registration.js" />
+    <Content Include="ClientApp\src\components\RestaurantList\Filters.css" />
+    <Content Include="ClientApp\src\components\RestaurantList\Filters.js" />
+    <Content Include="ClientApp\src\components\RestaurantList\ListItem.css" />
+    <Content Include="ClientApp\src\components\RestaurantList\ListItem.js" />
+    <Content Include="ClientApp\src\components\RestaurantList\RestaurantList.css" />
+    <Content Include="ClientApp\src\components\RestaurantList\RestaurantList.js" />
+    <Content Include="ClientApp\src\components\RestaurantList\Search.css" />
+    <Content Include="ClientApp\src\components\RestaurantList\Sort.css" />
+    <Content Include="ClientApp\src\components\RestaurantList\Sort.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\Gallery.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\HeaderImage.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\Map.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\Menu.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\Rateing.css" />
+    <Content Include="ClientApp\src\components\RestaurantPage\Rateing.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\RestaurantName.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\RestaurantPage.css" />
+    <Content Include="ClientApp\src\components\RestaurantPage\RestaurantPage.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\ReviewsCreator.css" />
+    <Content Include="ClientApp\src\components\RestaurantPage\ReviewsCreator.js" />
+    <Content Include="ClientApp\src\components\RestaurantPage\ReviewsList.js" />
+    <Content Include="ClientApp\src\config.js" />
+    <Content Include="ClientApp\src\index.js" />
+    <Content Include="ClientApp\src\registerServiceWorker.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UploadImages\" />
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

@@ -3,14 +3,13 @@ import './RestaurantPage.css';
 import ReviewsCreator from './ReviewsCreator';
 import Rateing from './Rateing';
 import PropTypes from 'prop-types';
-import uniqid from 'uniqid';
 import Gallery from './Gallery';
 import Menu from './Menu';
 import ReviewsList from './ReviewsList';
 import HeaderImage from './HeaderImage';
-import imageRestaurant from'../assets/restaurantImage.jpg';
 import Map from './Map';
 import RestaurantName from './RestaurantName';
+import axios from 'axios';
 
 export default class RestaurantPage extends Component {
 
@@ -18,15 +17,9 @@ export default class RestaurantPage extends Component {
 constructor(props){
     super(props);
     this.state={
+            fields: {},
         location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
-      /*   name:"",
-        address:[], // Do przerobienia na talice obiektów
-        menu:[],
-        gallery:[{id:uniqid(),file:"",dataUrl:imageRestaurant},{id:uniqid(),file:"",dataUrl:imageRestaurant},{id:uniqid(),file:"",dataUrl:imageRestaurant},{id:uniqid(),file:"",dataUrl:imageRestaurant}],
-        reviews:[],
-        rate:0, */
         newReview:'',
-        headerImage: null, /* Z servera zwracane oddzielnie */   // NIEPOZMIENIANE
         restaurant:{
           id:0,
           address:{street:"",streetNumber:"",localNumber:0,district:""},
@@ -42,20 +35,15 @@ constructor(props){
     this.sendReview =this.sendReview.bind(this);
     this.sendRate = this.sendRate.bind(this);
     this.backToRestaurationList = this.backToRestaurationList.bind(this);
-
-    this.handleImageAdd =this.handleImageAdd.bind(this);
     this.handleImageRemove = this.handleImageRemove.bind(this);
     this.handleRemoveMenuItem = this.handleRemoveMenuItem.bind(this);
-    
-    //this.updateRestaurantInfo = this.updateRestaurantInfo.bind(this);
     this.SendRestaurantInfo = this.SendRestaurantInfo.bind(this);
+    this.uploadJustFile = this.uploadJustFile.bind(this);
+    this.filesOnChange = this.filesOnChange.bind(this);
 }
   
-  
-
     componentDidMount(){
       this.getDataById();
-      /* console.log(`restaurant1: ${JSON.stringify(this.state.restaurant)}`); */
       }
       
       getDataById(){
@@ -68,24 +56,6 @@ constructor(props){
           }
         })
         .then((result) => {
-          /* this.state.address.push(result.address);
-          this.setState({
-            error:false,
-            name: result.name,
-            address:this.state.address,
-            menu:result.menu,
-            gallery:result.gallery,
-            reviews:result.reviews,
-            rate:result.score
-          }); */
-
-          /* console.log(`result: ${JSON.stringify(result)}`); */
-         /*  this.setState({
-            error:false,
-            restaurant:result.restaurant
-          });  */
-
-
           this.setState(prevState => ({
             restaurant: {
                 ...prevState.restaurant,
@@ -128,12 +98,7 @@ constructor(props){
               'Content-Type': 'application/json',
             }
           }).then(res => res.json())
-          .then((data) => {
-              
-           /*  this.setState({
-            rate:  data.rating
-            });  */
-
+          .then((data) => {            
             this.setState(prevState => ({
               restaurant: {
                   ...prevState.restaurant,
@@ -161,18 +126,12 @@ constructor(props){
           },
           body: JSON.stringify({
             description:this.state.newReview,
-           /*  reviewerId: "2137", */
             restaurantId : this.state.restaurant.id
           })
         }).then(res => res.json())
         .then((data) => {
  
           this.state.restaurant.reviews.unshift(data);
-
-         /*  this.setState({
-            reviews:  this.state.reviews
-           }); */
-
            this.setState(prevState => ({
             restaurant: {
                 ...prevState.restaurant,
@@ -210,104 +169,40 @@ constructor(props){
 
        /* ############## EDITION MODE ################## */
 
-       handleImageAdd(e) {
-        e.preventDefault();
-        const name = e.target.name;
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        let addToGallery = null;
- 
-        reader.onloadend = () => {
-          if(name === "gallery"){
-            this.state.restaurant.gallery.push({id:uniqid(),file:file,dataUrl:reader.result});
-            addToGallery = this.state.restaurant.gallery;
-          }
-      
-         /*  this.setState({
-            [name]: addToGallery? addToGallery:{id:uniqid(),file:file,dataUrl:reader.result}
-          }); */
-          
-
-          this.setState(prevState => ({
-            restaurant: {
-                ...prevState.restaurant,
-                [name]: addToGallery? addToGallery:{id:uniqid(),file:file,dataUrl:reader.result}
-            }
-          }));
-
-
-
-        }
-        reader.readAsDataURL(file);
-      }
-
-
-       handleImageRemove(e) {
-        e.preventDefault();
-        const name = e.target.name;
-        const value = e.target.value;
-        let newValue = null;
-
-           if(name === "gallery"){    
-              let index = this.state.restaurant.gallery.findIndex((img)=>img.id === value); 
-              if ( index !== -1){  
-                this.state.restaurant.gallery.splice(index,1);
-              }
-            newValue = this.state.restaurant.gallery;
-           }
-
-          /* this.setState({
-            [name]: newValue
-          }); */
-
-          this.setState(prevState => ({
-            restaurant: {
-                ...prevState.restaurant,
-                [name]: newValue
-            }
-          }));
-
-
-
-      } 
-
-      
       handleRemoveMenuItem(e,addressToFetch){       
         const value = e.target.value;
-
-        let index = this.state.restaurant.menu.findIndex((item)=>item.id == value); // Celowo ==
-        if ( index !== -1){ 
-            this.state.restaurant.menu.splice(index,1);
-            this.setState({
-              menu: this.state.restaurant.menu
-            });
-        }
-        
-
         const adr =`api/Restaurants/${addressToFetch}`;
 
-        fetch(adr, {
-          method: 'DELETE',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(
-              
-          )
-      })
+          fetch(adr, {
+              method: 'DELETE',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify()
+          }).then((data) => {
+
+            let index = this.state.restaurant.menu.findIndex((item)=>item.id == value); // Celowo ==
+            if ( index !== -1){ 
+                this.state.restaurant.menu.splice(index,1);
+                this.setState({
+                  menu: this.state.restaurant.menu
+                });
+            }
+
+          });
 
       }
 
       
 
-     SendRestaurantInfo(event,method,name,value,addressToFetch) {
+     SendRestaurantInfo(event,name,value,addressToFetch) {
        
          event.preventDefault();
          const adr =`api/Restaurants/${addressToFetch}`;
         
          fetch(adr, {
-                 method: method,
+                 method: "POST",
                  headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
@@ -316,7 +211,7 @@ constructor(props){
                      value
                  )
              }).then(res => res.json())
-             .then((data) => {         
+             .then((data) => {    
                  let flag=0;
                 if(name === "menu"){
                   this.state.restaurant.menu.push(data);
@@ -328,14 +223,98 @@ constructor(props){
                      flag = 1;
                  }
 
-                 this.setState({
-                     [name]:(flag === 1)?value:this.state.restaurant[name]
-                 });
+                 this.setState(prevState => ({
+                  restaurant: {
+                      ...prevState.restaurant,
+                      [name]:(flag === 1)?data:this.state.restaurant[name]
+                  }
+                }));
+
+
         
              } )
              .catch((err)=>console.log(err))
         
      }
+
+
+     /* Upload Gallery */
+     uploadJustFile(e) {
+      e.preventDefault();
+      let state = this.state;
+      if (!state.hasOwnProperty('files')) {
+          return;
+      }
+
+      let form = new FormData();
+
+      for (var index = 0; index < state.files.length; index++) {
+          var element = state.files[index];
+          form.append('file', element);
+      }
+
+      axios.post(`api/Image/${this.state.restaurant.id}/Upload`, form)
+          .then((result) => {
+
+
+            this.state.restaurant.gallery.push(result.data);
+            this.setState(prevState => ({
+              restaurant: {
+                  ...prevState.restaurant,
+                 gallery: this.state.restaurant.gallery
+              }
+            }));
+
+
+          })
+          .catch((ex) => {
+              console.error(ex);
+          });
+  }
+
+ 
+
+  filesOnChange(sender) {
+      let files = sender.target.files;
+      let state = this.state;
+
+      this.setState({
+          ...state,
+          files: files
+      });
+  }
+
+  handleImageRemove(e) {
+    e.preventDefault();
+    const id = e.target.value;
+    const adr =`api/Image/Delete/${id}`;
+
+      fetch(adr, {
+          method: 'DELETE',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify()
+      }).then((data) => {
+
+        let index = this.state.restaurant.gallery.findIndex((img)=>img.id == id); 
+        if ( index !== -1){  
+          this.state.restaurant.gallery.splice(index,1);
+          this.setState(prevState => ({
+            restaurant: {
+                ...prevState.restaurant,
+                gallery: this.state.restaurant.gallery
+            }
+          }));
+        }
+        
+      
+
+      });
+
+  } 
+    
 
        /* ########################################### */
 
@@ -346,19 +325,19 @@ constructor(props){
       <div className="singleRestaurant">
         <div className="header">
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        
-          <HeaderImage headerImage={this.state.headerImage} addImage={this.handleImageAdd} removeImage={this.handleImageRemove}/>
+          <HeaderImage />
           <div className="title wow fadeInDown" data-wow-duration="1s">
-            <RestaurantName name={this.state.restaurant.name} setName={this.updateRestaurantInfo}/>
+            <RestaurantName name={this.state.restaurant.name} setName={this.SendRestaurantInfo} restaurantId={this.state.restaurant.id}/>
             <Rateing rate={this.state.restaurant.rate} onRate={this.sendRate}/>
           </div>
         </div>
         <div className="entryContent">
           <section className="localization">
 
-              <Map address={this.state.restaurant.address} updateAddress={this.updateRestaurantInfo} />
+              <Map address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo}  />
           </section>
           <section className="importantInformation">
-              <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} />
+              <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />
               <Menu   restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
           <section className="reviews">

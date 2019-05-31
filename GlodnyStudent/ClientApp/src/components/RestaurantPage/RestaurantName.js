@@ -7,12 +7,6 @@ export default class RestaurantName extends Component {
         this.state={
             name:""
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(e){    
-        this.props.setName("name",this.state.name);
-        e.preventDefault();
     }
 
     render() {
@@ -20,7 +14,7 @@ export default class RestaurantName extends Component {
             <div>
                 <h2>{this.props.name}</h2>
                 <input type="text" name="name" onChange={(e)=>this.setState({name:e.target.value})}  />
-                <button onClick={this.handleSubmit}>Zapisz</button>
+                <button onClick={(e)=>this.props.setName(e,"name",this.state.name,`${this.props.restaurantId}/UpdateName`)}>Zapisz</button>
             </div>
         )
     }
