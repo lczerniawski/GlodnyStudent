@@ -106,45 +106,55 @@ export default class MapSection extends Component {
         const districts = ["Bemowo","Białołęka","Bielany","Mokotów","Ochota","Praga-Południe","Praga-Północ","Rembertów","Śródmieście",
                            "Targówek","Ursus","Ursynów","Wawer","Wesoła","Wilanów","Włochy","Wola","Żoliborz"];
         const districtsList = districts.map(district=><option key={district} value={district}>{district}</option>);
+
+
+
+        const editInputs = sessionStorage.getItem("token")?
+        <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
+        <div className="label-form">
+            <label htmlFor="street">Ulica</label> 
+            <input id="street" className="inputStyle" type="text" name="street" onChange={this.inputValidate} />
+        </div>
+        <div className="label-form">
+            <label htmlFor="streetNumber">Numer ulicy</label>
+            <input id="streetNumber" className="inputStyle" type="text" name="streetNumber" onChange={this.inputValidate} />
+            <p className="errorInfo">{this.state.streetNumberErrorMessage}</p>
+        </div>
+        <div className="label-form">
+            <label htmlFor="localNumber">Numer lokalu</label>
+            <input id="localNumber" className="inputStyle" type="number" min="0" name="localNumber" onChange={this.inputValidate} />
+        </div>
+        <div className="label-form">
+            <label htmlFor="district">Dzielnica</label>
+            <select id="district" className="inputStyle" name="district" onChange={this.inputValidate}>
+              {districtsList}
+            </select>
+        </div>
+      <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} value="Zapisz"/>
+  </form>:"";
+
+
+
+
+
         return (
             <div>
               <div className="map">
-                  <div class="mainMap">
+                  <div className="mainMap">
                   <Map center={[50.874, 4.6947]} zoom={this.state.zoom}>
                     <Marker anchor={[50.874, 4.6947]} payload={1} onClick={({ event, anchor, payload }) => {}}/>
                   </Map>
                   </div>
 
-                  <button onClick={this.zoomIn}><i class="fas fa-search-plus"></i></button>
-                  <button onClick={this.zoomOut}><i class="fas fa-search-minus"></i></button>
+                  <button onClick={this.zoomIn}><i className="fas fa-search-plus"></i></button>
+                  <button onClick={this.zoomOut}><i className="fas fa-search-minus"></i></button>
               </div>
               <div className="mapInfo">
                   <h3 className="wow fadeIn" data-wow-duration="2s">Znajdź nas na mapie!</h3>                  
                   <address className="wow fadeIn" data-wow-duration="2s">
                     <i className="fas fa-map-marker-alt fa-2x"></i> {street} {streetNumber}/{localNumber} {district}
                   </address>
-                    <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
-                        <div className="label-form">
-                            <label for="street">Ulica</label> 
-                            <input id="street" className="inputStyle" type="text" name="street" onChange={this.inputValidate} />
-                        </div>
-                        <div className="label-form">
-                            <label for="streetNumber">Numer ulicy</label>
-                            <input id="streetNumber" className="inputStyle" type="text" name="streetNumber" onChange={this.inputValidate} />
-                            <p className="errorInfo">{this.state.streetNumberErrorMessage}</p>
-                        </div>
-                        <div className="label-form">
-                            <label for="localNumber">Numer lokalu</label>
-                            <input id="localNumber" className="inputStyle" type="number" min="0" name="localNumber" onChange={this.inputValidate} />
-                        </div>
-                        <div className="label-form">
-                            <label for="district">Dzielnica</label>
-                            <select id="district" className="inputStyle" name="district" onChange={this.inputValidate}>
-                              {districtsList}
-                            </select>
-                        </div>
-                      <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} value="Zapisz"/>
-                  </form>
+                    {editInputs}
                   <button className="wow fadeIn" data-wow-duration="2s">Zobacz na mapach google</button>
               </div>
             </div>
