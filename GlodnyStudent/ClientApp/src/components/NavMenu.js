@@ -5,20 +5,6 @@ import { Link } from 'react-router-dom';
 
 export class NavMenu extends Component {
 
-  handleClick = () => {
-    var x = document.getElementById("myTopnav");
-    var icoMenu = document.getElementById("menuIcon");
-
-    if (x.className === "topnav hidden") {
-      x.className = "topnav visible";
-      icoMenu.className = "menuIcon";
-    } 
-    else {
-      x.className = "topnav hidden";
-      icoMenu.className = "menuIcon hidden";
-    }
-  }
-
   render () {
     return (
       <header>
@@ -30,7 +16,7 @@ export class NavMenu extends Component {
               </a>
             </div>
 
-            <div className="topnav hidden" id="myTopnav">
+            <div className="topnav" id="myTopnav">
               <ul className="navList"> 
                 <li><Link to="/">Zapomnialeś hasła?</Link></li>  
                 <li><Link to="/Rejestracja">Zarejestruj się</Link></li>
@@ -42,8 +28,8 @@ export class NavMenu extends Component {
               </form>
             </div>
           
-            <a id="menuIcon" className="menuIcon" onClick={this.handleClick}>
-              <i className="fas fa-bars fa-2x"></i>
+            <a id="menuIcon" className="menuIcon">
+              <span className="fas fa-bars fa-2x"></span>
             </a>
         </nav>
        

@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Map from 'pigeon-maps';
+import Marker from 'pigeon-marker';
+import './MapSection.css';
 
-export default class Map extends Component {
+export default class MapSection extends Component {
 
     constructor(props){
         super(props);
@@ -13,11 +16,25 @@ export default class Map extends Component {
             streetValidResult:false,
             streetNumberValidResult:false,
             localNumberValidResult:false,
-            streetNumberErrorMessage:""
+            streetNumberErrorMessage:"",
+            zoom: 17
         }
+        
        /*  this.handleInputChange = this.handleInputChange.bind(this); */
         this.inputValidate = this.inputValidate.bind(this);
         this.makeAddresObject = this.makeAddresObject.bind(this);
+    }
+
+    zoomIn = () => {
+      this.setState({
+        zoom: Math.min(this.state.zoom + 1, 18)
+      })
+    }
+  
+    zoomOut = () => {
+      this.setState({
+        zoom: Math.max(this.state.zoom - 1, 1)
+      })
     }
 
    /*  handleInputChange(event) {
@@ -84,7 +101,6 @@ export default class Map extends Component {
 
     }
 
-
     render() {
       const {street,streetNumber,localNumber,district} = this.props.address;
         const districts = ["Bemowo","Białołęka","Bielany","Mokotów","Ochota","Praga-Południe","Praga-Północ","Rembertów","Śródmieście",
@@ -92,22 +108,42 @@ export default class Map extends Component {
         const districtsList = districts.map(district=><option key={district} value={district}>{district}</option>);
         return (
             <div>
-              <div className="map"></div>
+              <div className="map">
+                  <div class="mainMap">
+                  <Map center={[50.874, 4.6947]} zoom={this.state.zoom}>
+                    <Marker anchor={[50.874, 4.6947]} payload={1} onClick={({ event, anchor, payload }) => {}}/>
+                  </Map>
+                  </div>
+
+                  <button onClick={this.zoomIn}><i class="fas fa-search-plus"></i></button>
+                  <button onClick={this.zoomOut}><i class="fas fa-search-minus"></i></button>
+              </div>
               <div className="mapInfo">
                   <h3 className="wow fadeIn" data-wow-duration="2s">Znajdź nas na mapie!</h3>                  
                   <address className="wow fadeIn" data-wow-duration="2s">
                     <i className="fas fa-map-marker-alt fa-2x"></i> {street} {streetNumber}/{localNumber} {district}
                   </address>
-                  <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
-                      <label>Ulica <input type="text" name="street" onChange={this.inputValidate} /></label>
-                      <label>Numer ulicy <input type="text" name="streetNumber" onChange={this.inputValidate} />{this.state.streetNumberErrorMessage}</label>
-                      <label>Numer lokalu <input type="number" min="0" name="localNumber" onChange={this.inputValidate} /></label>
-                      <label>Dzielnica 
-                        <select name="district" onChange={this.inputValidate}>
-                          {districtsList}
-                        </select>
-                      </label>
-                      <input type="submit" disabled={this.state.disabledSubmit} value="Zapisz"/>
+                    <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
+                        <div className="label-form">
+                            <label for="street">Ulica</label> 
+                            <input id="street" className="inputStyle" type="text" name="street" onChange={this.inputValidate} />
+                        </div>
+                        <div className="label-form">
+                            <label for="streetNumber">Numer ulicy</label>
+                            <input id="streetNumber" className="inputStyle" type="text" name="streetNumber" onChange={this.inputValidate} />
+                            <p className="errorInfo">{this.state.streetNumberErrorMessage}</p>
+                        </div>
+                        <div className="label-form">
+                            <label for="localNumber">Numer lokalu</label>
+                            <input id="localNumber" className="inputStyle" type="number" min="0" name="localNumber" onChange={this.inputValidate} />
+                        </div>
+                        <div className="label-form">
+                            <label for="district">Dzielnica</label>
+                            <select id="district" className="inputStyle" name="district" onChange={this.inputValidate}>
+                              {districtsList}
+                            </select>
+                        </div>
+                      <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} value="Zapisz"/>
                   </form>
                   <button className="wow fadeIn" data-wow-duration="2s">Zobacz na mapach google</button>
               </div>

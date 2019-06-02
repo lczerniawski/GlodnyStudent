@@ -7,7 +7,7 @@ import Gallery from './Gallery';
 import Menu from './Menu';
 import ReviewsList from './ReviewsList';
 import HeaderImage from './HeaderImage';
-import Map from './Map';
+import MapSection from './MapSection';
 import RestaurantName from './RestaurantName';
 import axios from 'axios';
 
@@ -333,8 +333,7 @@ constructor(props){
         </div>
         <div className="entryContent">
           <section className="localization">
-
-              <Map address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo}  />
+              <MapSection address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo}  />
           </section>
           <section className="importantInformation">
               <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />

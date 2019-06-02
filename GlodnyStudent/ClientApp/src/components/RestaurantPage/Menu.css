@@ -1,0 +1,109 @@
+.singleRestaurant .importantInformation .menu ul {
+    margin-left: -40px;
+}
+
+.singleRestaurant .importantInformation .menu ul li {
+    display: flex;
+    list-style: none;
+    padding: 10px 0 10px 0;
+    font-size: 20px;
+}
+
+.singleRestaurant .importantInformation .menu ul li span.name {
+    float: left;
+    width: calc(100% - 190px);
+    margin-top: 3px;
+}
+
+.singleRestaurant .importantInformation .menu ul li:nth-of-type(n+2) {
+    border-top: 1px solid #F2994A;
+}
+
+.singleRestaurant .importantInformation .menu ul li span.price {
+    float: right;
+    text-align: right;
+    width: 130px;
+    margin-right: 15px;
+    margin-top: 3px;
+}
+
+.singleRestaurant .importantInformation .menu ul li button {
+    float: right;
+    width: 35px;
+    height: 35px;
+}
+
+.singleRestaurant .importantInformation .menu ul li button span {
+    display: none;
+}
+
+.singleRestaurant .importantInformation .menu ul li button:before {
+    content: "\f00d";
+    font-family: 'Font Awesome 5 Free'; 
+    font-weight: 900; 
+    font-style: normal; 
+    font-size: 20px;
+}
+
+.singleRestaurant .importantInformation .menu ul li span.price:after {
+    content: "zł";
+    padding-left: 5px;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu h3 {
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu .label-form {
+    float: left;
+    padding-top: 10px;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu label {
+    float: left;
+    width: 100%;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu input {
+    width: 100%;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu input[type=submit] {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu input[type=submit]:disabled {
+    background-color: rgb(187, 187, 187);
+    border: 1px solid gray;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu input[type=submit]:disabled:hover {
+    background-color: rgb(187, 187, 187);
+    border: 1px solid gray;
+}
+
+.singleRestaurant .importantInformation .menu .addMenu input[type=submit]:hover {
+    background-color: rgb(19, 129, 65);
+}
+
+@media(min-width: 901px) {
+    .singleRestaurant .importantInformation .menu .addMenu .label-form {
+        width: 50%;
+    }
+
+    .singleRestaurant .importantInformation .menu .addMenu .label-form:nth-of-type(1) {
+        padding-right: 10px;
+    }
+    
+    .singleRestaurant .importantInformation .menu .addMenu .label-form:nth-of-type(2) {
+        padding-left: 10px;
+    }
+}
+
+@media(max-width: 900px) {
+    .singleRestaurant .importantInformation .menu .addMenu .label-form {
+        width: 100%;
+    }
+}

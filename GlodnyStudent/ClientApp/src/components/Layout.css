@@ -1,4 +1,4 @@
-a {
+a, button, input, label {
   -o-transition:.5s;
   -ms-transition:.5s;
   -moz-transition:.5s;
@@ -8,6 +8,45 @@ a {
 
 a:hover {
     text-decoration: none;
+}
+
+.buttonAccept {
+    color: #fff;
+    background-color: #27AE60;
+    border: none;
+    padding: 10px 15px 10px 15px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.buttonDelete {
+    width: 43px;
+    height: 43px;
+    color: #fff;
+    background-color: rgb(180, 12, 12);
+    border-color: transparent;
+}
+
+.inputStyle {
+    background-color: #dfdfdf;
+    border: 1px solid #a8a8a8;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.errorInfo {
+    color: red;
+    padding-top: 10px;
+}
+
+.backgroundDark {
+    background: #404040;
+    padding: 30px;
+}
+
+.containerLight {
+    background-color: #F2F2F2;
+    border-radius: 5px;
 }
 
 main {
@@ -45,5 +84,12 @@ footer p {
 @media(max-width: 780px) {
     footer p {
         font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .wow{
+        animation-name: none !important;
+        visibility: visible !important;
     }
 }
