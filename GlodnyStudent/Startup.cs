@@ -54,7 +54,11 @@ namespace GlodnyStudent
                 .UseLazyLoadingProxies()
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opts => opts.UseNetTopologySuite()));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
             
             services.AddTransient<ICuisineRepository, CuisineRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
@@ -89,12 +93,6 @@ namespace GlodnyStudent
                 )
             );
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // In production, the React files will be served from this directory
@@ -118,6 +116,16 @@ namespace GlodnyStudent
                 app.UseHsts();
             }
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+            
+            );
+
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -130,13 +138,6 @@ namespace GlodnyStudent
 
             app.UseSpaStaticFiles();
 
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-            
-            );
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -153,7 +154,6 @@ namespace GlodnyStudent
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-            app.UseAuthentication();
         }
     }
 }

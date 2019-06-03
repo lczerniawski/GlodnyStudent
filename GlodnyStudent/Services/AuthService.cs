@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using GlodnyStudent.ViewModels;
 using CryptoHelper;
+using GlodnyStudent.Models.Domain;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GlodnyStudent.Services
@@ -17,7 +18,7 @@ namespace GlodnyStudent.Services
             this.jwtSecret = jwtSecret;
             this.jwtLifespan = jwtLifespan;
         }
-        public AuthData GetAuthData(string id,string username)
+        public AuthData GetAuthData(string id,string username,Models.Domain.RoleType role)
         {
             var expirationTime = DateTime.UtcNow.AddSeconds(jwtLifespan);
 
@@ -25,7 +26,8 @@ namespace GlodnyStudent.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, id)
+                    new Claim(ClaimTypes.Name, id),
+                    new Claim(ClaimTypes.Role,role.ToString())
                 }),
                 Expires = expirationTime,
                 SigningCredentials = new SigningCredentials(
