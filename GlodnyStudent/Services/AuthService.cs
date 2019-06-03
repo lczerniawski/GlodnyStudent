@@ -17,7 +17,7 @@ namespace GlodnyStudent.Services
             this.jwtSecret = jwtSecret;
             this.jwtLifespan = jwtLifespan;
         }
-        public AuthData GetAuthData(string id)
+        public AuthData GetAuthData(string id,string username)
         {
             var expirationTime = DateTime.UtcNow.AddSeconds(jwtLifespan);
 
@@ -40,7 +40,8 @@ namespace GlodnyStudent.Services
             {
                 Token = token,
                 TokenExpirationTime = ((DateTimeOffset)expirationTime).ToUnixTimeSeconds(),
-                Id = id
+                Id = id,
+                Username = username
             };
         }
 

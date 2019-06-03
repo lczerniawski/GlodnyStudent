@@ -6,12 +6,14 @@ using AutoMapper;
 using GlodnyStudent.Models.Domain;
 using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlodnyStudent.Controllers
 {
     [Route("api/Restaurants/[controller]")]
+    [Authorize]
     [ApiController]
     public class MenuController : ControllerBase
     {

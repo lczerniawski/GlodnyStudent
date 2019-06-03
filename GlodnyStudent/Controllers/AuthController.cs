@@ -44,7 +44,7 @@ namespace GlodnyStudent.Controllers
                 return BadRequest(new { password = "invalid password" });
             }
 
-            return authService.GetAuthData(user.Id);
+            return authService.GetAuthData(user.Id,user.Username);
         }
 
         [HttpPost("register")]
@@ -70,7 +70,7 @@ namespace GlodnyStudent.Controllers
             if (userCreated == null)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
-            return authService.GetAuthData(id);
+            return authService.GetAuthData(id,user.Username);
         }
 
     }

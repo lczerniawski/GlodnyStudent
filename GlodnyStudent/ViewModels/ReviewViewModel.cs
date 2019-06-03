@@ -16,7 +16,7 @@ namespace GlodnyStudent.ViewModels
 
         public DateTime AddTime { get; set; }
         
-        public string UserName { get; set; }
+        public string UserUsername { get; set; }
 
     }
 }

@@ -7,7 +7,7 @@ export default class ReviewsList extends Component {
             <div className="singleReview wow fadeIn" data-wow-duration="1s" key={row.id}>
               <div className="details">
                 <ul>
-                  <li><i className="far fa-user"></i> Użyszkownik</li>
+                  <li><i className="far fa-user"></i>{row.userUsername }</li>
                   <li>{row.addTime}</li>
                 </ul>
               </div>

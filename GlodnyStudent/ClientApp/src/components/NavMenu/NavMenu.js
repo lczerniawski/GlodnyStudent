@@ -51,7 +51,11 @@ export class NavMenu extends Component {
     }).then(res => res.json())
     .then((data) => {
 
-      sessionStorage.setItem('token',data.token);
+      if(data.id != null){
+        sessionStorage.setItem('token',data.token);
+        sessionStorage.setItem('username',data.username);
+      }
+      
       window.location.reload();
     } )
     .catch((err)=>console.log(err));  
@@ -73,7 +77,7 @@ export class NavMenu extends Component {
 
 
   render () {
-    const menuList = sessionStorage.getItem("token")?<LogInUserMenu handleLogOut={this.handleLogOut}  />:<GusetMenu handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
+    const menuList = sessionStorage.getItem("token")?<LogInUserMenu  handleLogOut={this.handleLogOut}  />:<GusetMenu handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
     return (
       <header>
         <nav className="menuBar wow fadeInDown" data-wow-duration="2s">

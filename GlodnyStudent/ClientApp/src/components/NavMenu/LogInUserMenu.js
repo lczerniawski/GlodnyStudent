@@ -6,7 +6,7 @@ export default class LogInUserMenu extends Component {
     render() {
         return ( 
             <div>
-                <p>Tomke</p>         
+                <p>{sessionStorage.getItem("username")}</p>         
                 <ul className="navList"> 
                     <li><Link to="/">Zgłoś restaurację</Link></li> 
                     <li><Link to="/">Ustawienia konta</Link></li>  
