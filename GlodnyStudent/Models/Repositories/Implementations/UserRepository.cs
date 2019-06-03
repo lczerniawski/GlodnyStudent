@@ -1,19 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using GlodnyStudent.Data;
-using GlodnyStudent.Models.Domain;
+using GlodnyStudent.Data.Abstract;
+using GlodnyStudent.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GlodnyStudent.Models.Repositories.Implementations
+namespace GlodnyStudent.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-
         public UserRepository(ApplicationDbContext context)
         {
             _context = context;
         }
+       
+        public bool isEmailUniq(string email)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Email == email);
+            return user == null;
+        }
+
+        public User FindUserByEmail(string email)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Email == email);
+            return user;
+        }
+
+        public bool IsUsernameUniq(string username)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Username == username);
+            return user == null;
+        }
+
 
         public async Task<User> Create(User user)
         {
@@ -24,7 +43,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             return result;
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(string id)
         {
             User result = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
@@ -38,7 +57,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> FindById(long id)
+        public async Task<User> FindById(string id)
         {
             return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
         }

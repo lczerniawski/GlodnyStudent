@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GeoAPI.Geometries;
+using GlodnyStudent.Models;
 using GlodnyStudent.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using NetTopologySuite.Geometries;
@@ -19,9 +20,11 @@ namespace GlodnyStudent.Data
             {
                 context.Users.Add(new User
                 {
-                    Name = "Tomke",
+                    Username = "Tomke",
                     Email = "Tomke@biedronke.pl",
                     Password = "asdasd",
+                    Role = RoleType.Admin,
+                    Status = StatusType.Active
                 });
 
                 context.SaveChanges();
@@ -40,7 +43,7 @@ namespace GlodnyStudent.Data
                         Reviews = null,
                         Score = 0,
                         ReviewsCount = 0,
-                        OwnerId = context.Users.Single(u=>u.Name == "Tomke").Id
+                        OwnerId = context.Users.Single(u=>u.Username == "Tomke").Id
                     },
                     new Restaurant
                     {
@@ -52,7 +55,7 @@ namespace GlodnyStudent.Data
                         Reviews = null,
                         Score = 0,
                         ReviewsCount = 0,
-                        OwnerId = context.Users.Single(u=>u.Name == "Tomke").Id
+                        OwnerId = context.Users.Single(u=>u.Username == "Tomke").Id
                     },
                     new Restaurant
                     {
@@ -64,7 +67,7 @@ namespace GlodnyStudent.Data
                         Reviews = null,
                         Score = 0,
                         ReviewsCount = 0,
-                        OwnerId = context.Users.Single(u=>u.Name == "Tomke").Id
+                        OwnerId = context.Users.Single(u=>u.Username == "Tomke").Id
                     });
 
                 context.SaveChanges();
@@ -110,63 +113,63 @@ namespace GlodnyStudent.Data
                         AddTime = DateTime.Now,
                         Description = "Super Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "PizzBurg").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Dobra Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "PizzBurg").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Smaczna Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "PizzBurg").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Superr Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Pizza Gonciarz").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Dobraa Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Pizza Gonciarz").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Smacznaa Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Pizza Gonciarz").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Super Lody",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Lodziarnia Tomka").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Dobraa Lody",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Lodziarnia Tomka").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
                         AddTime = DateTime.Now,
                         Description = "Smacznaa Lody",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Lodziarnia Tomka").Id,
-                        UserId = context.Users.Single(u => u.Name == "Tomke").Id
+                        UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     }
                 );
                 context.Restaurants.Single(r=>r.Name == "Lodziarnia Tomka").ReviewsCount = 3;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GlodnyStudent.Data.Abstract;
 using GlodnyStudent.Models;
 using GlodnyStudent.Models.Domain;
 using GlodnyStudent.Models.Repositories;
@@ -94,7 +95,7 @@ namespace GlodnyStudent.Controllers
                     return BadRequest();
 
                 review.AddTime = DateTime.Now;
-                review.UserId = users.First().Id;
+                //review.UserId = users.First().Id;
                 review.RestaurantId = id;
 
                 var addedReview = await _reviewRepository.Create(review);

@@ -12,7 +12,7 @@ namespace GlodnyStudent.Models.Domain
 
         public DateTime AddTime { get; set; }
         
-        public long UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual User User { get; set; }
 
@@ -25,7 +25,7 @@ namespace GlodnyStudent.Models.Domain
             return obj is Review review &&
                    Id == review.Id &&
                    AddTime == review.AddTime &&
-                   //UserId == review.UserId &&
+                   UserId == review.UserId &&
                    RestaurantId == review.RestaurantId;
         }
 

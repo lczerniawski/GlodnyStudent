@@ -10,36 +10,53 @@ export class NavMenu extends Component {
 
   constructor() {
     super();
+    this.state={
+      email:"",
+      password:""
+    }
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+
+  }
+
+
+
   handleLogIn(event) {
-    const data = new FormData(event.target);
+    event.preventDefault();
+    console.log(`Event: ${event}`);
 
-   /*  fetch('/api/form-submit-url', {
+    
+   
+    fetch('/api/Auth/login', {
       method: 'POST',
-      body: data,
-    }); */
-
-    /* fetch('AdresDoKontrolera', {
-      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: data
+      body:JSON.stringify({
+        email:this.state.email,
+        password:this.state.password}),
     }).then(res => res.json())
     .then((data) => {
 
-      sessionStorage.setItem('token',data);
-    
+      sessionStorage.setItem('token',data.token);
+      window.location.reload();
     } )
-    .catch((err)=>console.log(err));   */
+    .catch((err)=>console.log(err));  
 
-    const token = "123abc";
-    sessionStorage.setItem('token',token);
-    window.location.reload();
+    
   }
 
 
@@ -56,7 +73,7 @@ export class NavMenu extends Component {
 
 
   render () {
-    const menuList = sessionStorage.getItem("token")?<LogInUserMenu handleLogOut={this.handleLogOut}  />:<GusetMenu handleLogIn={this.handleLogIn} />;
+    const menuList = sessionStorage.getItem("token")?<LogInUserMenu handleLogOut={this.handleLogOut}  />:<GusetMenu handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
     return (
       <header>
         <nav className="menuBar wow fadeInDown" data-wow-duration="2s">

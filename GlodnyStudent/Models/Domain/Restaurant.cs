@@ -22,7 +22,7 @@ namespace GlodnyStudent.Models.Domain
         public int Score { get; set; }
         
         [ForeignKey("User")]
-        public long OwnerId { get; set; }
+        public string OwnerId { get; set; }
         
         public virtual User Owner { get; set; }
         

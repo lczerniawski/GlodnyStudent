@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Linq;
+using GlodnyStudent.Models;
 
 namespace GlodnyStudent.Data
 {
@@ -37,6 +39,28 @@ namespace GlodnyStudent.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            ConfigureModelBuilderForUser(builder);
         }
+
+        void ConfigureModelBuilderForUser(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<User>()
+                .Property(user => user.Username)
+                .HasMaxLength(60)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(user => user.Email)
+                .HasMaxLength(60)
+                .IsRequired();
+        }
+
     }
 }
