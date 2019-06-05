@@ -17,11 +17,13 @@ namespace GlodnyStudent.Controllers
     public class SearchController : ControllerBase
     {
         private readonly IRestaurantRepository _restaurantRepository;
+        private readonly ICuisineRepository _cuisineRepository;
         private readonly IMapper _mapper;
 
-        public SearchController(IRestaurantRepository restaurantRepository,IMapper mapper)
+        public SearchController(IRestaurantRepository restaurantRepository,ICuisineRepository cuisineRepository,IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
+            _cuisineRepository = cuisineRepository;
             _mapper = mapper;
         }
 
@@ -79,6 +81,29 @@ namespace GlodnyStudent.Controllers
             }
         }
         
+        [HttpGet("[action]")]
+        public  async Task<ActionResult<HashSet<string>>> AllCuisines()
+        {
+            try
+            {
+                HashSet<string> cuisines = new HashSet<string>();
+
+                var cuisinesFromDb = await _cuisineRepository.FindAll();
+
+                foreach (var cuisine in cuisinesFromDb)
+                {
+                    cuisines.Add(cuisine.Name);
+                }
+
+                return cuisines;
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
         [HttpGet("[action]/{street}")]
         public  async Task<ActionResult<CuisineViewModel>> Cuisines(string street)
         {
@@ -93,7 +118,7 @@ namespace GlodnyStudent.Controllers
                 foreach (var restaurant in restaurantsResult)
                 {
                     if (highestPriceOfRestaurants < restaurant.HighestPrice)
-                            highestPriceOfRestaurants = restaurant.HighestPrice;
+                        highestPriceOfRestaurants = restaurant.HighestPrice;
 
                     cuisines.Add(restaurant.Cuisine.Name);
                 }

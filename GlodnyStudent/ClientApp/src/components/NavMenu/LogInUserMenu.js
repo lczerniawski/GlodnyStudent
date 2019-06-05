@@ -8,8 +8,8 @@ export default class LogInUserMenu extends Component {
             <div>
                 <p>{sessionStorage.getItem("username")}</p>         
                 <ul className="navList"> 
-                    <li><Link to="/">Zgłoś restaurację</Link></li> 
-                    <li><Link to="/">Ustawienia konta</Link></li>  
+                    <li><Link to="/DodajRestauracje" >Zgłoś restaurację</Link></li> 
+                    <li><Link to="/" >Ustawienia konta</Link></li>  
                     <li onClick={(e) =>this.props.handleLogOut(e)} >Wyloguj</li>
                 </ul>
             </div>
