@@ -9,11 +9,11 @@ namespace GlodnyStudent.Data.Abstract
 {
     public interface IUserRepository
     {
-        bool IsUsernameUniq(string username);
-        bool isEmailUniq(string email);
-        User FindUserByEmail(string email);
+        Task<bool> IsUsernameUniq(string username);
+        Task<bool> isEmailUniq(string email);
+        Task<User> FindUserByEmail(string email);
 
-        User FindUserByUsername(string email);
+        Task<User> FindUserByUsername(string username);
 
         Task<User> Create(User user);
 

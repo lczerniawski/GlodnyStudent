@@ -14,7 +14,7 @@ namespace GlodnyStudent.ViewModels
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
-        public DateTime AddTime { get; set; }
+        public string AddTime { get; set; }
         
         public string UserUsername { get; set; }
 

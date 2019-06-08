@@ -17,18 +17,21 @@ export default class RestaurantPage extends Component {
 constructor(props){
     super(props);
     this.state={
-            fields: {},
-        location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
-        newReview:'',
-        restaurant:{
-          id:0,
-          address:{street:"",streetNumber:"",localNumber:0,district:""},
-          gallery:[],
-          menu:[],
-          name:"",
-          reviews:[],
-          rate:0,
-        }
+          fields: {},
+          ownerLogIn:false,
+          location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
+          newReview:'',
+          restaurant:{
+            id:0,
+            address:{streetName:"",streetNumber:"",localNumber:0,district:""},
+            gallery:[],
+            menu:[],
+            name:"",
+            reviews:[],
+            rate:0,
+            ownerId:null,
+            gotOwner:false
+          }
 
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,7 +46,7 @@ constructor(props){
 }
   
     componentDidMount(){
-      this.getDataById();
+        this.getDataById();
       }
       
       getDataById(){
@@ -56,6 +59,18 @@ constructor(props){
           }
         })
         .then((result) => {
+
+          let IsOwnerLogIn = false;
+
+          if(result.gotOwner === true){
+            if(result.ownerId === sessionStorage.getItem("id")){
+              IsOwnerLogIn= true;
+            }
+          }else{
+            IsOwnerLogIn= true;
+          }
+
+
           this.setState(prevState => ({
             restaurant: {
                 ...prevState.restaurant,
@@ -65,8 +80,11 @@ constructor(props){
             menu:result.menu,
             gallery:result.gallery,
             reviews:result.reviews,
-            rate:result.score
-            }
+            rate:result.score,
+            ownerId:result.ownerId,
+            gotOwner:result.gotOwner
+            },
+            ownerLogIn:IsOwnerLogIn
         }));
 
 
@@ -130,7 +148,8 @@ constructor(props){
           },
           body: JSON.stringify({
             description:this.state.newReview,
-            restaurantId : this.state.restaurant.id
+            restaurantId : this.state.restaurant.id,
+            userId:sessionStorage.getItem("id")
           })
         }).then(res => res.json())
         .then((data) => {
@@ -162,7 +181,7 @@ constructor(props){
 
 
       backToRestaurationList() {
-         this.context.router.history.push(`/ListaRestauracji/${this.state.restaurant.address.street}`); // Tu musi byc adress bez numerkow, albo z swerwera podzielone albo ja moge dzielic
+         this.context.router.history.push(`/ListaRestauracji/${this.state.restaurant.address.streetName}`); // Tu musi byc adress bez numerkow, albo z swerwera podzielone albo ja moge dzielic
        }
  
        static contextTypes = {
@@ -336,20 +355,20 @@ constructor(props){
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        
           <HeaderImage />
           <div className="title wow fadeInDown" data-wow-duration="1s">
-            <RestaurantName name={this.state.restaurant.name} setName={this.SendRestaurantInfo} restaurantId={this.state.restaurant.id}/>
-            <Rateing rate={this.state.restaurant.rate} onRate={this.sendRate}/>
+            <RestaurantName ownerLogIn={this.state.ownerLogIn} name={this.state.restaurant.name} setName={this.SendRestaurantInfo} restaurantId={this.state.restaurant.id}/>
+            <Rateing ownerLogIn={this.state.ownerLogIn} rate={this.state.restaurant.rate} onRate={this.sendRate}/>
           </div>
         </div>
         <div className="entryContent">
           <section className="localization">
-              <MapSection address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo}  />
+              <MapSection ownerLogIn={this.state.ownerLogIn} address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.SendRestaurantInfo}  />
           </section>
           <section className="importantInformation">
-              <Gallery addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />
-              <Menu   restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
+              <Gallery ownerLogIn={this.state.ownerLogIn} addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />
+              <Menu  ownerLogIn={this.state.ownerLogIn} restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
           <section className="reviews">
-            {sessionStorage.getItem("token")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
+            {sessionStorage.getItem("id")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
             <ReviewsList reviews={this.state.restaurant.reviews}/>            
           </section>
         </div>

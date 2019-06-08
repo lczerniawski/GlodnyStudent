@@ -17,5 +17,7 @@ namespace GlodnyStudent.ViewModels
         public List<ImageViewModel> Gallery { get; set; }
         public List<ReviewViewModel> Reviews { get; set; }
         public int Score { get; set; }
+        public string OwnerId { get; set; }
+        public bool GotOwner { get; set; }
     }
 }

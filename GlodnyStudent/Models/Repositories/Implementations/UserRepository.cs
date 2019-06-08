@@ -15,27 +15,27 @@ namespace GlodnyStudent.Data.Repositories
             _context = context;
         }
        
-        public bool isEmailUniq(string email)
+        public async Task<bool> isEmailUniq(string email)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Email == email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
             return user == null;
         }
 
-        public User FindUserByEmail(string email)
+        public async Task<User> FindUserByEmail(string email)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Email == email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
             return user;
         }
 
-        public bool IsUsernameUniq(string username)
+        public async Task<bool> IsUsernameUniq(string username)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == username);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
             return user == null;
         }
 
-        public User FindUserByUsername(string username)
+        public async Task<User> FindUserByUsername(string username)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == username);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
 
             return user;
         }

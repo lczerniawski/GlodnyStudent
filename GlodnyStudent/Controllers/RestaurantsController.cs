@@ -90,17 +90,27 @@ namespace GlodnyStudent.Controllers
         {
             try
             {
-                var users = await _userRepository.FindAll();
+                var user = await _userRepository.FindById(review.UserId);
+                if (user == null)
+                    return BadRequest();
+
                 var restaurant = await _restaurantRepository.FindById(id);
 
                 if (restaurant == null)
                     return BadRequest();
 
-                review.AddTime = DateTime.Now;
-                //review.UserId = users.First().Id;
+                review.AddTime = DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + " " + DateTime.Now.Hour + ":" + DateTime.Now.Minute;
                 review.RestaurantId = id;
+                review.UserId = user.Id;
 
                 var addedReview = await _reviewRepository.Create(review);
+                if (addedReview == null)
+                    return BadRequest("Błąd przy dodawaniu opinii");
+
+                restaurant.ReviewsCount++;
+                var result = await _restaurantRepository.Update(restaurant);
+                if(result == null)
+                    return BadRequest("Błąd przy dodawaniu opinii");
 
                 return _mapper.Map<Review, ReviewViewModel>(addedReview);
             }
@@ -145,7 +155,7 @@ namespace GlodnyStudent.Controllers
 
                 restaurantAddressToUpdate.District = addressViewModel.District;
                 restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
-                restaurantAddressToUpdate.Street = addressViewModel.StreetName;
+                restaurantAddressToUpdate.StreetName = addressViewModel.StreetName;
                 restaurantAddressToUpdate.StreetNumber = addressViewModel.StreetNumber;
 
                 var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
@@ -185,20 +195,24 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<bool>> CreateRestaurant(AddRestaurantViewModel addRestaurantViewModel)
+        public async Task<ActionResult<long>> CreateRestaurant(AddRestaurantViewModel addRestaurantViewModel)
         {
             try
             {
+                var user = await _userRepository.FindUserByUsername(addRestaurantViewModel.Username);
+                if (user == null)
+                    return BadRequest("Nie udało się dodać restauracji");
+                
                 Restaurant newRestaurant = new Restaurant
                 {
                     Name = addRestaurantViewModel.RestaurantName,
-                    OwnerId = _userRepository.FindUserByUsername(addRestaurantViewModel.Username).Id
+                    OwnerId = user.Id
                 };
 
                 var addedRestaurant = await _restaurantRepository.Create(newRestaurant);
 
                 if (addedRestaurant == null)
-                    return BadRequest(false);
+                    return BadRequest("Nie udało się dodać restauracji");
 
                 var newCuisine = new Cuisine
                 {
@@ -207,11 +221,11 @@ namespace GlodnyStudent.Controllers
                 };
 
                 if (await _cuisineRepository.Create(newCuisine) == null)
-                    return BadRequest(false);
+                    return BadRequest("Nie udało się dodać restauracji");
 
                 var newAddress = new RestaurantAddress
                 {
-                    Street = addRestaurantViewModel.Address.StreetName,
+                    StreetName = addRestaurantViewModel.Address.StreetName,
                     District = addRestaurantViewModel.Address.District,
                     LocalNumber = addRestaurantViewModel.Address.LocalNumber,
                     StreetNumber = addRestaurantViewModel.Address.StreetNumber,
@@ -221,7 +235,7 @@ namespace GlodnyStudent.Controllers
                 if (await _restaurantAddressRepository.Create(newAddress) == null)
                     return BadRequest(false);
 
-                return true;
+                return addedRestaurant.Id;
             }
             catch (Exception)
             {

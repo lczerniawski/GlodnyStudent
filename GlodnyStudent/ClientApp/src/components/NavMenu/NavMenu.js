@@ -6,6 +6,7 @@ import LogInUserMenu from './LogInUserMenu';
 import PropTypes from 'prop-types';
 
 
+
 export class NavMenu extends Component {
 
   constructor() {
@@ -54,6 +55,8 @@ export class NavMenu extends Component {
       if(data.id != null){
         sessionStorage.setItem('token',data.token);
         sessionStorage.setItem('username',data.username);
+        sessionStorage.setItem('id',data.id);
+        sessionStorage.setItem('role',data.role);
       }
       
       window.location.reload();
@@ -70,14 +73,20 @@ export class NavMenu extends Component {
 
 
   handleLogOut(e){
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
     window.location.reload();
   }
 
 
+ 
+
 
   render () {
-    const menuList = sessionStorage.getItem("token")?<LogInUserMenu  handleLogOut={this.handleLogOut}  />:<GusetMenu handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
+    const menuList = sessionStorage.getItem("token")?
+    <LogInUserMenu handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel}  />:<GusetMenu handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
     return (
       <header>
         <nav className="menuBar wow fadeInDown" data-wow-duration="2s">
@@ -91,13 +100,12 @@ export class NavMenu extends Component {
             <div className="topnav" id="myTopnav">
               {menuList}
             </div>
-          
+  
             <a id="menuIcon" className="menuIcon">
               <span className="fas fa-bars fa-2x"></span>
             </a>
         </nav>
        
-
       </header>
     );
   }

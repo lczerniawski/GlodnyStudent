@@ -36,6 +36,8 @@ namespace GlodnyStudent.Models.Domain
         [Column(TypeName = "decimal(13,2)")]
         public decimal HighestPrice { get; set; }
 
+        public bool GotOwner { get; set; }
+
         public override bool Equals(object obj)
         {
             return obj is Restaurant restaurant &&

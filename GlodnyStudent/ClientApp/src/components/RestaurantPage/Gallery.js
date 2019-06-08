@@ -13,7 +13,7 @@ export default class Gallery extends Component {
         </li>):<p className="emptyGallery">Brak zdjęć w galerii.</p>;
 
 
-      const editInput = sessionStorage.getItem("token")?
+      const editInput = this.props.ownerLogIn&&sessionStorage.getItem("id")?
       <div className="label-form">
           <label className="buttonAccept" htmlFor="uploadGallery">Wgraj nowe zdjęcie do galerii</label>
           <input type="file" id="uploadGallery"  accept="image/x-png,image/gif,image/jpeg" onChange={this.props.filesOnChange} />
