@@ -71,6 +71,8 @@ export class NavMenu extends Component {
 
 
   handleLogOut(e){
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
     window.location.reload();
   }

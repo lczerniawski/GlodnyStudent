@@ -42,11 +42,11 @@ export default class Menu extends Component {
         const menuList = this.props.menu.map(row=><li className="wow fadeIn" data-wow-duration="1s" key={row.id}>
             <span className="name">{row.name}</span> 
             <span className="price">{row.price}</span>
-            {this.props.ownerLogIn?
+            {this.props.ownerLogIn&&sessionStorage.getItem("id")?
             <button className="buttonDelete" value={row.id}  onClick={(e)=>this.props.deleteMenuItem(e,`Menu/${row.id}`)}><span>Usuń</span></button>:""}       
         </li>);
 
-            const addItemForm = this.props.ownerLogIn?
+            const addItemForm = this.props.ownerLogIn&&sessionStorage.getItem("id")?
             <div className="addMenu">
                     <h3>Dodaj danie do menu</h3>
                     <form>

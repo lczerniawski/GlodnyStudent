@@ -23,7 +23,7 @@ constructor(props){
           newReview:'',
           restaurant:{
             id:0,
-            address:{street:"",streetNumber:"",localNumber:0,district:""},
+            address:{streetName:"",streetNumber:"",localNumber:0,district:""},
             gallery:[],
             menu:[],
             name:"",
@@ -47,11 +47,6 @@ constructor(props){
   
     componentDidMount(){
         this.getDataById();
-        if(this.state.restaurant.gotOwner === true){
-          if(this.state.restaurant.ownerId === sessionStorage.getItem("id")){
-            this.setState({ownerLogIn:true});
-          }
-        }
       }
       
       getDataById(){
@@ -64,6 +59,18 @@ constructor(props){
           }
         })
         .then((result) => {
+
+          let IsOwnerLogIn = false;
+
+          if(result.gotOwner === true){
+            if(result.ownerId === sessionStorage.getItem("id")){
+              IsOwnerLogIn= true;
+            }
+          }else{
+            IsOwnerLogIn= true;
+          }
+
+
           this.setState(prevState => ({
             restaurant: {
                 ...prevState.restaurant,
@@ -76,7 +83,8 @@ constructor(props){
             rate:result.score,
             ownerId:result.ownerId,
             gotOwner:result.gotOwner
-            }
+            },
+            ownerLogIn:IsOwnerLogIn
         }));
 
 
@@ -140,7 +148,8 @@ constructor(props){
           },
           body: JSON.stringify({
             description:this.state.newReview,
-            restaurantId : this.state.restaurant.id
+            restaurantId : this.state.restaurant.id,
+            userId:sessionStorage.getItem("id")
           })
         }).then(res => res.json())
         .then((data) => {
@@ -172,7 +181,7 @@ constructor(props){
 
 
       backToRestaurationList() {
-         this.context.router.history.push(`/ListaRestauracji/${this.state.restaurant.address.street}`); // Tu musi byc adress bez numerkow, albo z swerwera podzielone albo ja moge dzielic
+         this.context.router.history.push(`/ListaRestauracji/${this.state.restaurant.address.streetName}`); // Tu musi byc adress bez numerkow, albo z swerwera podzielone albo ja moge dzielic
        }
  
        static contextTypes = {
@@ -347,7 +356,7 @@ constructor(props){
           <HeaderImage />
           <div className="title wow fadeInDown" data-wow-duration="1s">
             <RestaurantName ownerLogIn={this.state.ownerLogIn} name={this.state.restaurant.name} setName={this.SendRestaurantInfo} restaurantId={this.state.restaurant.id}/>
-            <Rateing rate={this.state.restaurant.rate} onRate={this.sendRate}/>
+            <Rateing ownerLogIn={this.state.ownerLogIn} rate={this.state.restaurant.rate} onRate={this.sendRate}/>
           </div>
         </div>
         <div className="entryContent">
@@ -359,7 +368,7 @@ constructor(props){
               <Menu  ownerLogIn={this.state.ownerLogIn} restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
           <section className="reviews">
-            {this.state.ownerLogIn?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
+            {sessionStorage.getItem("id")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
             <ReviewsList reviews={this.state.restaurant.reviews}/>            
           </section>
         </div>

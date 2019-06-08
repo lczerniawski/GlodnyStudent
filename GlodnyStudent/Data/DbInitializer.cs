@@ -80,7 +80,7 @@ namespace GlodnyStudent.Data
                     {
                         LocalNumber = 37,
                         RestaurantId = context.Restaurants.Single(r=>r.Name == "PizzBurg").Id,
-                        Street = "Sokratesa",
+                        StreetName = "Sokratesa",
                         StreetNumber = "21",
                         District = "Bemowo"
                     },
@@ -88,7 +88,7 @@ namespace GlodnyStudent.Data
                     {
                         LocalNumber = 12,
                         RestaurantId = context.Restaurants.Single(r=>r.Name == "Lodziarnia Tomka").Id,
-                        Street = "Sokratesa",
+                        StreetName = "Sokratesa",
                         StreetNumber = "341",
                         District = "Bemowo"
                     },
@@ -96,7 +96,7 @@ namespace GlodnyStudent.Data
                     {
                         LocalNumber = 114,
                         RestaurantId = context.Restaurants.Single(r=>r.Name == "Pizza Gonciarz").Id,
-                        Street = "Sokratesa",
+                        StreetName = "Sokratesa",
                         StreetNumber = "223",
                         District = "Bemowo"
                     }

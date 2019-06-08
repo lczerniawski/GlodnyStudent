@@ -14,7 +14,7 @@ export default class Rateing extends Component {
 
 
   render() {
-    const reteingBtns = sessionStorage.getItem("token")?
+    const reteingBtns = this.props.ownerLogIn&&sessionStorage.getItem("id")?
     <div className="ratingButtons">
       <button className="rateUp buttonAccept" value="Up" name="addToRate" onClick={this.handleRate}><span>+</span></button>
       <button className="rateDown buttonDelete" name="addToRate" value="Down" onClick={this.handleRate}><span>-</span></button>
