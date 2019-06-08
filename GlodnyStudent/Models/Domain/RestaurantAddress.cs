@@ -12,7 +12,7 @@ namespace GlodnyStudent.Models.Domain
 
         [Required(ErrorMessage = "Street is required")]
         [RegularExpression(@"^[\p{Lu}\p{Ll}0-9 ]*$", ErrorMessage = "Street is invalid")]
-        public string Street { get; set; }
+        public string StreetName { get; set; }
 
         [Required(ErrorMessage = "Street number is required")]
         [MaxLength(7, ErrorMessage = "Street number is too long")]

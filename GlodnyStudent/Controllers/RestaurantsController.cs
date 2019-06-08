@@ -153,7 +153,7 @@ namespace GlodnyStudent.Controllers
 
                 restaurantAddressToUpdate.District = addressViewModel.District;
                 restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
-                restaurantAddressToUpdate.Street = addressViewModel.StreetName;
+                restaurantAddressToUpdate.StreetName = addressViewModel.StreetName;
                 restaurantAddressToUpdate.StreetNumber = addressViewModel.StreetNumber;
 
                 var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
@@ -219,7 +219,7 @@ namespace GlodnyStudent.Controllers
 
                 var newAddress = new RestaurantAddress
                 {
-                    Street = addRestaurantViewModel.Address.StreetName,
+                    StreetName = addRestaurantViewModel.Address.StreetName,
                     District = addRestaurantViewModel.Address.District,
                     LocalNumber = addRestaurantViewModel.Address.LocalNumber,
                     StreetNumber = addRestaurantViewModel.Address.StreetNumber,

@@ -37,7 +37,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         public async Task<Restaurant[]> GetRestaurantsByStreet(string address)
         {
             var query = from r in _context.Restaurants
-                where r.Address.Street == address
+                where r.Address.StreetName == address
                 select r;
 
             return await query.ToArrayAsync();

@@ -109,7 +109,7 @@ export default class MapSection extends Component {
 
 
 
-        const editInputs = this.props.ownerLogIn?
+        const editInputs = this.props.ownerLogIn&&sessionStorage.getItem("id")?
         <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
         <div className="label-form">
             <label htmlFor="street">Ulica</label> 
