@@ -7,7 +7,8 @@ export default class LogInUserMenu extends Component {
         return ( 
             <div>
                 <p>{sessionStorage.getItem("username")}</p>         
-                <ul className="navList"> 
+                <ul className="navList">
+                    <li onClick={(e)=>this.props.toggleAdminPanel(e)} >Lista użytkowników</li> 
                     <li><Link to="/DodajRestauracje" >Zgłoś restaurację</Link></li> 
                     <li><Link to="/" >Ustawienia konta</Link></li>  
                     <li onClick={(e) =>this.props.handleLogOut(e)} >Wyloguj</li>
