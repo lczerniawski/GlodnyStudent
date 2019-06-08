@@ -88,7 +88,7 @@ export default class AdminPanel extends Component {
       getReports(event) {
          
         event.preventDefault();
-         const adr =`/api/Notofications`;
+         const adr =`/api/Notifications`;
         
           fetch(adr, {
           method: 'GET',
