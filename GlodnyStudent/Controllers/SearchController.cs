@@ -78,7 +78,7 @@ namespace GlodnyStudent.Controllers
 
             }
         }
-        
+
         [HttpGet("[action]/{street}")]
         public  async Task<ActionResult<CuisineViewModel>> Cuisines(string street)
         {
@@ -93,7 +93,7 @@ namespace GlodnyStudent.Controllers
                 foreach (var restaurant in restaurantsResult)
                 {
                     if (highestPriceOfRestaurants < restaurant.HighestPrice)
-                            highestPriceOfRestaurants = restaurant.HighestPrice;
+                        highestPriceOfRestaurants = restaurant.HighestPrice;
 
                     cuisines.Add(restaurant.Cuisine.Name);
                 }

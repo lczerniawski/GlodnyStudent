@@ -1,28 +1,28 @@
 ﻿using System;
+using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GlodnyStudent.Migrations
 {
-    public partial class GlodnyStudentMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Email = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
+                    Username = table.Column<string>(maxLength: 60, nullable: false),
+                    Email = table.Column<string>(maxLength: 60, nullable: false),
                     Password = table.Column<string>(nullable: false),
-                    Role = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Role = table.Column<string>(type: "nvarchar(16)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(16)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,17 +33,19 @@ namespace GlodnyStudent.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     Score = table.Column<int>(nullable: false),
-                    OwnerId = table.Column<long>(nullable: false)
+                    OwnerId = table.Column<string>(nullable: true),
+                    ReviewsCount = table.Column<int>(nullable: false),
+                    HighestPrice = table.Column<decimal>(type: "decimal(13,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Restaurants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Restaurants_Users_OwnerId",
+                        name: "FK_Restaurants_User_OwnerId",
                         column: x => x.OwnerId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +63,7 @@ namespace GlodnyStudent.Migrations
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,7 +72,7 @@ namespace GlodnyStudent.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ImageSource = table.Column<byte[]>(nullable: true),
+                    FilePath = table.Column<string>(nullable: true),
                     RestaurantId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -81,7 +83,7 @@ namespace GlodnyStudent.Migrations
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,7 +104,7 @@ namespace GlodnyStudent.Migrations
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,9 +116,9 @@ namespace GlodnyStudent.Migrations
                     Street = table.Column<string>(nullable: false),
                     StreetNumber = table.Column<string>(maxLength: 7, nullable: false),
                     LocalNumber = table.Column<int>(nullable: false),
-                    PostalCode = table.Column<string>(maxLength: 6, nullable: false),
-                    City = table.Column<string>(maxLength: 7, nullable: false),
-                    RestaurantId = table.Column<long>(nullable: false)
+                    Location = table.Column<IPoint>(nullable: true),
+                    RestaurantId = table.Column<long>(nullable: false),
+                    District = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,7 +128,7 @@ namespace GlodnyStudent.Migrations
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,7 +139,7 @@ namespace GlodnyStudent.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(type: "text", nullable: true),
                     AddTime = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     RestaurantId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -148,40 +150,14 @@ namespace GlodnyStudent.Migrations
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserId",
+                        name: "FK_Reviews_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AddressCoordinates",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Latitude = table.Column<double>(nullable: false),
-                    Longitude = table.Column<double>(nullable: false),
-                    RestaurantAddressId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AddressCoordinates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AddressCoordinates_RestaurantAddresses_RestaurantAddressId",
-                        column: x => x.RestaurantAddressId,
-                        principalTable: "RestaurantAddresses",
+                        principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AddressCoordinates_RestaurantAddressId",
-                table: "AddressCoordinates",
-                column: "RestaurantAddressId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cuisines_RestaurantId",
@@ -224,9 +200,6 @@ namespace GlodnyStudent.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AddressCoordinates");
-
-            migrationBuilder.DropTable(
                 name: "Cuisines");
 
             migrationBuilder.DropTable(
@@ -236,16 +209,16 @@ namespace GlodnyStudent.Migrations
                 name: "MenuItems");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "RestaurantAddresses");
 
             migrationBuilder.DropTable(
-                name: "RestaurantAddresses");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
         }
     }
 }

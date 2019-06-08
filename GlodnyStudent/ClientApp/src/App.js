@@ -5,6 +5,7 @@ import { Home } from './components/MainPage/Home';
 import {RestaurantList} from './components/RestaurantList/RestaurantList';
 import RestaurantPage from './components/RestaurantPage/RestaurantPage';
 import Registration from './components/Registration/Registration'
+import AddRestaurant from './components/AddRestaurant/AddRestaurant';
 
 export default class App extends Component {
 
@@ -15,6 +16,7 @@ export default class App extends Component {
         <Route path='/ListaRestauracji' component={RestaurantList} />
         <Route path='/Restauracja' component={RestaurantPage} />
         <Route path="/Rejestracja" exact component={Registration} />
+        <Route path='/DodajRestauracje' exact component={AddRestaurant}/>
       </Layout>
     );
   }

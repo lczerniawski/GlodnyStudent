@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GlodnyStudent.Data.Abstract;
 using GlodnyStudent.Models;
 using GlodnyStudent.Models.Domain;
 using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 
 namespace GlodnyStudent.Controllers
 {
@@ -94,7 +97,7 @@ namespace GlodnyStudent.Controllers
                     return BadRequest();
 
                 review.AddTime = DateTime.Now;
-                review.UserId = users.First().Id;
+                //review.UserId = users.First().Id;
                 review.RestaurantId = id;
 
                 var addedReview = await _reviewRepository.Create(review);
@@ -142,7 +145,7 @@ namespace GlodnyStudent.Controllers
 
                 restaurantAddressToUpdate.District = addressViewModel.District;
                 restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
-                restaurantAddressToUpdate.Street = addressViewModel.Street;
+                restaurantAddressToUpdate.Street = addressViewModel.StreetName;
                 restaurantAddressToUpdate.StreetNumber = addressViewModel.StreetNumber;
 
                 var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
@@ -151,6 +154,74 @@ namespace GlodnyStudent.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
 
                 return _mapper.Map<RestaurantAddress,AddressViewModel>(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpGet("[action]")]
+        public  async Task<ActionResult<string[]>> AllCuisines()
+        {
+            try
+            {
+                HashSet<string> cuisines = new HashSet<string>();
+
+                var cuisinesFromDb = await _cuisineRepository.FindAll();
+
+                foreach (var cuisine in cuisinesFromDb)
+                {
+                    cuisines.Add(cuisine.Name);
+                }
+
+                return cuisines.ToArray();
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<bool>> CreateRestaurant(AddRestaurantViewModel addRestaurantViewModel)
+        {
+            try
+            {
+                Restaurant newRestaurant = new Restaurant
+                {
+                    Name = addRestaurantViewModel.RestaurantName,
+                    OwnerId = _userRepository.FindUserByUsername(addRestaurantViewModel.Username).Id
+                };
+
+                var addedRestaurant = await _restaurantRepository.Create(newRestaurant);
+
+                if (addedRestaurant == null)
+                    return BadRequest(false);
+
+                var newCuisine = new Cuisine
+                {
+                    Name = addRestaurantViewModel.Cuisine,
+                    RestaurantId = addedRestaurant.Id
+                };
+
+                if (await _cuisineRepository.Create(newCuisine) == null)
+                    return BadRequest(false);
+
+                var newAddress = new RestaurantAddress
+                {
+                    Street = addRestaurantViewModel.Address.StreetName,
+                    District = addRestaurantViewModel.Address.District,
+                    LocalNumber = addRestaurantViewModel.Address.LocalNumber,
+                    StreetNumber = addRestaurantViewModel.Address.StreetNumber,
+                    RestaurantId = addedRestaurant.Id
+                };
+
+                if (await _restaurantAddressRepository.Create(newAddress) == null)
+                    return BadRequest(false);
+
+                return true;
             }
             catch (Exception)
             {

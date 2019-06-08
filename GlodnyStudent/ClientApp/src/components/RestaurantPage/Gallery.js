@@ -9,8 +9,17 @@ export default class Gallery extends Component {
           <a data-fancybox="gallery" href={img.filePath}>
                 <img src={img.filePath} />
           </a>
-            <button className="buttonDelete" name="gallery" value={img.id}  onClick={(e)=>this.props.removeImage(e)}><span>Usuń</span></button>
+            {sessionStorage.getItem("token")?<button className="buttonDelete" name="gallery" value={img.id}  onClick={(e)=>this.props.removeImage(e)}><span>Usuń</span></button>:null}
         </li>):<p className="emptyGallery">Brak zdjęć w galerii.</p>;
+
+
+      const editInput = sessionStorage.getItem("token")?
+      <div className="label-form">
+          <label className="buttonAccept" htmlFor="uploadGallery">Wgraj nowe zdjęcie do galerii</label>
+          <input type="file" id="uploadGallery"  accept="image/x-png,image/gif,image/jpeg" onChange={this.props.filesOnChange} />
+          <button type="text" onClick={this.props.uploadJustFile}>Wyślij plik</button>
+      </div>:"";
+
 
         return (
             <div className="gallery">
@@ -18,11 +27,7 @@ export default class Gallery extends Component {
                   <ul>
                     {galleryList}
                   </ul>
-                  <div className="label-form">
-                    <label className="buttonAccept" for="uploadGallery">Wgraj nowe zdjęcie do galerii</label>
-                    <input type="file" id="uploadGallery"  accept="image/x-png,image/gif,image/jpeg" onChange={this.props.filesOnChange} />
-                    <button type="text" onClick={this.props.uploadJustFile}>Wyślij plik</button>
-                  </div>
+                  {editInput}
               </div>
         )
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Menu.css';
-import uniqid from 'uniqid';
+
 
 export default class Menu extends Component {
 
@@ -42,16 +42,12 @@ export default class Menu extends Component {
         const menuList = this.props.menu.map(row=><li className="wow fadeIn" data-wow-duration="1s" key={row.id}>
             <span className="name">{row.name}</span> 
             <span className="price">{row.price}</span>
-            <button className="buttonDelete" value={row.id}  onClick={(e)=>this.props.deleteMenuItem(e,`Menu/${row.id}`)}><span>Usuń</span></button>
+            {sessionStorage.getItem("token")?
+            <button className="buttonDelete" value={row.id}  onClick={(e)=>this.props.deleteMenuItem(e,`Menu/${row.id}`)}><span>Usuń</span></button>:""}       
         </li>);
 
-        return (
-            <div className="menu">
-                <h3>Menu</h3>
-                <ul>
-                    {menuList}
-                </ul>
-                <div className="addMenu">
+            const addItemForm = sessionStorage.getItem("token")?
+            <div className="addMenu">
                     <h3>Dodaj danie do menu</h3>
                     <form>
                         <div className="label-form">
@@ -61,11 +57,19 @@ export default class Menu extends Component {
                         <div className="label-form">
                             <label for="priceMenu">Cena (zł):</label>
                             <input id="priceMenu" className="inputStyle" type="number" name="price" onChange={this.inputValidate} />
-                        </div>
-                        
+                        </div>                        
                         <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} onClick={(e)=>this.props.addMenuItem(e,"menu",{name:this.state.name,price:this.state.price,restaurantId:this.props.restaurantId},"Menu")} value="Dodaj"/>
                     </form> 
-                </div>             
+                </div>:null;
+
+
+        return (
+            <div className="menu">
+                <h3>Menu</h3>
+                <ul>
+                    {menuList}
+                </ul>
+                    {addItemForm}     
               </div>
         )
     }

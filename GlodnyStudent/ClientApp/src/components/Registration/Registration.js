@@ -23,40 +23,34 @@ export default class Registration extends Component {
             typingTimer:null
           };
           this.handleInputChange = this.handleInputChange.bind(this);
-         // this.handleSubmit = this.handleSubmit.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
           this.startCountdownToValidate =this.startCountdownToValidate.bind(this);
           this.clearTheCountdownToValidate = this.clearTheCountdownToValidate.bind(this);
           this.inputValidate = this.inputValidate.bind(this);
       }
 
 
-/*       handleSubmit(e){
+      handleSubmit(e){
         e.preventDefault();
-        const adr =`api/Restaurants/${this.props.id}/AddReview`;
        
-         fetch(adr, {
-         method: 'PUT',
+         fetch('/api/Auth/register', {
+         method: 'POST',
          headers: {
            'Accept': 'application/json',
            'Content-Type': 'application/json',
          },
          body: JSON.stringify({
-           name:this.state.name,
+           username:this.state.name,
            email: this.state.email,
            password: this.state.password
          })
        }).then(res => res.json())
        .then((data) => {
-          // ustalic  co bedzie zwracane
-         this.state.reviews.push(data);
-
-         this.setState({
-           reviews:  this.state.reviews
-          });
+          console.log(`Klaszczemy uztkownikowi :${data.username}`);
        
        } )
        .catch((err)=>console.log(err));
-      } */
+      }
 
 
 
@@ -139,7 +133,7 @@ export default class Registration extends Component {
         <div className="backgroundDark">
             <div className="containerLight">
               <p className="text wow fadeIn" data-wow-duration="2s">Uzupełnij poniższy formularz rejestracyjny i dołącz do grona Głodnych Studentów!</p>
-              <form  /* onSubmit={this.handleSubmit} */ >
+              <form  onSubmit={this.handleSubmit} >
                   <div className="label-form wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel">Nazwa użytkownika</label>
                     <input className="inputStyle" name="name" type="text" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate}

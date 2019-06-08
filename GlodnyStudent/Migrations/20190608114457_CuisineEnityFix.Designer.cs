@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlodnyStudent.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190529222550_HighestPrice Fix")]
-    partial class HighestPriceFix
+    [Migration("20190608114457_CuisineEnityFix")]
+    partial class CuisineEnityFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,12 +24,16 @@ namespace GlodnyStudent.Migrations
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Cuisine", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Name")
-                        .ValueGeneratedOnAdd();
+                        .IsRequired();
 
                     b.Property<long>("RestaurantId");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("RestaurantId")
                         .IsUnique();
@@ -43,7 +47,7 @@ namespace GlodnyStudent.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<byte[]>("ImageSource");
+                    b.Property<string>("FilePath");
 
                     b.Property<long>("RestaurantId");
 
@@ -87,7 +91,7 @@ namespace GlodnyStudent.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<long>("OwnerId");
+                    b.Property<string>("OwnerId");
 
                     b.Property<int>("ReviewsCount");
 
@@ -142,7 +146,7 @@ namespace GlodnyStudent.Migrations
 
                     b.Property<long>("RestaurantId");
 
-                    b.Property<long>("UserId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -153,18 +157,14 @@ namespace GlodnyStudent.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("GlodnyStudent.Models.Domain.User", b =>
+            modelBuilder.Entity("GlodnyStudent.Models.User", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(60);
 
                     b.Property<string>("Password")
                         .IsRequired();
@@ -177,9 +177,13 @@ namespace GlodnyStudent.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(16)");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Cuisine", b =>
@@ -187,7 +191,7 @@ namespace GlodnyStudent.Migrations
                     b.HasOne("GlodnyStudent.Models.Domain.Restaurant", "Restaurant")
                         .WithOne("Cuisine")
                         .HasForeignKey("GlodnyStudent.Models.Domain.Cuisine", "RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Image", b =>
@@ -195,7 +199,7 @@ namespace GlodnyStudent.Migrations
                     b.HasOne("GlodnyStudent.Models.Domain.Restaurant", "Restaurant")
                         .WithMany("Gallery")
                         .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.MenuItem", b =>
@@ -203,15 +207,15 @@ namespace GlodnyStudent.Migrations
                     b.HasOne("GlodnyStudent.Models.Domain.Restaurant", "Restaurant")
                         .WithMany("Menu")
                         .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Restaurant", b =>
                 {
-                    b.HasOne("GlodnyStudent.Models.Domain.User", "Owner")
+                    b.HasOne("GlodnyStudent.Models.User", "Owner")
                         .WithMany("Restaurants")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.RestaurantAddress", b =>
@@ -219,7 +223,7 @@ namespace GlodnyStudent.Migrations
                     b.HasOne("GlodnyStudent.Models.Domain.Restaurant", "Restaurant")
                         .WithOne("Address")
                         .HasForeignKey("GlodnyStudent.Models.Domain.RestaurantAddress", "RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Review", b =>
@@ -227,12 +231,12 @@ namespace GlodnyStudent.Migrations
                     b.HasOne("GlodnyStudent.Models.Domain.Restaurant", "Restaurant")
                         .WithMany("Reviews")
                         .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("GlodnyStudent.Models.Domain.User", "User")
+                    b.HasOne("GlodnyStudent.Models.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,18 +1,20 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using GlodnyStudent.Models.Domain;
 
-namespace GlodnyStudent.Models.Domain
+namespace GlodnyStudent.Models
 {
-    public class User
+    public class User : IEntityBase
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [MaxLength(50, ErrorMessage = "Name is too long")]
-        public string Name { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Email is invalid")]
@@ -35,13 +37,18 @@ namespace GlodnyStudent.Models.Domain
         {
             return obj is User user &&
                    Id == user.Id &&
-                   Name == user.Name &&
+                   Username == user.Username &&
                    Email == user.Email;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Name, Email);
+            return HashCode.Combine(Id, Username, Email);
         }
+    }
+
+    public interface IEntityBase
+    {
+        string Id { get; set; }
     }
 }

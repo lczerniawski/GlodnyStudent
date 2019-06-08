@@ -96,6 +96,8 @@ constructor(props){
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + sessionStorage.getItem("token")
+
             }
           }).then(res => res.json())
           .then((data) => {            
@@ -123,6 +125,8 @@ constructor(props){
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization':'Bearer ' + sessionStorage.getItem("token")
+
           },
           body: JSON.stringify({
             description:this.state.newReview,
@@ -178,6 +182,8 @@ constructor(props){
               headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',
+                  'Authorization':'Bearer ' + sessionStorage.getItem("token")
+
               },
               body: JSON.stringify()
           }).then((data) => {
@@ -206,6 +212,7 @@ constructor(props){
                  headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
+                     'Authorization':'Bearer ' + sessionStorage.getItem("token")
                  },
                  body: JSON.stringify(
                      value
@@ -294,6 +301,8 @@ constructor(props){
           headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + sessionStorage.getItem("token")
+
           },
           body: JSON.stringify()
       }).then((data) => {
@@ -340,7 +349,7 @@ constructor(props){
               <Menu   restaurantId={this.state.restaurant.id} addMenuItem={this.SendRestaurantInfo}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
           <section className="reviews">
-            <ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>
+            {sessionStorage.getItem("token")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
             <ReviewsList reviews={this.state.restaurant.reviews}/>            
           </section>
         </div>
