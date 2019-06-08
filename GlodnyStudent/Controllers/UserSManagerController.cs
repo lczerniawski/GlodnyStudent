@@ -28,7 +28,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<string[]>> ListAllUsers([FromQuery]string startsWith)
+        public async Task<ActionResult<UserViewModel[]>> ListAllUsers([FromQuery]string startsWith)
         {
             try
             {
@@ -36,12 +36,18 @@ namespace GlodnyStudent.Controllers
                 if (users == null)
                     return BadRequest("Błąd podczas pobierania użytkowników");
 
-                List<string> usersList = new List<string>();
+                List<UserViewModel> usersList = new List<UserViewModel>();
 
                 foreach (var user in users)
                 {
-                    if(user.Username.ToLower().StartsWith(startsWith.ToLower()))
-                        usersList.Add(user.Username);
+                    if (user.Username.ToLower().StartsWith(startsWith.ToLower()))
+                    {
+                        usersList.Add(new UserViewModel
+                        {
+                            Username = user.Username,
+                            Status = user.Status.ToString()
+                        });
+                    }
                 }
 
                 return usersList.ToArray();
@@ -53,7 +59,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> BanUser([FromBody]string username)
+        public async Task<ActionResult<UserViewModel>> BanUnbanUser([FromBody]string username)
         {
             try
             {
@@ -61,13 +67,22 @@ namespace GlodnyStudent.Controllers
                 if (user == null)
                     return NotFound("Nie ma takiego użytkownika");
 
-                user.Status = StatusType.Banned;
+                if (user.Status == StatusType.Active)
+                    user.Status = StatusType.Banned;
+                else
+                    user.Status = StatusType.Active;
 
-                var result = await _userRepository.Update(user);
-                if (result == null)
+                var updatedUser = await _userRepository.Update(user);
+                if (updatedUser == null)
                     return BadRequest("Błąd podczas blokowania użytkownika");
 
-                return true;
+                UserViewModel result = new UserViewModel
+                {
+                    Username = updatedUser.Username,
+                    Status = updatedUser.Status.ToString()
+                };
+
+                return result;
             }
             catch (Exception)
             {
