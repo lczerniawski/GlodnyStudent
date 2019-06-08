@@ -110,63 +110,63 @@ namespace GlodnyStudent.Data
                 context.Reviews.AddRange(
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Super Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "PizzBurg").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Dobra Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "PizzBurg").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Smaczna Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "PizzBurg").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Superr Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Pizza Gonciarz").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Dobraa Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Pizza Gonciarz").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Smacznaa Pizza",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Pizza Gonciarz").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Super Lody",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Lodziarnia Tomka").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Dobraa Lody",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Lodziarnia Tomka").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id
                     },
                     new Review
                     {
-                        AddTime = DateTime.Now,
+                        AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute,
                         Description = "Smacznaa Lody",
                         RestaurantId = context.Restaurants.Single(r => r.Name == "Lodziarnia Tomka").Id,
                         UserId = context.Users.Single(u => u.Username == "Tomke").Id

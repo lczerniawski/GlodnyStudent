@@ -11,7 +11,7 @@ export default class RestaurantName extends Component {
     }
 
     render() {
-        const editInput = sessionStorage.getItem("token")?
+        const editInput = this.props.ownerLogIn?
         <div className="changeName">
                     <input type="text" className="inputStyle" name="name" onChange={(e)=>this.setState({name:e.target.value})} placeholder="Podaj nową nazwę restauracji"/>
                     <button className="buttonAccept" onClick={(e)=>this.props.setName(e,"name",this.state.name,`${this.props.restaurantId}/UpdateName`)}><span className="fas fa-check"></span></button>

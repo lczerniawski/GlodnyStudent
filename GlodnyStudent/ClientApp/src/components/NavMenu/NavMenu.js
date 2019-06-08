@@ -54,6 +54,7 @@ export class NavMenu extends Component {
       if(data.id != null){
         sessionStorage.setItem('token',data.token);
         sessionStorage.setItem('username',data.username);
+        sessionStorage.setItem('id',data.id);
       }
       
       window.location.reload();

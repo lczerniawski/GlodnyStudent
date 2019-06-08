@@ -10,7 +10,7 @@ namespace GlodnyStudent.Models.Domain
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
-        public DateTime AddTime { get; set; }
+        public string AddTime { get; set; }
         
         public string UserId { get; set; }
 

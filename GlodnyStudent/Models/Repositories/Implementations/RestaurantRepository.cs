@@ -43,6 +43,13 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             return await query.ToArrayAsync();
 ;        }
 
+        public async Task<bool> SaveChanges()
+        {
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<IEnumerable<Restaurant>> FindAll()
         {
             return await _context.Restaurants.ToListAsync();
