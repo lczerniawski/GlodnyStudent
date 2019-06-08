@@ -99,7 +99,7 @@ namespace GlodnyStudent.Controllers
                 if (restaurant == null)
                     return BadRequest();
 
-                review.AddTime = DateTime.Now.Hour + " : " + DateTime.Now.Minute;
+                review.AddTime = DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + " " + DateTime.Now.Hour + ":" + DateTime.Now.Minute;
                 review.RestaurantId = id;
                 review.UserId = user.Id;
 
@@ -108,7 +108,9 @@ namespace GlodnyStudent.Controllers
                     return BadRequest("Błąd przy dodawaniu opinii");
 
                 restaurant.ReviewsCount++;
-                await _restaurantRepository.SaveChanges();
+                var result = await _restaurantRepository.Update(restaurant);
+                if(result == null)
+                    return BadRequest("Błąd przy dodawaniu opinii");
 
                 return _mapper.Map<Review, ReviewViewModel>(addedReview);
             }
@@ -197,10 +199,14 @@ namespace GlodnyStudent.Controllers
         {
             try
             {
+                var user = await _userRepository.FindUserByUsername(addRestaurantViewModel.Username);
+                if (user == null)
+                    return BadRequest("Nie udało się dodać restauracji");
+                
                 Restaurant newRestaurant = new Restaurant
                 {
                     Name = addRestaurantViewModel.RestaurantName,
-                    OwnerId = _userRepository.FindUserByUsername(addRestaurantViewModel.Username).Id
+                    OwnerId = user.Id
                 };
 
                 var addedRestaurant = await _restaurantRepository.Create(newRestaurant);

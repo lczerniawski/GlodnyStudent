@@ -15,7 +15,7 @@ namespace GlodnyStudent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class UserManagerController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -45,6 +45,29 @@ namespace GlodnyStudent.Controllers
                 }
 
                 return usersList.ToArray();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> BanUser([FromBody]string username)
+        {
+            try
+            {
+                var user = await _userRepository.FindUserByUsername(username);
+                if (user == null)
+                    return NotFound("Nie ma takiego użytkownika");
+
+                user.Status = StatusType.Banned;
+
+                var result = await _userRepository.Update(user);
+                if (result == null)
+                    return BadRequest("Błąd podczas blokowania użytkownika");
+
+                return true;
             }
             catch (Exception)
             {

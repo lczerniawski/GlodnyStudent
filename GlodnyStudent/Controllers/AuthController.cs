@@ -26,12 +26,12 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<AuthData> Post([FromBody]LoginViewModel model)
+        public async Task<ActionResult<AuthData>> Post([FromBody]LoginViewModel model)
         {
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = userRepository.FindUserByEmail(model.Email);
+            var user = await userRepository.FindUserByEmail(model.Email);
 
             if (user == null)
             {
@@ -52,9 +52,9 @@ namespace GlodnyStudent.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var emailUniq = userRepository.isEmailUniq(model.Email);
+            var emailUniq = await userRepository.isEmailUniq(model.Email);
             if (!emailUniq) return BadRequest(new { email = "user with this email already exists" });
-            var usernameUniq = userRepository.IsUsernameUniq(model.Username);
+            var usernameUniq = await userRepository.IsUsernameUniq(model.Username);
             if (!usernameUniq) return BadRequest(new { username = "user with this email already exists" });
 
             var id = Guid.NewGuid().ToString();

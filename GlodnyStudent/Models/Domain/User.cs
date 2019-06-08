@@ -8,7 +8,7 @@ using GlodnyStudent.Models.Domain;
 
 namespace GlodnyStudent.Models
 {
-    public class User : IEntityBase
+    public class User
     {
         public string Id { get; set; }
 
@@ -45,10 +45,5 @@ namespace GlodnyStudent.Models
         {
             return HashCode.Combine(Id, Username, Email);
         }
-    }
-
-    public interface IEntityBase
-    {
-        string Id { get; set; }
     }
 }
