@@ -43,7 +43,8 @@ namespace GlodnyStudent.Services
                 Token = token,
                 TokenExpirationTime = ((DateTimeOffset)expirationTime).ToUnixTimeSeconds(),
                 Id = id,
-                Username = username
+                Username = username,
+                Role = role.ToString()
             };
         }
 
