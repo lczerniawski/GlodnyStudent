@@ -8,6 +8,7 @@ using GlodnyStudent.Data;
 using GlodnyStudent.Data.Repositories;
 using GlodnyStudent.Data.Abstract;
 using GlodnyStudent.Models;
+using GlodnyStudent.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,9 @@ namespace GlodnyStudent.Controllers
             {
                 return BadRequest(new { email = "no user with this email" });
             }
+
+            if (user.Status == StatusType.Banned)
+                return BadRequest("Zostałeś zbanowany");
 
             var passwordValid = authService.VerifyPassword(model.Password, user.Password);
             if (!passwordValid)

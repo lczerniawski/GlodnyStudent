@@ -39,25 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190523161857_MyFirstMigration.cs" />
-    <Compile Remove="Migrations\20190523161857_MyFirstMigration.Designer.cs" />
-    <Compile Remove="Migrations\20190523162758_GlodnyStudentMigration.cs" />
-    <Compile Remove="Migrations\20190523162758_GlodnyStudentMigration.Designer.cs" />
-    <Compile Remove="Migrations\20190523180137_FirstMigration.cs" />
-    <Compile Remove="Migrations\20190523180137_FirstMigration.Designer.cs" />
-    <Compile Remove="Migrations\20190523182352_SecondMigration.cs" />
-    <Compile Remove="Migrations\20190523182352_SecondMigration.Designer.cs" />
-    <Compile Remove="Migrations\20190523182912_FirstMigration.cs" />
-    <Compile Remove="Migrations\20190523182912_FirstMigration.Designer.cs" />
-    <Compile Remove="Migrations\20190525195016_FirstMigration.cs" />
-    <Compile Remove="Migrations\20190525195016_FirstMigration.Designer.cs" />
-    <Compile Remove="Migrations\20190527144014_Fix.cs" />
-    <Compile Remove="Migrations\20190527144014_Fix.Designer.cs" />
-    <Compile Remove="Migrations\20190529222139_Regex MenuItem Name Off.cs" />
-    <Compile Remove="Migrations\20190529222139_Regex MenuItem Name Off.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="ClientApp\.gitignore" />
     <Content Include="ClientApp\package-lock.json" />
     <Content Include="ClientApp\package.json" />

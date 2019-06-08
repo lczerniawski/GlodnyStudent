@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlodnyStudent.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190608132554_AddressChange")]
-    partial class AddressChange
+    [Migration("20190608174832_Fix")]
+    partial class Fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace GlodnyStudent.Migrations
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Cuisine", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -76,6 +76,22 @@ namespace GlodnyStudent.Migrations
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("MenuItems");
+                });
+
+            modelBuilder.Entity("GlodnyStudent.Models.Domain.Notification", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<long>("RestaurantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("GlodnyStudent.Models.Domain.Restaurant", b =>

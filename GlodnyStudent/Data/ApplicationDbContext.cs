@@ -16,6 +16,7 @@ namespace GlodnyStudent.Data
         public DbSet<RestaurantAddress> RestaurantAddresses { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public ApplicationDbContext()
         {

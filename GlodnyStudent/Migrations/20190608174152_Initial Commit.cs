@@ -1,14 +1,27 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GlodnyStudent.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(nullable: false),
+                    Link = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
@@ -35,7 +48,8 @@ namespace GlodnyStudent.Migrations
                     Score = table.Column<int>(nullable: false),
                     OwnerId = table.Column<string>(nullable: true),
                     ReviewsCount = table.Column<int>(nullable: false),
-                    HighestPrice = table.Column<decimal>(type: "decimal(13,2)", nullable: false)
+                    HighestPrice = table.Column<decimal>(type: "decimal(13,2)", nullable: false),
+                    GotOwner = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,12 +66,14 @@ namespace GlodnyStudent.Migrations
                 name: "Cuisines",
                 columns: table => new
                 {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     RestaurantId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cuisines", x => x.Name);
+                    table.PrimaryKey("PK_Cuisines", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Cuisines_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
@@ -113,7 +129,7 @@ namespace GlodnyStudent.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Street = table.Column<string>(nullable: false),
+                    StreetName = table.Column<string>(nullable: false),
                     StreetNumber = table.Column<string>(maxLength: 7, nullable: false),
                     LocalNumber = table.Column<int>(nullable: false),
                     Location = table.Column<IPoint>(nullable: true),
@@ -138,7 +154,7 @@ namespace GlodnyStudent.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    AddTime = table.Column<DateTime>(nullable: false),
+                    AddTime = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     RestaurantId = table.Column<long>(nullable: false)
                 },
@@ -207,6 +223,9 @@ namespace GlodnyStudent.Migrations
 
             migrationBuilder.DropTable(
                 name: "MenuItems");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "RestaurantAddresses");
