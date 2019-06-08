@@ -65,9 +65,13 @@ export default class AdminPanel extends Component {
             event.target.value
             )
         }).then(res => res.json())
-        .then((data) => {
-          
-        
+        .then((data) => { 
+          let usersNew = this.state.users     
+          let index = usersNew.findIndex(user=> user.username === data.username);
+          usersNew[index].status = data.status;
+          this.setState({
+            users: usersNew
+          });
         } )
         .catch((err)=>console.log(err))  
       } 
@@ -75,7 +79,7 @@ export default class AdminPanel extends Component {
 
 
     render() {
-        const usersList = this.state.users.map(user=><li id={user}>{user}<button onClick={this.banUser} value={user}>X</button></li>);
+        const usersList = this.state.users.map(user=><li id={user.username}>{user.username}<button onClick={this.banUser} value={user.username}>{user.status}</button></li>);
         return (
             <div id="adminPanel">
                 <h3>Wyszukaj użytkownika</h3>

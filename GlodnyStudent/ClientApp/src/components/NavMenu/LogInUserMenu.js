@@ -10,7 +10,7 @@ export default class LogInUserMenu extends Component {
                 <ul className="navList">
                     <li onClick={(e)=>this.props.toggleAdminPanel(e)} >Lista użytkowników</li> 
                     <li><Link to="/DodajRestauracje" >Zgłoś restaurację</Link></li> 
-                    <li><Link to="/" >Ustawienia konta</Link></li>  
+                    <li><Link to="/" >Zmień hasło</Link></li>  
                     <li onClick={(e) =>this.props.handleLogOut(e)} >Wyloguj</li>
                 </ul>
             </div>
