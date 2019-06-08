@@ -22,7 +22,7 @@ namespace GlodnyStudent.Data
                 {
                     Username = "Tomke",
                     Email = "Tomke@biedronke.pl",
-                    Password = "asdasd",
+                    Password = "AQAAAAEAACcQAAAAEAVCnvsRf0cuwEVIUpCo/9FyYUas0e87R1huT/8rKR58PR7Ib++50BEbcbnjYJnG4g==",
                     Role = RoleType.Admin,
                     Status = StatusType.Active
                 });

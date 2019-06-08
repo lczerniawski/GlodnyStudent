@@ -13,6 +13,8 @@ namespace GlodnyStudent.Data.Abstract
         bool isEmailUniq(string email);
         User FindUserByEmail(string email);
 
+        User FindUserByUsername(string email);
+
         Task<User> Create(User user);
 
         Task Delete(string id);

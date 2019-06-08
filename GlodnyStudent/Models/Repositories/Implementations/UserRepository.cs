@@ -33,6 +33,13 @@ namespace GlodnyStudent.Data.Repositories
             return user == null;
         }
 
+        public User FindUserByUsername(string username)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Username == username);
+
+            return user;
+        }
+
 
         public async Task<User> Create(User user)
         {
