@@ -15,20 +15,20 @@ namespace GlodnyStudent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
-    public class UserManagerController : ControllerBase
+    [Authorize(Roles = "Admin")]
+    public class UsersManagerController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserManagerController(IUserRepository userRepository,IMapper mapper)
+        public UsersManagerController(IUserRepository userRepository,IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<string[]>> ListAllUsers([FromBody]string startsWith)
+        public async Task<ActionResult<string[]>> ListAllUsers([FromQuery]string startsWith)
         {
             try
             {
