@@ -11,7 +11,7 @@ namespace GlodnyStudent.Models
         public string Name { get; set; }
         public string Address { get; set; }
         public string Cuisine { get; set; }
-        public int HighestPrice { get; set; }
+        public decimal HighestPrice { get; set; }
         public int ReviewsCount { get; set; }
         public int Score { get; set; }
 

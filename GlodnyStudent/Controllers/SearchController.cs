@@ -26,13 +26,14 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpGet("{address}")]
-        public async Task<IActionResult> Get(string address)
+        public async Task<ActionResult<RestaurantListViewModel[]>> Get(string address)
         {
             try
             {
                 var result = await _restaurantRepository.GetRestaurantsByStreet(address);
+
                 if (result == null)
-                    return NotFound();
+                    return new RestaurantListViewModel[] { };
 
                 return Ok(_mapper.Map<RestaurantListViewModel[]>(result));
             }
@@ -41,9 +42,9 @@ namespace GlodnyStudent.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
         }
-        
+
         [HttpGet]
-        public  async Task<IActionResult> Filters(string address,int distance,int highestPrice,string cuisine)
+        public async Task<ActionResult<RestaurantListViewModel[]>> Filters(string address, int distance, int highestPrice, string cuisine)
         {
             try
             {
@@ -54,23 +55,23 @@ namespace GlodnyStudent.Controllers
                 if (cuisine.Equals("Wszystkie"))
                 {
                     filteredResult = from r in result
-                        where r.HighestPrice <= highestPrice 
-                        orderby r.HighestPrice
-                        select r;
+                                     where r.HighestPrice <= highestPrice
+                                     orderby r.HighestPrice
+                                     select r;
                 }
                 else
                 {
                     filteredResult = from r in result
-                        where r.HighestPrice <= highestPrice && r.Cuisine.Name == cuisine
-                        orderby r.HighestPrice
-                        select r;
+                                     where r.HighestPrice <= highestPrice && r.Cuisine.Name == cuisine
+                                     orderby r.HighestPrice
+                                     select r;
                 }
 
 
                 if (filteredResult.Any())
                     return Ok(_mapper.Map<RestaurantListViewModel[]>(filteredResult));
-
-                return BadRequest();
+                else
+                    return new RestaurantListViewModel[] { };
             }
             catch (Exception)
             {

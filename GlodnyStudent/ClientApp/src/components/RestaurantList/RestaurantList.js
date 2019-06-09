@@ -16,7 +16,6 @@ export class RestaurantList extends Component {
     this.addressUpdate = this.addressUpdate.bind(this);
     this.state = {
       location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
-      error: null,
       distance:20,// tu wstawić jako poczatkowa wartosc wartosc highestDistance
       price:0,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
       cuisine:'Wszystkie',
@@ -49,20 +48,16 @@ getDataByAddress(){
   })
   .then((result) => {
     this.setState({
-      error:false,
       restaurations: result
     });
   })
   .catch((error) => {
     console.log(error);
-    this.setState({
-      error
-    }); 
   });
 }
 
 
-getCuisinesAndHighestPrice(){
+getCuisinesAndHighestPrice(firstTime=true){
   const address = `api/Search/Cuisines/${this.state.location}`;
   fetch(address).then((response) => {
     if (response.ok) {
@@ -72,19 +67,16 @@ getCuisinesAndHighestPrice(){
     }
   })
   .then((result) => {
-
+      const prevPrice = this.state.price>result.highestPrice?result.highestPrice:this.state.price;
       this.setState({
       error:false,
       cuisines:result.cuisinesList,
       highestPrice: result.highestPrice,
-      price:result.highestPrice
+      price:firstTime?result.highestPrice:prevPrice
     });
   })
   .catch((error) => {
-    console.log(error);
-    this.setState({
-      error
-    }); 
+    console.log(error); 
   });
 }
 
@@ -100,17 +92,13 @@ getCuisinesAndHighestPrice(){
       })
       .then((result) => {
         this.setState({
-          error:false,
           restaurations: result
         });
       })
       .catch((error) => {
         console.log(error);
-        this.setState({
-          error
-        }); 
       });
-      this.getCuisinesAndHighestPrice();
+      this.getCuisinesAndHighestPrice(false);
     }
 
 
@@ -136,9 +124,9 @@ getCuisinesAndHighestPrice(){
   
 
   render() {
-    const { error, restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
+    const { restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
     let list 
-    if (error) {
+    if (restaurations.length === 0) {
       list= <div className="notFound wow bounce" data-wow-duration="1s">
         <i className="fas fa-bug fa-4x"></i>
         <h2>Upsss... nic nie znaleziono</h2>
