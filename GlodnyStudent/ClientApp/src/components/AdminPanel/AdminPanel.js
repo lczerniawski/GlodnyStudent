@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import './AdminPanel.css'
+import FindUser from './FindUser';
+import Reports from './Reports';
 
 export default class AdminPanel extends Component {
 
@@ -7,12 +9,17 @@ export default class AdminPanel extends Component {
         super(props);
         this.state={
             nickname:"",
-            users:[]
+            users:[],
+            reports:[]
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.banUser = this.banUser.bind(this);
+        this.getReports = this.getReports.bind(this);
+        this.removeReport = this.removeReport.bind(this);
     }
+
+
 
     handleInputChange(event) {
         const target = event.target;
@@ -78,18 +85,61 @@ export default class AdminPanel extends Component {
 
 
 
+      getReports(event) {
+         
+       if(event)event.preventDefault();
+         const adr =`/api/Notifications`;
+        
+          fetch(adr, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer ' + sessionStorage.getItem("token")
+          }
+        }).then(res => res.json())
+        .then((data) => {
+          this.setState({
+              reports:data
+          });
+        
+        } )
+        .catch((err)=>console.log(err))  
+      } 
+
+      removeReport(event) {
+         
+        event.preventDefault();
+         const adr =` /api/Notifications?id=${event.target.value}`;
+        
+          fetch(adr, {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer ' + sessionStorage.getItem("token")
+          }
+        }).then(res => res.json())
+        .then((data) => { 
+          let reportsNew = this.state.reports     
+          let index = reportsNew.findIndex(report=> report.id === data.id);
+          reportsNew.splice(index, 1);
+          this.setState({
+            users: reportsNew
+          });
+        } )
+        .catch((err)=>console.log(err))  
+      } 
+
+
+
+
     render() {
-        const usersList = this.state.users.map(user=><li id={user.username}>{user.username}<button onClick={this.banUser} value={user.username}>{user.status}</button></li>);
+        
         return (
             <div id="adminPanel">
-                <h3>Wyszukaj użytkownika</h3>
-                <form id="search" className="searchContainer wow fadeInLeft" data-wow-duration="2s" onSubmit={this.getUsers} >
-                    <input name="nickname" className="searchInput" type="text"  placeholder="Podaj nickname użytkownika" onChange={this.handleInputChange}/>
-                    <input  className="searchBtn" type="submit" value="Szukaj"/>
-                </form>
-                <ul>
-                    {usersList}
-                </ul>
+                <FindUser banUser={this.banUser}  users={this.state.users}  getUsers={this.getUsers} handleInputChange={this.handleInputChange} />
+                <Reports  removeReport={this.removeReport} getReports={this.getReports} reports={this.state.reports} />
             </div>
         )
     }

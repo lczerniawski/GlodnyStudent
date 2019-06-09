@@ -67,6 +67,7 @@ namespace GlodnyStudent
             services.AddTransient<IRestaurantRepository, RestaurantRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
 
             services.AddCors();
 
