@@ -36,10 +36,11 @@ export default class Search extends Component {
 
   render() {
     const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
+    const defAddress = this.props.address?decodeURIComponent(this.props.address):"";
     return (
 
         <form id="search" className="searchContainer wow fadeInLeft" data-wow-duration="2s" onSubmit={sub}>
-          <input className="searchInput" type="text" defaultValue={this.props.address}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
+          <input className="searchInput" type="text" defaultValue={defAddress}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
           <input className="searchBtn" type="submit" value="Szukaj"/>
         </form>
     )
