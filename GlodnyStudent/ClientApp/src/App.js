@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
- import { Route } from 'react-router'; 
+import { Route } from 'react-router'; 
 import { Layout } from './components/Layout';
 import { Home } from './components/MainPage/Home';
 import {RestaurantList} from './components/RestaurantList/RestaurantList';
 import RestaurantPage from './components/RestaurantPage/RestaurantPage';
 import Registration from './components/Registration/Registration'
 import AddRestaurant from './components/AddRestaurant/AddRestaurant';
+import ResetPassword from './components/ForgetPassword/ResetPassword';
+import ChangePassword from './components/ChangePassword/ChangePassword';
+
 
 export default class App extends Component {
 
@@ -17,6 +20,8 @@ export default class App extends Component {
         <Route path='/Restauracja' component={RestaurantPage} />
         <Route path="/Rejestracja" exact component={Registration} />
         <Route path='/DodajRestauracje' exact component={AddRestaurant}/>
+        <Route path='/ResetHasła' component={ResetPassword}/>
+        <Route path='/ZmianaHasła' component={ChangePassword}/>
       </Layout>
     );
   }

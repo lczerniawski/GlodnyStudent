@@ -129,8 +129,7 @@ namespace GlodnyStudent.Controllers
 
                 var resetToken = _authService.GetAuthData(getUser.Id, getUser.Username, getUser.Role);
 
-                await _emailSender.SendEmailAsync(email,"Reset Hasła GłodnyStudent","Wygląda na to, że prosiłeś o zmiane hasła. Aby jej dokonac przejdź pod link: https://localhost:44375/ResetHasla/ "+ getUser.Username + "/" + resetToken.Token);
-
+                await _emailSender.SendEmailAsync(email, "Reset Hasła GłodnyStudent", "Wygląda na to, że prosiłeś o zmiane hasła. Aby jej dokonac przejdź pod link: https://www.localhost:44375/ResetHasła/" + getUser.Username + "/" + resetToken.Token);
                 return Ok("Mail wysłany");
             }
             catch (Exception)
