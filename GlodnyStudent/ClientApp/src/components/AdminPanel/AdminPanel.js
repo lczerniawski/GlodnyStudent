@@ -10,7 +10,7 @@ export default class AdminPanel extends Component {
         this.state={
             nickname:"",
             users:[],
-            reports:[/* {id:"2137",content:"To i to jest zle",link:"1"} */]
+            reports:[]
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getUsers = this.getUsers.bind(this);
@@ -87,7 +87,7 @@ export default class AdminPanel extends Component {
 
       getReports(event) {
          
-        event.preventDefault();
+       if(event)event.preventDefault();
          const adr =`/api/Notifications`;
         
           fetch(adr, {
@@ -121,7 +121,7 @@ export default class AdminPanel extends Component {
           }
         }).then(res => res.json())
         .then((data) => { 
-          let reportsNew = this.state.ureports     
+          let reportsNew = this.state.reports     
           let index = reportsNew.findIndex(report=> report.id === data.id);
           reportsNew.splice(index, 1);
           this.setState({
