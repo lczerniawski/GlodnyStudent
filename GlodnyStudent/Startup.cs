@@ -19,7 +19,9 @@ using System.Threading.Tasks;
 using GlodnyStudent.Services;
 using GlodnyStudent.Data.Abstract;
 using GlodnyStudent.Data.Repositories;
+using GlodnyStudent.Models.Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -68,6 +70,9 @@ namespace GlodnyStudent
             services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddCors();
 

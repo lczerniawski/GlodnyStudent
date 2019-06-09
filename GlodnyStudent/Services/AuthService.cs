@@ -18,7 +18,7 @@ namespace GlodnyStudent.Services
             this.jwtSecret = jwtSecret;
             this.jwtLifespan = jwtLifespan;
         }
-        public AuthData GetAuthData(string id,string username,Models.Domain.RoleType role)
+        public AuthData GetAuthData(string id,string username,RoleType role)
         {
             var expirationTime = DateTime.UtcNow.AddSeconds(jwtLifespan);
 
