@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GlodnyStudent.Models.Domain;
 using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Notification[]>> GetAll()
         {
             try
@@ -43,6 +45,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<ActionResult<Notification>> CreateReportRestaurant([FromBody] long restaurantId)
         {
             try
@@ -71,6 +74,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<ActionResult<Notification>> CreateReportReview([FromBody] long reviewId)
         {
             try
@@ -99,6 +103,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Notification>> DeleteNotification([FromQuery] long id)
         {
             try
