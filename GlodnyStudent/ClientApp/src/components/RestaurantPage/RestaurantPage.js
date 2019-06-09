@@ -43,6 +43,7 @@ constructor(props){
     this.SendRestaurantInfo = this.SendRestaurantInfo.bind(this);
     this.uploadJustFile = this.uploadJustFile.bind(this);
     this.filesOnChange = this.filesOnChange.bind(this);
+    this.makeReport = this.makeReport.bind(this);
 }
   
     componentDidMount(){
@@ -347,10 +348,37 @@ constructor(props){
        /* ########################################### */
 
 
+       makeReport(event) {
+         
+         event.preventDefault();
+         const adr =`/api/Notifications/${event.target.name}`;
+         const  id = event.target.name === "CreateReportRestaurant"?this.state.restaurant.id:event.target.value;
+        
+          fetch(adr, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer ' + sessionStorage.getItem("token")
+          },
+          body: JSON.stringify(
+            id
+            )
+        }).then(res => res.json())
+        .then((data) => { 
+        
+        } )
+        .catch((err)=>console.log(err))  
+      } 
+
+
+
+
+
   render() {
-        /* console.log(`restaurant2: ${JSON.stringify(this.state.restaurant)}`); */
     return (
       <div className="singleRestaurant">
+        <button  onClick={this.makeReport} name="CreateReportRestaurant">Zgłoś nieprawidłowości na stronie</button>
         <div className="header">
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        
           <HeaderImage />
@@ -369,7 +397,7 @@ constructor(props){
           </section>
           <section className="reviews">
             {sessionStorage.getItem("id")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
-            <ReviewsList reviews={this.state.restaurant.reviews}/>            
+            <ReviewsList makeReport={this.makeReport}  reviews={this.state.restaurant.reviews}/>            
           </section>
         </div>
       </div>
