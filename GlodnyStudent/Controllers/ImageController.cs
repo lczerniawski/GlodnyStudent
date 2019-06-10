@@ -50,6 +50,21 @@ namespace GlodnyStudent.Controllers
         [Route("{id:long}/Upload")]
         public async Task<IActionResult> UploadFile(IFormFile file,long id)
         {
+            /**
+            *  <summary>  
+            *Metoda UploadFile zapisuje przesłany obrazek w pamięci aplikacji
+            *</summary> 
+            * 
+            *<param name="file"> plik obrazu
+            *</param>
+            *<param name="id"> id obrazu
+            *</param>
+            *<returns>
+            *W przypadku błędu bazy danych: Database Failure!                   \n
+            *W przypadku powodzenia: Zapisuje obraz w bazie danych
+            * 
+            *</returns>
+            */
             try
             {
                 if (file == null || file.Length == 0)
@@ -90,6 +105,19 @@ namespace GlodnyStudent.Controllers
         [Route("Delete/{id:long}")]
         public async Task<IActionResult> DeleteFile(long id)
         {
+            /**
+            *  <summary>  
+            *Metoda DeleteFile usuwa  obaz o podanym ID.
+            *</summary> 
+            * 
+            *<param name="id"> id obrazu
+            *</param>
+            *<returns>
+            *W przypadku błędu bazy danych: Database Failure! \n
+            *W przypadku powodzenia: Usuwa obraz z bazy danych.
+            * 
+            *</returns>
+            */
             try
             {
                 var file = await _imageRepository.FindById(id);

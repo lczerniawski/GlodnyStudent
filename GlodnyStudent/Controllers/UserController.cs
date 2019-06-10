@@ -36,6 +36,20 @@ namespace GlodnyStudent.Controllers
         [Authorize]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
+            /**
+            *  <summary>  
+            *Metoda ResetPassword za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika hasło jest resetowane i zmieniane na nowe podane w formularzu 
+            *</summary> 
+            *<param name="resetPasswordViewModel">Obiekt klasy ResetPasswordViewModel czyli inaczej widok formularza resetu hasła.</param>
+            *<returns>
+            *
+            *W przypadku braku użykownika: Podany użytkownik nie istnieje\n
+            *W przypadku błędu zmiany hasła: Nie udało się zmienić hasła\n
+            *W przypadku błędu bazy danych: Database Failure!\n
+            *W przypadku powodzenia: Hasło zmienione
+            * 
+            *</returns>
+            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(resetPasswordViewModel.Username);
@@ -62,6 +76,23 @@ namespace GlodnyStudent.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
         {
+            /**
+            *  <summary>  
+            *Metoda ChangePassword za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika sprawdza czy stare hasło podane w formularzu zgadza się z hasłem w bazie danych. 
+            *W przypadku powodzenia stare hasło jest zmieniane na nowe.
+            *</summary> 
+            * 
+            *<param name="changePasswordViewModel">Obiekt klasy ChangePasswordViewModel czyli inaczej widok formularza zmiany hasła. </param>
+            * 
+            *<returns>
+            *W przypadku braku użykownika: Podany użytkownik nie istnieje\n
+            *W przypadku błędu zmiany hasła: Błąd podczas zmiany hasła\n
+            *W przypadku podania złego starego hasła: Błędne stare hasło\n
+            *W przypadku błędu bazy danych: Database Failure!\n
+            *W przypadku powodzenia: Hasło zmienione poprawnie
+            * 
+            *</returns>
+            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(changePasswordViewModel.Username);
@@ -91,36 +122,22 @@ namespace GlodnyStudent.Controllers
 
         }
 
-        //[Route("sendactivemail/{email}")]
-        //[HttpGet]
-        //public dynamic SendActiveMail(string email)
-        //{
-        //    dynamic result;
-        //    var getUser = userRepository.GetByEmail(email);
-        //    if (getUser != null)
-        //    {
-        //        string sent = Utilities.ActiveMailAsync(email);
-        //        result = new
-        //        {
-        //            code = ReturnCodes.DataGetSucceeded,
-        //            data = sent,
-        //        };
-        //    }
-        //    else
-        //    {
-        //        result = new
-        //        {
-        //            code = ReturnCodes.DataGetFailed,
-        //            data = "Fail",
-        //        };
-        //    }
-        //    return result;
-        //}
 
         [Route("sendresetmail/{email}")]
         [HttpGet]
         public async Task<IActionResult> SendResetMail(string email)
         {
+            /**
+            *  <summary>  
+            *Metoda SendResetMail przyjmuje nazwe emaila danego użytkownika, za pomocą repozytorium użytkownika sprawdza czy użykownik istnieje, jeśli tak to na podstawie jego tokenu tworzy link zmiany hasła.
+            *</summary> 
+            *<param name="email">String z emailem</param>
+            *<returns>
+            *W przypadku braku użykownika: Nie ma takiego użytkownika\n
+            *W przypadku błędu bazy danych: Database Failure!\n
+            *W przypadku powodzenia: Mail wysłany
+            *</returns>
+            */
             try
             {
                 var getUser = await _userRepository.FindUserByEmail(email);

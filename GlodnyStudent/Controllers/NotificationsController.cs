@@ -29,7 +29,16 @@ namespace GlodnyStudent.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Notification[]>> GetAll()
-        {
+        {            /**
+            *<summary>  
+            *Metoda GetAll działa tylko jeśli użytkownik jest administratorem. Pobiera wszystkie zgłoszone restrauracje i komentarze
+            *</summary> 
+            *
+            *<returns>
+            *W przypadku powodzenia: tablica powiadomień zgłoszonych restauracji i komentarzy.
+            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
+            *</returns>
+            */
             try
             {
                 var result = await _notificationRepository.FindAll();
@@ -48,6 +57,20 @@ namespace GlodnyStudent.Controllers
         [Authorize]
         public async Task<ActionResult<Notification>> CreateReportRestaurant([FromBody] long restaurantId)
         {
+            /**
+            *<summary>  
+            *Metoda CreateReportRestaurant pozwala dowolnemu zalogowanemu użytkownikowi zgłosić restraurację. 
+            *</summary> 
+            *
+            *<param name="id">  id restauracji
+            *</param>
+            *<returns>
+            *W przypadku powodzenia: "Restrauacja [nazwa] została zgłoszona przez jednego z użytkowników.\n
+            *Restauracja wymaga weryfikacji przez administratora."\n
+            *W przypadku błędu zgłaszania: Nie udało się wysłać zgłoszenia\n
+            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
+            *</returns>
+            */
             try
             {
                 var restaurant = await _restaurantRepository.FindById(restaurantId);
@@ -77,6 +100,21 @@ namespace GlodnyStudent.Controllers
         [Authorize]
         public async Task<ActionResult<Notification>> CreateReportReview([FromBody] long reviewId)
         {
+            /**
+            *<summary>  
+            *Metoda CreateReportReview pozwala dowolnemu zalogowanemu użytkownikowi zgłosić opinię. 
+            *</summary> 
+            *
+            *<param name="id">  id opinii
+            *</param>
+            *<returns>
+            *W przypadku powodzenia: "Komentarz użytkownika  [nazwa użytkownika] " o treści: [treść] została zgłoszony przez jednego z użytkowników."\n
+            *Komentarz wymaga weryfikacji przez administratora.\n
+            *Restauracja wymaga weryfikacji przez administratora."\n
+            *W przypadku błędu zgłaszania: Nie udało się wysłać zgłoszenia\n
+            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
+            *</returns>
+            */
             try
             {
                 var review = await _reviewRepository.FindById(reviewId);
@@ -106,6 +144,19 @@ namespace GlodnyStudent.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Notification>> DeleteNotification([FromQuery] long id)
         {
+            /**
+            *<summary>  
+            *Metoda DeleteNotification pozwala administratorowi usunąć powiadomienie.
+            *</summary> 
+            *
+            *<param name="id">  id powiadomienia
+            *</param>
+            *<returns>
+            *Restauracja wymaga weryfikacji przez administratora."\n
+            *W przypadku błędu podczas usuwania: Nie ma komentarza o takim ID\n
+            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
+            *</returns>
+            */
             try
             {
                 var notification = await _notificationRepository.FindById(id);
