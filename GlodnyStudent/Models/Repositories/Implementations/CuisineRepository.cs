@@ -25,7 +25,8 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Create przyjmuje obiekt typu Cuisine, tworzy nowy rekord w tablicę baz danych - Cuisines i zwraca asynchronicznie zapisany obiekt.
+        /// Metoda Create przyjmuje obiekt typu Cuisine, według argumentu tworzy nowy rekord w tablicę baz danych - Cuisines 
+        /// i asynchronicznie zwraca zapisany obiekt.
         /// </summary>
         /// <param name="cuisine">Obiekt typu Cuisine</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>
@@ -39,7 +40,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Delete przyjmuje nazwę typu kuchni i na jej podstawie usuwa rekord z tablicy baz danych - Cuisines.
+        /// Metoda Delete przyjmuje nazwę typu kuchni i na jej podstawie asynchronicznie usuwa rekord z tablicy baz danych - Cuisines.
         /// </summary>
         /// <param name="name">Nazwa typu kuchni</param>
         /// <returns>Operację asynchroniczną</returns>
@@ -62,7 +63,8 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda FindByName przyjmuje nazwę typu kuchni i na jej podstawie szuka rekord z tablicy baz danych - Cuisines.
+        /// Metoda FindByName przyjmuje nazwę typu kuchni, według argumentu szuka rekord z tablicy baz danych - Cuisines 
+        /// i asynchronicznie zwraca dany obiekt.
         /// </summary>
         /// <param name="name">Nazwa typu kuchni</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>
@@ -72,7 +74,8 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Update przyjmuje obiekt typu Cuisine, i na jej podstawie zmienia rekord z tablicy baz danych - Cuisines.
+        /// Metoda Update przyjmuje obiekt typu Cuisine, według argumentu aktualizuje rekord z tablicy baz danych - Cuisines 
+        /// i asynchronicznie zwraca dany obiekt.
         /// </summary>
         /// <param name="cuisine">Obiekt typu Cuisine</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>
