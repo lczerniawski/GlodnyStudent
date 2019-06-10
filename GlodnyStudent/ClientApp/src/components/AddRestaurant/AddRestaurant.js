@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import KRScheck from './KRScheck';
+import PropTypes from 'prop-types';
 
 export default class AddRestaurant extends Component {
 
@@ -16,7 +17,8 @@ export default class AddRestaurant extends Component {
                 district:"Bemowo"
             }, 
             wantToBeOwner:false,
-            KRS:null
+            KRS:null,
+            responseMessage:""
 
         }
         this.getCuisines = this.getCuisines.bind(this);
@@ -102,14 +104,24 @@ export default class AddRestaurant extends Component {
           )
         }).then(res => res.json())
         .then((data) => { 
- 
-          // Komunikat ze sie udalo
+     
+          this.setState({
+            responseMessage:data.status === 200?null:"Ojoj, coś poszło nie tak"
+
+          }); 
+          if(data.status === 200){
+            this.context.router.history.push(`/Restauracja/${data.id}`)
+          }
+          
         
          } )
         .catch((err)=>console.log(err))  
       }
 
 
+      static contextTypes = {
+        router: PropTypes.object
+      }
 
     render() {
 
@@ -120,6 +132,7 @@ export default class AddRestaurant extends Component {
 
         return (
             <div>
+                {this.state.responseMessage}
                 <form>
                     <label>Nazwa restauracji <input name="restaurantName" type="text" onChange={this.handleInputChange} /></label>
                     <label>Typ kuchni

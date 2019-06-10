@@ -19,15 +19,10 @@ export class RestaurantList extends Component {
       distance:20,// tu wstawić jako poczatkowa wartosc wartosc highestDistance
       price:0,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
       cuisine:'Wszystkie',
-      cuisines: [/* 'Amerykańska','Polska','Włoska','Azjatycka' */], // tu wstawic liste wszystkich typow kuchni z serwera
+      cuisines: [], // tu wstawic liste wszystkich typow kuchni z serwera
       highestPrice:0,// tu wstawić maksymalna wartość dostarczona z serwera
       sort:'priceGrowingly',
-      restaurations: [ // przykladowe dane statyczne , dane z serwera beda pobierane po 20 i po kliknieciu  "dalej" beda doladowyawane
-        /* {id:"0",name: "Piękna restauracja1", cuisine: "Włoska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:99,distance:11},
-        {id:"1",name: "Piękna restauracja2", cuisine: "Polska", address: "Jana Pawła2 21/37",reviewsCount:"169", image: '',highestPrice:50,distance:100},
-        {id:"2",name: "Piękna restauracja3", cuisine: "Azjatycka", address: "Jana Pawła2 21/37",reviewsCount:"169", image: '',highestPrice:25,distance:13},
-        {id:"3",name: "Piękna restauracja4", cuisine: "Amerykańska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:100,distance:12}    */
-      ]
+      restaurations: []
       
     };
   }

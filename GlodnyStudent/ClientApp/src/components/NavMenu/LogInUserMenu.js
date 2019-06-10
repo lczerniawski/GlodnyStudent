@@ -9,7 +9,7 @@ export default class LogInUserMenu extends Component {
                 <p>{sessionStorage.getItem("username")}</p>         
                 <ul className="navList">
                    {(sessionStorage.getItem("role") === "Admin")?<li onClick={(e)=>this.props.toggleAdminPanel(e)} >Panel Administracyjny</li>:null} 
-                    <li><Link to="/DodajRestauracje" >Zgłoś restaurację</Link></li> 
+                    <li><Link to="/DodajRestauracje" >Dodaj restauracje</Link></li> 
                     <li><Link to="/ZmianaHasła" >Zmień hasło</Link></li>  
                     <li onClick={(e) =>this.props.handleLogOut(e)} >Wyloguj</li>
                 </ul>

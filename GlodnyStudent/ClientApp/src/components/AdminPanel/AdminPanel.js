@@ -73,12 +73,16 @@ export default class AdminPanel extends Component {
             )
         }).then(res => res.json())
         .then((data) => { 
-          let usersNew = this.state.users     
-          let index = usersNew.findIndex(user=> user.username === data.username);
-          usersNew[index].status = data.status;
-          this.setState({
-            users: usersNew
-          });
+
+          if(data.status ===200){
+            let usersNew = this.state.users     
+            let index = usersNew.findIndex(user=> user.username === data.username);
+            usersNew[index].userStatus = data.userStatus;
+            this.setState({
+              users: usersNew
+            });
+          }
+          
         } )
         .catch((err)=>console.log(err))  
       } 
@@ -120,13 +124,14 @@ export default class AdminPanel extends Component {
             'Authorization':'Bearer ' + sessionStorage.getItem("token")
           }
         }).then(res => res.json())
-        .then((data) => { 
-          let reportsNew = this.state.reports     
-          let index = reportsNew.findIndex(report=> report.id === data.id);
-          reportsNew.splice(index, 1);
-          this.setState({
-            users: reportsNew
-          });
+          .then((data) => { 
+            if(data.status === 200)
+            {  let reportsNew = this.state.reports     
+              let index = reportsNew.findIndex(report=> report.id === data.notification.id);
+              reportsNew.splice(index, 1);
+              this.setState({
+                users: reportsNew
+              });}
         } )
         .catch((err)=>console.log(err))  
       } 

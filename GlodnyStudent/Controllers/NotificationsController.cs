@@ -34,7 +34,7 @@ namespace GlodnyStudent.Controllers
             {
                 var result = await _notificationRepository.FindAll();
                 if (result == null)
-                    return NotFound("Brak powiadomień");
+                    return new Notification[]{};
 
                 return result.ToArray();
             }
@@ -110,11 +110,12 @@ namespace GlodnyStudent.Controllers
             {
                 var notification = await _notificationRepository.FindById(id);
                 if (notification == null)
-                    return NotFound("Nie ma komentarza o takim ID");
+                    return NotFound(new{status = StatusCodes.Status404NotFound, message = "Nie ma komentarza o takim ID"});
+
 
                 await _notificationRepository.Delete(id);
                 
-                return notification;
+                return Ok(new{status = StatusCodes.Status200OK,notification});
             }
             catch (Exception)
             {

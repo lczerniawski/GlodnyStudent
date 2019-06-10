@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using GlodnyStudent.Data.Abstract;
@@ -8,6 +9,7 @@ using GlodnyStudent.Models;
 using GlodnyStudent.Models.Domain;
 using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
@@ -24,15 +26,19 @@ namespace GlodnyStudent.Controllers
         private readonly IReviewRepository _reviewRepository;
         private readonly IUserRepository _userRepository;
         private readonly IRestaurantAddressRepository _restaurantAddressRepository;
+        private readonly IImageRepository _imageRepository;
+        private readonly IMenuItemRepository _menuItemRepository;
         private readonly IMapper _mapper;
 
-        public RestaurantsController(IRestaurantRepository restaurantRepository,ICuisineRepository cuisineRepository ,IReviewRepository reviewRepository,IUserRepository userRepository,IRestaurantAddressRepository restaurantAddressRepository,IMapper mapper)
+        public RestaurantsController(IRestaurantRepository restaurantRepository,ICuisineRepository cuisineRepository ,IReviewRepository reviewRepository,IUserRepository userRepository,IRestaurantAddressRepository restaurantAddressRepository,IImageRepository imageRepository,IMenuItemRepository menuItemRepository,IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
             _cuisineRepository = cuisineRepository;
             _reviewRepository = reviewRepository;
             _userRepository = userRepository;
             _restaurantAddressRepository = restaurantAddressRepository;
+            _imageRepository = imageRepository;
+            _menuItemRepository = menuItemRepository;
             _mapper = mapper;
         }
 
@@ -54,13 +60,18 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:int}/[action]")]
+        [Authorize]
         public async Task<ActionResult<RatingViewModel>> UpVote(int id)
         {
             try
             {
-                var result = await _restaurantRepository.FindById(id);
-                result.Score++;
+                var restaurant = await _restaurantRepository.FindById(id);
+                restaurant.Score++;
 
+                var result = await _restaurantRepository.Update(restaurant);
+                if(result == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu"});
+                
                 return new RatingViewModel{Rating = result.Score};
             }
             catch (Exception)
@@ -70,12 +81,17 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:int}/[action]")]
+        [Authorize]
         public async Task<ActionResult<RatingViewModel>> DownVote(int id)
         {
             try
             {
-                var result = await _restaurantRepository.FindById(id);
-                result.Score--;
+                var restaurant = await _restaurantRepository.FindById(id);
+                restaurant.Score--;
+
+                var result = await _restaurantRepository.Update(restaurant);
+                if(result == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu"});
 
                 return new RatingViewModel{Rating = result.Score};
             }
@@ -86,6 +102,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPut("{id:int}/[action]")]
+        [Authorize]
         public  async Task<ActionResult<ReviewViewModel>> AddReview([FromBody]Review review,int id)
         {
             try
@@ -121,6 +138,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:long}/[Action]")]
+        [Authorize]
         public async Task<ActionResult<string>> UpdateName([FromBody]string name, long id)
         {
             try
@@ -142,6 +160,7 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost("{id:long}/[Action]")]
+        [Authorize]
         public async Task<ActionResult<AddressViewModel>> UpdateAddress([FromBody]AddressViewModel addressViewModel, long id)
         {
             try
@@ -178,30 +197,30 @@ namespace GlodnyStudent.Controllers
             {
                 HashSet<string> cuisines = new HashSet<string>();
 
-                var cuisinesFromDb = await _cuisineRepository.FindAll();
-
-                foreach (var cuisine in cuisinesFromDb)
+                foreach (string cuisine in Enum.GetNames(typeof(CuisineTypes.Cuisines)))
                 {
-                    cuisines.Add(cuisine.Name);
+                    cuisines.Add(cuisine);
                 }
 
                 return cuisines.ToArray();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
         }
 
         [HttpPut]
-        public async Task<ActionResult<long>> CreateRestaurant(AddRestaurantViewModel addRestaurantViewModel)
+        [Authorize]
+        public async Task<IActionResult> CreateRestaurant(AddRestaurantViewModel addRestaurantViewModel)
         {
             try
             {
                 var user = await _userRepository.FindUserByUsername(addRestaurantViewModel.Username);
                 if (user == null)
-                    return BadRequest("Nie udało się dodać restauracji");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać restauracji"});
+
                 
                 Restaurant newRestaurant = new Restaurant
                 {
@@ -212,7 +231,7 @@ namespace GlodnyStudent.Controllers
                 var addedRestaurant = await _restaurantRepository.Create(newRestaurant);
 
                 if (addedRestaurant == null)
-                    return BadRequest("Nie udało się dodać restauracji");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać restauracji"});
 
                 var newCuisine = new Cuisine
                 {
@@ -221,7 +240,7 @@ namespace GlodnyStudent.Controllers
                 };
 
                 if (await _cuisineRepository.Create(newCuisine) == null)
-                    return BadRequest("Nie udało się dodać restauracji");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać restauracji"});
 
                 var newAddress = new RestaurantAddress
                 {
@@ -232,14 +251,75 @@ namespace GlodnyStudent.Controllers
                     RestaurantId = addedRestaurant.Id
                 };
 
-                if (await _restaurantAddressRepository.Create(newAddress) == null)
-                    return BadRequest(false);
+                var result = await _restaurantAddressRepository.Create(newAddress);
+                if(result == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać restauracji"});
 
-                return addedRestaurant.Id;
+                return Ok(new {status = StatusCodes.Status200OK, message = "Dodano nową restauracje",id = result.Id});
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+                return StatusCode(StatusCodes.Status500InternalServerError, new{status = StatusCodes.Status500InternalServerError, message = "Database Failure!"});
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id:long}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteRestaurant(long id)
+        {
+            try
+            {
+                var restaurant = await _restaurantRepository.FindById(id);
+                if(restaurant == null)
+                    return NotFound(new{status = StatusCodes.Status404NotFound, message = "Restauracja o takim ID nie istnieje"});
+
+                var restaurantCuisine = await _cuisineRepository.FindById(restaurant.Cuisine.Id);
+                if(restaurantCuisine == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas usuwania restauracji"});
+
+                await _cuisineRepository.Delete(restaurantCuisine.Id);
+
+                var restaurantAddress = await _restaurantAddressRepository.FindById(restaurant.Address.Id);
+                if(restaurantAddress == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas usuwania restauracji"});
+
+                await _restaurantAddressRepository.Delete(restaurantAddress.Id);
+
+                var restaurantGallery = await _imageRepository.FindAllByRestaurantId(restaurant.Id);
+                if(restaurantGallery == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas usuwania restauracji"});
+
+                foreach (var image in restaurantGallery)
+                {
+                    await _imageRepository.Delete(image.Id);
+                }
+
+                var restaurantReviews = await _reviewRepository.FindAllByRestaurantId(restaurant.Id);
+                if(restaurantReviews == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas usuwania restauracji"});
+
+                foreach (var review in restaurantReviews)
+                {
+                    await _reviewRepository.Delete(review.Id);
+                }
+
+                var restaurantMenu = await _menuItemRepository.FindAllByRestaurantId(restaurant.Id);
+                if(restaurantMenu == null)
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas usuwania restauracji"});
+
+                foreach (var menuItem in restaurantMenu)
+                {
+                    await _menuItemRepository.Delete(menuItem.Id);
+                }
+
+                await _restaurantRepository.Delete(id);
+
+                return Ok(new{status = StatusCodes.Status200OK, message = "Usuwanie restauracji powiodło się"});
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new{status = StatusCodes.Status500InternalServerError, message = "Database Failure!"});
             }
         }
     }

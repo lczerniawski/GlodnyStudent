@@ -13,7 +13,8 @@ export default class NewResetPassword extends Component {
             repeatedPasswordErrorText:"",
             disabledSubmit:true,
             disabledRepeatedPassword:true,
-            typingTimer:null
+            typingTimer:null,
+            responseMessage:null
         }
         this.inputValidate = this.inputValidate.bind(this);
         this.startCountdownToValidate = this.startCountdownToValidate.bind(this);
@@ -103,7 +104,12 @@ export default class NewResetPassword extends Component {
                 })
             }).then(res => res.json())
             .then((data) => {    
-                
+                this.setState({
+                    responseMessage:data.message,
+                    password:"",
+                    repeatedPassword:""
+                  });
+
             } )
             .catch((err)=>console.log(err))
     }
@@ -114,10 +120,11 @@ export default class NewResetPassword extends Component {
     render() {
         return (
             <div>
+                {this.state.responseMessage}
                 <form onSubmit={this.sendPassword}>
-                    <label>Nowe hasło:<input name="password" type="password" 
+                    <label>Nowe hasło:<input name="password" type="password" value={this.state.password}
                     onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.passwordErrorText}</label>
-                    <label>Powtórz hasło:<input name="repeatedPassword" type="password"  disabled={this.state.disabledRepeatedPassword}
+                    <label>Powtórz hasło:<input name="repeatedPassword" type="password"  disabled={this.state.disabledRepeatedPassword} value={this.state.repeatedPassword}
                     onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.repeatedPasswordErrorText}</label>
                     <input className="filedLabel wow fadeIn" data-wow-duration="2s" type="submit" disabled={this.state.disabledSubmit}  value="Zapisz" />
                 </form>

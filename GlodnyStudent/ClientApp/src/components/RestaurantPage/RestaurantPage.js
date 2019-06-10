@@ -17,6 +17,7 @@ export default class RestaurantPage extends Component {
 constructor(props){
     super(props);
     this.state={
+          responseMessage:null,
           fields: {},
           ownerLogIn:false,
           location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
@@ -44,6 +45,7 @@ constructor(props){
     this.uploadJustFile = this.uploadJustFile.bind(this);
     this.filesOnChange = this.filesOnChange.bind(this);
     this.makeReport = this.makeReport.bind(this);
+    this.removeRestaurant = this.removeRestaurant.bind(this);
 }
   
     componentDidMount(){
@@ -372,12 +374,47 @@ constructor(props){
       } 
 
 
+     removeRestaurant(e) {
+        e.preventDefault();
+        let res = this.state.responseMessage;
+        const adr =`api/Restaurants/${this.state.restaurant.id}`;
+    
+          fetch(adr, {
+              method: 'DELETE',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization':'Bearer ' + sessionStorage.getItem("token")
+    
+              },
+              body: JSON.stringify()
+          }).then((data) => {
+            switch(data.status){
+              case 200:               
+                this.context.router.history.push(`/`);
+              break;
+              default:
+                  res = data.message;
+          }
+          this.setState({
+          responseMessage: res
+            
+        });
 
+
+        });
+    
+      } 
+
+
+    
 
 
   render() {
     return (
       <div className="singleRestaurant">
+        {this.state.responseMessage}
+        {(sessionStorage.getItem("role") === "Admin")?<button onClick={this.removeRestaurant} >Usuń restauracje</button>:null}
         <button  onClick={this.makeReport} name="CreateReportRestaurant">Zgłoś nieprawidłowości na stronie</button>
         <div className="header">
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        

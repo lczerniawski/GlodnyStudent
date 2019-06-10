@@ -17,7 +17,6 @@ namespace GlodnyStudent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IEmailSender _emailSender;
@@ -40,15 +39,16 @@ namespace GlodnyStudent.Controllers
             {
                 var user = await _userRepository.FindUserByUsername(resetPasswordViewModel.Username);
                 if (user == null)
-                    return BadRequest("Podany użytkownik nie istnieje");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Podany użytkownik nie istnieje"});
 
                 user.Password = _authService.HashPassword(resetPasswordViewModel.NewPassword);
 
                 var result = _userRepository.Update(user);
                 if (result == null)
-                    return BadRequest("Nie udało się zmienić hasła");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić hasła"});
 
-                return Ok("Hasło zmienione");
+                return Ok(new{status = StatusCodes.Status400BadRequest, message = "Hasło zmienione"});
+
             }
             catch (Exception)
             {
@@ -66,10 +66,9 @@ namespace GlodnyStudent.Controllers
             {
                 var user = await _userRepository.FindUserByUsername(changePasswordViewModel.Username);
                 if (user == null)
-                    return BadRequest("Podany użytkownik nie istnieje");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Podany użytkownik nie istnieje"});
 
-                if (_authService.VerifyPassword(user.Password,
-                    _authService.HashPassword(changePasswordViewModel.OldPassword)))
+                    if (_authService.VerifyPassword(changePasswordViewModel.OldPassword,user.Password))
                 {
                     user.Password = _authService.HashPassword(changePasswordViewModel.NewPassword);
                     var result = _userRepository.Update(user);
@@ -77,11 +76,11 @@ namespace GlodnyStudent.Controllers
                     if (result == null)
                         return BadRequest("Błąd podczas zmiany hasła");
 
-                    return Ok("Hasło zmienione poprawnie");
+                    return Ok(new{status = StatusCodes.Status200OK, message = "Hasło zmienione poprawnie"});
                 }
                 else
                 {
-                    return BadRequest("Błędne stare hasło");
+                    return StatusCode(StatusCodes.Status409Conflict,new { status = StatusCodes.Status409Conflict,message = "Błędne stare hasło" });
                 }
             }
             catch (Exception)
@@ -125,12 +124,14 @@ namespace GlodnyStudent.Controllers
             {
                 var getUser = await _userRepository.FindUserByEmail(email);
                 if (getUser == null)
-                    return NotFound("Nie ma takiego użytkownika");
+                    return NotFound(new{status = StatusCodes.Status404NotFound, message = "Nie ma takiego użytkownika"});
 
                 var resetToken = _authService.GetAuthData(getUser.Id, getUser.Username, getUser.Role);
 
                 await _emailSender.SendEmailAsync(email, "Reset Hasła GłodnyStudent", "Wygląda na to, że prosiłeś o zmiane hasła. Aby jej dokonac przejdź pod link: https://www.localhost:44375/ResetHasła/" + getUser.Username + "/" + resetToken.Token);
-                return Ok("Mail wysłany");
+
+                return Ok(new{status = StatusCodes.Status200OK, message = "Mail wysłany"});
+
             }
             catch (Exception)
             {

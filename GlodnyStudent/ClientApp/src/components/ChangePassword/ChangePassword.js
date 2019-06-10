@@ -16,7 +16,8 @@ export default class ChangePassword extends Component {
             currentPasswordErrorText:"",
             disabledSubmit:true,
             disabledRepeatedPassword:true,
-            typingTimer:null
+            typingTimer:null,
+            responseMessage:null
         }
         this.inputValidate = this.inputValidate.bind(this);
         this.startCountdownToValidate = this.startCountdownToValidate.bind(this);
@@ -24,7 +25,9 @@ export default class ChangePassword extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.sendPassword = this.sendPassword.bind(this);
     }
-    
+
+
+
     inputValidate(event){
         const {password,passwordValidResult,repeatedPasswordValidResult,currentPasswordValidResult} = this.state;
         const errorMessageTarget= event.target.name + "ErrorText";
@@ -106,8 +109,27 @@ export default class ChangePassword extends Component {
                         oldPassword:this.state.currentPassword
                 })
             }).then(res => res.json())
-            .then((data) => {    
-                
+            .then((data) => {
+                let res=null;
+                let show = this.state.showForm;
+                switch(data.status){
+                    case 200:
+                        res ="Hasło zostało pomyślnie zmienione";
+                    break;
+                    case 409:
+                        res ="Stare hasło nieprawidłowe";
+                    break;
+                    default:
+                        res ="Ojoj coś poszło nie tak";
+                }
+                  
+                this.setState({
+                   responseMessage: res,
+                   currentPassword:"",
+                   password:"",
+                   repeatedPassword:""
+                  });
+                 
             } )
             .catch((err)=>console.log(err))
     }
@@ -115,15 +137,18 @@ export default class ChangePassword extends Component {
 
     render() {
         return (
-            <form onSubmit={this.sendPassword}>
-                <label>Aktualne hasło:<input name="currentPassword" type="password" 
-                onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.currentPasswordErrorText}</label>
-                <label>Nowe hasło:<input name="password" type="password" 
-                onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.passwordErrorText}</label>
-                <label>Powtórz hasło:<input name="repeatedPassword" type="password"  disabled={this.state.disabledRepeatedPassword}
-                onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.repeatedPasswordErrorText}</label>
-                <input className="filedLabel wow fadeIn" data-wow-duration="2s" type="submit" disabled={this.state.disabledSubmit}  value="Zapisz" />
-            </form>
+            <div>
+                <h2>{this.state.responseMessage}</h2>
+                <form onSubmit={this.sendPassword}>
+                    <label>Aktualne hasło:<input name="currentPassword" type="password" value={this.state.currentPassword}
+                    onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.currentPasswordErrorText}</label>
+                    <label>Nowe hasło:<input name="password" type="password" value={this.state.password}
+                    onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.passwordErrorText}</label>
+                    <label>Powtórz hasło:<input name="repeatedPassword" type="password"  disabled={this.state.disabledRepeatedPassword} value={this.state.repeatedPassword}
+                    onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.repeatedPasswordErrorText}</label>
+                    <input className="filedLabel wow fadeIn" data-wow-duration="2s" type="submit" disabled={this.state.disabledSubmit}  value="Zapisz" />
+                </form>
+            </div>
         )
     }
 }
