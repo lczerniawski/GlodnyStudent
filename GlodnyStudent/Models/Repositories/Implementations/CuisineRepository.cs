@@ -25,8 +25,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Create przyjmuje obiekt typu Cuisine, według argumentu tworzy nowy rekord w tablicę baz danych - Cuisines 
-        /// i asynchronicznie zwraca zapisany obiekt.
+        /// Metoda Create przyjmuje obiekt typu Cuisine, następnie według argumentu, tworzy nowy rekord w tablicę baz danych - Cuisines.
         /// </summary>
         /// <param name="cuisine">Obiekt typu Cuisine</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>
@@ -63,8 +62,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda FindByName przyjmuje nazwę typu kuchni, według argumentu szuka rekord z tablicy baz danych - Cuisines 
-        /// i asynchronicznie zwraca dany obiekt.
+        /// Metoda FindByName przyjmuje nazwę typu kuchni, następnie według argumentu, szuka rekord z tablicy baz danych - Cuisines.
         /// </summary>
         /// <param name="name">Nazwa typu kuchni</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>
@@ -74,8 +72,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Update przyjmuje obiekt typu Cuisine, według argumentu aktualizuje rekord z tablicy baz danych - Cuisines 
-        /// i asynchronicznie zwraca dany obiekt.
+        /// Metoda Update przyjmuje obiekt typu Cuisine, następnie według argumentu, aktualizuje rekord z tablicy baz danych - Cuisines.
         /// </summary>
         /// <param name="cuisine">Obiekt typu Cuisine</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>

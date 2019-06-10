@@ -27,8 +27,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Create przyjmuje obiekt typu Image, według argumentu tworzy nowy rekord w tablicę baz danych - Images 
-        /// i asynchronicznie zwraca zapisany obiekt.
+        /// Metoda Create przyjmuje obiekt typu Image, następnie według argumentu, tworzy nowy rekord w tablicę baz danych - Images.
         /// </summary>
         /// <param name="image">Obiekt typu Image</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Image</returns>
@@ -44,7 +43,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         /// <summary>
         /// Metoda Delete przyjmuje id obrazu i na jej podstawie asynchronicznie usuwa rekord z tablicy baz danych - Images.
         /// </summary>
-        /// <param name="id">Id obrazu</param>
+        /// <param name="id">Klucz podstawowy obrazu</param>
         /// <returns>Operację asynchroniczną</returns>
         public async Task Delete(long id)
         {
@@ -68,7 +67,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         /// Metoda FindAllByRestaurantId przyjmuje id restauracji i na jej podstawie asynchronicznie zwraca 
         /// listę rekordów z tablicy baz danych - Images.
         /// </summary>
-        /// <param name="restaurantId">Id restauracji</param>
+        /// <param name="restaurantId">Klucz obcy restauracji</param>
         /// <returns>Operację asynchroniczną, która zwraca listę obiektów typu Image</returns>
         public async Task<IEnumerable<Image>> FindAllByRestaurantId(long restaurantId)
         {
@@ -78,10 +77,9 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda FindById przyjmuje ID obrazu, według argumentu szuka rekord z tablicy baz danych - Images 
-        /// i asynchronicznie zwraca dany obiekt.
+        /// Metoda FindById przyjmuje ID obrazu, następnie według argumentu, szuka rekord z tablicy baz danych - Images.
         /// </summary>
-        /// <param name="id">ID obrazu</param>
+        /// <param name="id">Klucz podstawowy obrazu</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Image</returns>
         public async Task<Image> FindById(long id)
         {
@@ -89,8 +87,7 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         }
 
         /// <summary>
-        /// Metoda Update przyjmuje obiekt typu Image, według argumentu aktualizuje rekord z tablicy baz danych - Images 
-        /// i asynchronicznie zwraca dany obiekt.
+        /// Metoda Update przyjmuje obiekt typu Image, następnie według argumentu, aktualizuje rekord z tablicy baz danych - Images.
         /// </summary>
         /// <param name="image">Obiekt typu Image</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Image</returns>
