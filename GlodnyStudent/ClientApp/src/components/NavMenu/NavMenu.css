@@ -14,6 +14,22 @@ header .navLogo {
   padding-bottom: 15px;
 }
 
+header .userName {
+  float: left;
+  font-size: 22px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+header .logoutMenu, header .menuAdmin {
+  background-color: #404040;
+  font-size: 20px;
+  color: #F2994A;
+  padding: 10px;
+  margin-top: -8px;
+  margin-left: 10px;
+}
+
 header .navLogo img {
   width: auto;
   height: 60px;
@@ -165,6 +181,14 @@ header .formLogin input[type=submit]:hover {
     -webkit-transition: all 1s ease;
     transition: all 1s ease;
     z-index: 3000;
+  }
+
+  header .userName {
+    text-align: center;
+    color: #fff;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 20px;
   }
 
   header .navList {

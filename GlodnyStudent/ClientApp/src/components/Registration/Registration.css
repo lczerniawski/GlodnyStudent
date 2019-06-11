@@ -1,25 +1,25 @@
-.registration {
+.mainSection {
     margin: 0 auto;
 }
 
-.registration .containerLight {
+.mainSection .containerLight {
     overflow: hidden;
 }
 
-.registration .label-form:last-of-type {
+.mainSection .label-form:last-of-type {
     margin-bottom: 40px;
 }
 
-.registration .label-form {
+.mainSection .label-form {
     float: left;
     margin-top: 20px;
 }
 
-.registration input {
+.mainSection input {
     width: 100%;
 }
 
-.registration input[type=submit] {
+.mainSection input[type=submit] {
     color: #404040;
     background: #F2994A;
     border: none;
@@ -27,22 +27,22 @@
     padding: 15px;
 }
 
-.registration p.text {
+.mainSection p.text {
     text-align: center;
     font-size: 20px;
 }
 
-.registration p.error {
+.mainSection p.error {
     float: left;
     width: 100%;
     color: red;
 }
 
-.registration input[type=submit] {
+.mainSection input[type=submit] {
     margin: 0 auto;
 }
 
-.registration input[type=submit]:hover {
+.mainSection input[type=submit]:hover {
     color: #fff;
     background-color: #404040;
 }
@@ -52,37 +52,37 @@
 }
 
 @media(min-width: 901px) {
-    .registration .containerLight {
+    .mainSection .containerLight {
         padding: 100px;
     }
 
-    .registration p.text {
+    .mainSection p.text {
         padding: 20px;
     }
     
-    .registration p.error {
+    .mainSection p.error {
         min-height: 40px;
     }
 
-    .registration .label-form:nth-of-type(2n+1) {
+    .mainSection .label-form:nth-of-type(2n+1) {
         padding-right: 30px;
     }
     
-    .registration .label-form:nth-of-type(2n) {
+    .mainSection .label-form:nth-of-type(2n) {
         padding-left: 30px;
     }
     
-    .registration .label-form, .registration input[type=submit] {
+    .mainSection .label-form, .mainSection input[type=submit] {
         width: 50%;
     }
 }
 
 @media(max-width: 900px) {
-    .registration .containerLight {
+    .mainSection .containerLight {
         padding: 40px;
     }
 
-    .registration .label-form, .registration input[type=submit] {
+    .mainSection .label-form, .mainSection input[type=submit] {
         width: 100%;
     }
 }

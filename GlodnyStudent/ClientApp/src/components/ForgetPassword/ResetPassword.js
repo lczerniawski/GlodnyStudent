@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import ForgetPassword from './ForgetPassword';
 import NewResetPassword from './NewResetPassword';
 

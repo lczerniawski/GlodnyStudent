@@ -539,8 +539,8 @@ constructor(props){
     return (
       <div className="singleRestaurant">
         {this.state.responseMessage}
-        {(sessionStorage.getItem("role") === "Admin")?<button onClick={this.removeRestaurant} >Usuń restauracje</button>:null}
-        <button  onClick={this.makeReport} name="CreateReportRestaurant">Zgłoś nieprawidłowości na stronie</button>
+        {(sessionStorage.getItem("role") === "Admin")?<button className="deleteRestaurant" onClick={this.removeRestaurant} >Usuń restauracje</button>:null}
+        <button  onClick={this.makeReport} className="report" name="CreateReportRestaurant">Zgłoś nieprawidłowości na stronie</button>
         <div className="header">
           <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        
           <HeaderImage />

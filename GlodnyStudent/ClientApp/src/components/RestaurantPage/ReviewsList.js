@@ -9,7 +9,7 @@ export default class ReviewsList extends Component {
                 <ul>
                   <li><i className="far fa-user"></i>{row.userUsername }</li>
                   <li>{row.addTime}</li>
-                  <li><button name="CreateReportReview" value={row.id} onClick={(e)=>this.props.makeReport(e)} >Zgłoś komentarz</button></li>
+                  <li className="reportLi"><button className="reportComment" name="CreateReportReview" value={row.id} onClick={(e)=>this.props.makeReport(e)} >Zgłoś komentarz</button></li>
                 </ul>
               </div>
               <div className="description">

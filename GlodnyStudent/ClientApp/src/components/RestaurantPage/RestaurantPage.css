@@ -115,6 +115,29 @@
     text-align: right;
 }
 
+.report, .deleteRestaurant {
+    width:100%;
+    padding: 10px;
+    margin: 0 !important;
+    border: none !important;
+    text-align: center;
+}
+
+.report {
+    background-color: rgb(109, 201, 255);
+    color: #404040;
+}
+
+.report:hover {
+    color: #fff;
+    background-color: rgb(44, 155, 219);
+}
+
+.deleteRestaurant {
+    background-color: rgb(180, 12, 12);
+    color: #fff;
+}
+
 @media(max-width: 900px) {
     .singleRestaurant .header button.back {
         margin-top: 100px;

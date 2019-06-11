@@ -17,7 +17,6 @@ namespace GlodnyStudent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ImageController : ControllerBase
     {
         private readonly IImageRepository _imageRepository;
@@ -95,6 +94,7 @@ namespace GlodnyStudent.Controllers
         /// </returns>
         [HttpDelete]
         [Route("Delete/{id:long}")]
+        [Authorize]
         public async Task<IActionResult> DeleteFile(long id)
         {
             try
