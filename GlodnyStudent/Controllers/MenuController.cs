@@ -31,6 +31,22 @@ namespace GlodnyStudent.Controllers
         [HttpPost]
         public async Task<ActionResult<MenuViewModel>> CreateMenuItem(MenuItemViewModel menuItem)
         {
+            /**
+            *  <summary>  
+            *Metoda CreateMenuItem tworzy obiekt, który zotanie dodany do menu 
+            *</summary> 
+            * 
+            *<param name="menuItem">  Obiekt klasy MenuItemViewModel jest to widok obiektu, który ma zostać dodany do menu.-
+            *</param>
+
+            *<returns>
+            *W przypadku błędu bazy danych: Database Failure!                   \n
+            *W przypadu braku istnienia danej restauracji: Podana restauracja nie istnieje
+            *W przypadku błędu podczas dodawania pozycji do menu: Dodawanie nie powiodło się
+            *W przypadku powodzenia: przesyła nową mapę menu.
+            * 
+            *</returns>
+            */
             try
             {
                 var restaurant = await _restaurantRepository.FindById(menuItem.RestaurantId);
@@ -58,7 +74,18 @@ namespace GlodnyStudent.Controllers
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteMenuItem(long id)
-        {
+        {      
+            /** *  <summary>  
+            *Metoda DeleteMenuItem usuwa obiekt z menu
+            *</summary> 
+            * 
+            *<param name="id">  id obiektu w menu
+            *</param>
+
+            *<returns>
+            *W przypadku błędu bazy danych: Database Failure!                   \n
+            *</returns>
+            */
             try
             {
                 var result = await _menuItemRepository.FindById(id);
@@ -83,6 +110,16 @@ namespace GlodnyStudent.Controllers
 
         private async Task UpdateHihgestPrice(Restaurant restaurant)
         {
+
+            /** *  <summary>  
+            *Metoda UpdateHihgestPrice ustawia nową najwyższą cenę potrawy w danej restauracji 
+            *</summary> 
+            * 
+            *<param name="restaurant">  Obiekt klasy Restaurant. 
+            *</param>
+
+            */
+
             decimal maxPrice = restaurant.HighestPrice;
             foreach (var menuItemLoop in await _menuItemRepository.FindAllByRestaurantId(restaurant.Id))
             {

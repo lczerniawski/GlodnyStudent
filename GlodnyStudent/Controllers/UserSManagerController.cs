@@ -30,6 +30,21 @@ namespace GlodnyStudent.Controllers
         [HttpGet]
         public async Task<ActionResult<UserViewModel[]>> ListAllUsers([FromQuery]string startsWith)
         {
+            /**
+            *  <summary>  
+            *Metoda ListAllUsers służy do tworzenia listy kont użytkowników o określonym początku ich nazwy, lista pobierana jest za pomocą repozytorium użytkownika. 
+
+            *</summary> 
+            *<param name="startsWith">
+            *string zawierający początek nazw użytkowników do pobrania. 
+            *</param>
+            *<returns>
+            *
+            *W przypadku braku użykownika: Błąd podczas pobierania użytkowników\n
+            *W przypadku błędu dostępu do bazy danych: Database Failure!\n
+            * 
+            *</returns>
+            */
             try
             {
                 var users = await _userRepository.FindAll();
@@ -63,6 +78,22 @@ namespace GlodnyStudent.Controllers
         [HttpPost]
         public async Task<ActionResult<UserViewModel>> BanUnbanUser([FromBody]string username)
         {
+            /**
+            *  <summary>  
+            *Metoda BanUnbanUser służy do blokowania i odblokowywania kont użytkowników. Za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika zmienia status jego konta na zbanowane lub aktywne. 
+            
+            *</summary> 
+            *<param name="username">
+            * string zawierający nazwę użytkownika
+            * </param>
+            *<returns>
+            *
+            *W przypadku braku użykownika: Nie ma takiego użytkownika\n
+            *W przypadku błędu aktualizacji bazy danych: Błąd podczas blokowania użytkownika\n
+            *W przypadku błędu dostępu do bazy danych: Database Failure!\n
+            * 
+            *</returns>
+            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(username);

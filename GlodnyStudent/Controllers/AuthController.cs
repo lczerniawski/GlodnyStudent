@@ -29,7 +29,22 @@ namespace GlodnyStudent.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<AuthData>> Post([FromBody]LoginViewModel model)
         {
-
+            /**
+            *  <summary>  
+            *Metoda Post znajduje użytkownika na podstawie widoku logowania. Na podstawie emailu podanego w widoku sprawdza czy użytkownik istnieje, to sprawdza czy podane haslo jest prawidłowe i czy jest zbanowany.
+            *</summary> 
+            * 
+            *<param name="model">Obiekt klasy LoginViewModel czyli widok formularza logowania.
+            * </param>
+            * 
+            *<returns>
+            *W przypadku braku użykownika: Podany użytkownik nie istnieje\n
+            *W przypadku podania złego  hasła: Błędne hasło\n
+            *W przypadku powodzenia: ID, Username i role użytkownika. \n
+            *W przypadku blędu modelu: jego status
+            * 
+            *</returns>
+            */
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var user = await userRepository.FindUserByEmail(model.Email);
@@ -55,6 +70,24 @@ namespace GlodnyStudent.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<AuthData>> Post([FromBody]RegisterViewModel model)
         {
+            /**
+            *  <summary>  
+            *Metoda Post tworzy użytkownika na podstawie widoku rejestracji.
+            *</summary> 
+            * 
+            *<param name="model">Obiekt klasy RegisterViewModel czyli widok formularza rejestracji.
+            * </param>
+            * 
+            *<returns>
+            *W przypadku blędu modelu: jego status\n
+            *W przypadku użykownika zarajestrowanego pod podanym adresem email: Użytkownik z podanym adresem email już istniej e\n
+            *W przypadku użykownika zarajestrowanego pod podaną bazwą: Użytkownik z podaną nazwą już istnieje \n
+            *W przypadku podania złego  hasła: Błędne hasło\n
+            *W przypadku powodzenia: ID, Username i role użytkownika.
+            * 
+            
+            *</returns>
+            */
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var emailUniq = await userRepository.isEmailUniq(model.Email);
