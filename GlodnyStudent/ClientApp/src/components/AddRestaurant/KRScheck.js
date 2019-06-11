@@ -53,9 +53,10 @@ export default class KRScheck extends Component {
     render() {
         return (
             <div>
-            <label>Numer KRS <input type="number" disabled={!this.props.wantToBeOwner} name="KRS" onChange={this.handleInputChange}/></label>
+            <label for="KRS">Numer KRS</label>
+            <input className="inputStyle" id="KRS" type="number" disabled={!this.props.wantToBeOwner} name="KRS" onChange={this.handleInputChange}/>
             <button onClick={this.CheckKRS} >Sprawdź</button>
-            {this.state.errorMsg}
+            <p className="error">{this.state.errorMsg}</p>
             </div>
     )
 }

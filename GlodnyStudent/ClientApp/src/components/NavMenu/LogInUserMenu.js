@@ -6,12 +6,12 @@ export default class LogInUserMenu extends Component {
     render() {
         return ( 
             <div>
-                <p>{sessionStorage.getItem("username")}</p>         
+                <p className="userName">{sessionStorage.getItem("username")}</p>         
                 <ul className="navList">
-                   {(sessionStorage.getItem("role") === "Admin")?<li onClick={(e)=>this.props.toggleAdminPanel(e)} >Panel Administracyjny</li>:null} 
                     <li><Link to="/DodajRestauracje" >Dodaj restauracje</Link></li> 
                     <li><Link to="/ZmianaHasła" >Zmień hasło</Link></li>  
-                    <li onClick={(e) =>this.props.handleLogOut(e)} >Wyloguj</li>
+                    {(sessionStorage.getItem("role") === "Admin")?<li className="menuAdmin" onClick={(e)=>this.props.toggleAdminPanel(e)} >Panel Administracyjny</li>:null} 
+                    <li className="logoutMenu" onClick={(e) =>this.props.handleLogOut(e)} >Wyloguj</li>
                 </ul>
             </div>
         )

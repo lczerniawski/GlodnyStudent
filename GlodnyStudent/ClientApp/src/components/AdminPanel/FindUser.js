@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 export default class FindUser extends Component {
     render() {
-        const usersList = this.props.users.map(user=><li id={user.username}>{user.username}<button onClick={this.props.banUser} value={user.username}>{user.userStatus}</button></li>);
+        const usersList = this.props.users.map(user=><li id={user.username}>{user.username}<button className="statusAccount" onClick={this.props.banUser} value={user.username}>{user.userStatus}</button></li>);
         return (
-            <div>
+            <div className="findUser">
                 <h3>Wyszukaj użytkownika</h3>
                 <form id="search" className="searchContainer wow fadeInLeft" data-wow-duration="2s" onSubmit={this.props.getUsers} >
                     <input name="nickname" className="searchInput" type="text"  placeholder="Podaj nickname użytkownika" onChange={this.props.handleInputChange}/>

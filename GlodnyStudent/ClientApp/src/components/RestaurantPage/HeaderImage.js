@@ -6,7 +6,7 @@ export default class HeaderImage extends Component {
     render() {
 
         return (
-            <div>
+            <div className="headerImage">
                 <div className="mainImage">
                     <img src={imageRestaurant} />
                 </div>

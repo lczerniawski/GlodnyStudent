@@ -143,8 +143,12 @@ export default class AdminPanel extends Component {
         
         return (
             <div id="adminPanel">
-                <FindUser banUser={this.banUser}  users={this.state.users}  getUsers={this.getUsers} handleInputChange={this.handleInputChange} />
-                <Reports  removeReport={this.removeReport} getReports={this.getReports} reports={this.state.reports} />
+              <div className="backgroundDark">
+                <div className="containerLight">
+                  <FindUser banUser={this.banUser}  users={this.state.users}  getUsers={this.getUsers} handleInputChange={this.handleInputChange} />
+                  <Reports  removeReport={this.removeReport} getReports={this.getReports} reports={this.state.reports} />
+                </div>
+              </div>
             </div>
         )
     }
