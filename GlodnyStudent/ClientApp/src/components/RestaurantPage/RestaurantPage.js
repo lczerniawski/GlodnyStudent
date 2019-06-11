@@ -36,7 +36,9 @@ constructor(props){
             name:"",
             reviews:[],
             ownerId:null,
-            gotOwner:false
+            gotOwner:false,
+            lat:null,
+            lng:null
           }
 
     };
@@ -87,7 +89,9 @@ constructor(props){
                 reviews:result.restaurant.reviews,
                 rate:result.restaurant.score,
                 ownerId:result.restaurant.ownerId,
-                gotOwner:result.restaurant.gotOwner
+                gotOwner:result.restaurant.gotOwner,
+                lat:result.restaurant.lat,
+                lng:result.restaurant.lng
                 },
                 ownerLogIn:IsOwnerLogIn
             }));
@@ -546,7 +550,7 @@ constructor(props){
         </div>
         <div className="entryContent">
           <section className="localization">
-              <MapSection ownerLogIn={this.state.ownerLogIn} address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.changeAddress}  />
+              <MapSection lng={this.state.restaurant.lng} lat={this.state.restaurant.lat} ownerLogIn={this.state.ownerLogIn} address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.changeAddress}  />
           </section>
           <section className="importantInformation">
               <Gallery responseMessageRemoveImage={this.responseMessageRemoveImage} responseMessageUploadImage={this.state.responseMessageUploadImage} ownerLogIn={this.state.ownerLogIn} addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />

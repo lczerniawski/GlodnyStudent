@@ -106,8 +106,8 @@ export default class Registration extends Component {
 
         switch(event.target.name) {
           case "name":
-            validResult = (event.target.value.length > 0)?true:false;
-            errorMessage  = (validResult)?"":"To pole jest wymagane.";
+            validResult = (event.target.value.length >= 2)?true:false;
+            errorMessage  = (validResult)?"":"Nazwa musi składać sie conajmniej z dwuch znaków.";
             otherField  = emailValidResult && passwordValidResult && repeatedPasswordValidResult;           
             break;
           case "email":

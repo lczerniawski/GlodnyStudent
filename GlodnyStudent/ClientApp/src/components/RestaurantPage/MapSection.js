@@ -71,7 +71,7 @@ export default class MapSection extends Component {
       }else{
         switch(event.target.name) {
           case "streetName":
-              eventValid= (event.target.value.length > 0)?true:false;   
+              eventValid= (event.target.value.length > 2)?true:false;   
                validResult = eventValid && streetNumberValidResult && localNumberValidResult;
             break;
           case "streetNumber":
@@ -141,8 +141,8 @@ export default class MapSection extends Component {
             <div>
               <div className="map">
                   <div className="mainMap">
-                  <Map center={[50.874, 4.6947]} zoom={this.state.zoom}>
-                    <Marker anchor={[50.874, 4.6947]} payload={1} onClick={({ event, anchor, payload }) => {}}/>
+                  <Map center={[this.props.lat,this.props.lng]} zoom={this.state.zoom}>
+                    <Marker anchor={[this.props.lat,this.props.lng]} payload={1} onClick={({ event, anchor, payload }) => {}}/>
                   </Map>
                   </div>
 
