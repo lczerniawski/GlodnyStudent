@@ -20,5 +20,11 @@ namespace GlodnyStudent.ViewModels
         public virtual AddressViewModel Address { get; set; }
 
         public string Username { get; set; }
+
+        public bool GotOwner { get; set; }
+
+        public double Lat { get; set; }
+        public double Lng { get; set; }
+
     }
 }

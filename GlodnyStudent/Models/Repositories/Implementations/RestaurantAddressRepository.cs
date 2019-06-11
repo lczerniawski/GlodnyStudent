@@ -6,6 +6,7 @@ using GeoAPI.Geometries;
 using GlodnyStudent.Data;
 using GlodnyStudent.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace GlodnyStudent.Models.Repositories.Implementations
 {

@@ -129,7 +129,7 @@ export default class AddRestaurant extends Component {
                 userName:sessionStorage.getItem("username"),
                 lat:this.state.restaurant.lat,
                 lng:this.state.restaurant.lng,
-                krs:this.state.KRSValid
+                gotOwner:this.state.wantToBeOwner?this.state.KRSValid:false
               
             }
           )

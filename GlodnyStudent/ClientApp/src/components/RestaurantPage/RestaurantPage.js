@@ -90,8 +90,8 @@ constructor(props){
                 rate:result.restaurant.score,
                 ownerId:result.restaurant.ownerId,
                 gotOwner:result.restaurant.gotOwner,
-                lat:result.restaurant.lat,
-                lng:result.restaurant.lng
+                lat:result.restaurant.address.locationY,
+                lng:result.restaurant.address.locationX
                 },
                 ownerLogIn:IsOwnerLogIn
             }));

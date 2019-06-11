@@ -21,5 +21,9 @@ namespace GlodnyStudent.ViewModels
         public int LocalNumber { get; set; }
 
         public string District { get; set; }
+
+        public double LocationX { get; set; }
+        public double LocationY { get; set; }
+
     }
 }

@@ -6,6 +6,13 @@ import Search from  '../MainPage/Search';
 import './RestaurantList.css';
 import './Search.css'; 
 /* import {host} from '../../config' */
+import Geocode from "react-geocode";
+ 
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+Geocode.setApiKey("AIzaSyBxvJXLoj0DtoGczKojLEo_Kc3LsdlPxCQ ");
+ 
+// Enable or disable logs. Its optional.
+Geocode.enableDebug();
 
 export class RestaurantList extends Component {
 
@@ -22,7 +29,10 @@ export class RestaurantList extends Component {
       cuisines: [], // tu wstawic liste wszystkich typow kuchni z serwera
       highestPrice:0,// tu wstawić maksymalna wartość dostarczona z serwera
       sort:'priceGrowingly',
-      restaurations: []
+      restaurations: [],
+      mapResonseMessage:null,
+      lat:null,
+      lng:null
       
     };
   }
@@ -30,6 +40,7 @@ export class RestaurantList extends Component {
 componentDidMount(){
   this.getDataByAddress();
   this.getCuisinesAndHighestPrice();
+  this.getCoords(this.state.location);
 }
 
 getDataByAddress(){
@@ -76,8 +87,37 @@ getCuisinesAndHighestPrice(firstTime=true){
 }
 
 
+
+
+getCoords(streetName){
+
+Geocode.fromAddress(streetName).then(
+  response => {
+    console.log(response.results[0].geometry.location);
+    this.setState({
+
+          lat: response.results[0].geometry.location.lat,
+          lng: response.results[0].geometry.location.lng,
+          mapResonseMessage:null
+     });
+  },
+  error => {
+    console.error(error);
+    this.setState({
+      mapResonseMessage:"Ulica nie została znaleziona."
+    }); 
+  }
+);
+}
+
+
+
+
+
+
+
     getDataByFilters(){
-      const address = `api/Search?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
+      const address = `api/Search?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}&lat=${this.state.lat}&lng=${this.state.lng}`;
       fetch(address).then((response) => {
         if (response.ok) {
           return response.json();
@@ -141,7 +181,7 @@ getCuisinesAndHighestPrice(firstTime=true){
         <div className="searchRestaurant">
           <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.location}/>
         </div>
-
+        {this.state.mapResonseMessage}
         <div className="filersBar">
       <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
           <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />

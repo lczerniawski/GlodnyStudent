@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using GeoAPI.Geometries;
 using GlodnyStudent.Data.Abstract;
 using GlodnyStudent.Models;
 using GlodnyStudent.Models.Domain;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace GlodnyStudent.Controllers
 {
@@ -56,49 +58,7 @@ namespace GlodnyStudent.Controllers
                 return Ok(new { status = StatusCodes.Status200OK, message = "Ok", restaurant });
 
             }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
-            }
-        }
-
-        [HttpPost("{id:int}/[action]")]
-        [Authorize]
-        public async Task<IActionResult> UpVote(int id)
-        {
-            try
-            {
-                var restaurant = await _restaurantRepository.FindById(id);
-                restaurant.Score++;
-
-                var result = await _restaurantRepository.Update(restaurant);
-                if (result == null)
-                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu" });
-
-                return Ok(new { status = StatusCodes.Status200OK, rating = result.Score });
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
-            }
-        }
-
-        [HttpPost("{id:int}/[action]")]
-        [Authorize]
-        public async Task<IActionResult> DownVote(int id)
-        {
-            try
-            {
-                var restaurant = await _restaurantRepository.FindById(id);
-                restaurant.Score--;
-
-                var result = await _restaurantRepository.Update(restaurant);
-                if (result == null)
-                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu" });
-
-                return Ok(new { status = StatusCodes.Status200OK, rating = result.Score });
-            }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
@@ -186,6 +146,8 @@ namespace GlodnyStudent.Controllers
                 restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
                 restaurantAddressToUpdate.StreetName = addressViewModel.StreetName;
                 restaurantAddressToUpdate.StreetNumber = addressViewModel.StreetNumber;
+                restaurantAddressToUpdate.Location.X = addressViewModel.LocationX;
+                restaurantAddressToUpdate.Location.Y = addressViewModel.LocationY;
 
                 var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
 
@@ -238,7 +200,8 @@ namespace GlodnyStudent.Controllers
                 Restaurant newRestaurant = new Restaurant
                 {
                     Name = addRestaurantViewModel.RestaurantName,
-                    OwnerId = user.Id
+                    OwnerId = user.Id,
+                    GotOwner = addRestaurantViewModel.GotOwner
                 };
 
                 var addedRestaurant = await _restaurantRepository.Create(newRestaurant);
@@ -255,13 +218,15 @@ namespace GlodnyStudent.Controllers
                 if (await _cuisineRepository.Create(newCuisine) == null)
                     return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać restauracji"});
 
+
                 var newAddress = new RestaurantAddress
                 {
                     StreetName = addRestaurantViewModel.Address.StreetName,
                     District = addRestaurantViewModel.Address.District,
                     LocalNumber = addRestaurantViewModel.Address.LocalNumber,
                     StreetNumber = addRestaurantViewModel.Address.StreetNumber,
-                    RestaurantId = addedRestaurant.Id
+                    RestaurantId = addedRestaurant.Id,
+                    Location = new Point(addRestaurantViewModel.Lng,addRestaurantViewModel.Lat){SRID = 4326}
                 };
 
                 var result = await _restaurantAddressRepository.Create(newAddress);
@@ -270,7 +235,7 @@ namespace GlodnyStudent.Controllers
 
                 return Ok(new {status = StatusCodes.Status200OK, message = "Dodano nową restauracje",id = result.Id});
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new{status = StatusCodes.Status500InternalServerError, message = "Database Failure!"});
             }
