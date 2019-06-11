@@ -44,22 +44,19 @@ namespace GlodnyStudent.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Metoda RestaurantDetails zwraca dane restauracji na podstawie id w obiekcie DTO RestaurantDetailsViewModel
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/[id restauracji]" metodą Get
+        /// </summary>
+        /// <param name="id">Id restauracji</param>
+        /// <returns>
+        /// W przypadku blędu bazy danych: Database Failure!\n
+        /// W przypadku powodzenia: Status Code 200 wiadomosc, oraz obiekt resutaracji pod postacia DTO RestaurantDetailsViewModel
+        /// W przypadki nie poprawnego ID: Status Code 404 oraz wiadomość "Nie ma restauracji o takim ID"
+        /// </returns>
         [HttpGet("{id:long}")]
         public async Task<ActionResult<RestaurantDetailsViewModel>> RestaurantDetails(long id)
         {
-            /**
-            *  <summary>  
-            *Metoda RestaurantDetails zwraca dane restauracji na podstawie id.
-            *</summary> 
-            * 
-            *<param name="id"> identyfikator restauracji
-            * </param>
-            * 
-            *<returns>
-            *W przypadku blędu bazy danych: Database Failure!\n
-            *W przypadku powodzenia: mapa Restauracji i widok jej danych.\n
-            *</returns>
-            */
             try
             {
                 var result = await _restaurantRepository.FindById(id);
@@ -77,27 +74,21 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda AddReview pozwala na dodanie komentarza na temat restauracji. Za pomocą repozytorium znajdowana jest restauracja, tworzony jest obiekt klasy Review zawierający, date, IDrestauracji, w której ma się znaleźć oraz sam tekst komentarza.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/[id restauracji]/AddReview" metodą PUT należy w body umiescić obiekt DTO Review oraz  header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="review"> Obiekt klasy Review reprezentujący komenatrz</param>
+        /// <param name="id">Id komentarza</param>
+        /// <returns>
+        /// W przypadku błędu bazy danych: Database Failure! \n
+        /// W przypadku błędu podczas dodawaniu opinii:Status code 400 oraz wiadomość "Błąd przy dodawaniu opinii"\n
+        /// W przypadku powodzenia: Status Code 200 oraz obiekt opini reprezentowany przez klase ReviewViewModel\n
+        /// </returns>
         [HttpPut("{id:int}/[action]")]
         [Authorize]
         public async Task<IActionResult> AddReview([FromBody]Review review, int id)
         {
-            /**
-            *  <summary>  
-            *Metoda AddReview pozwala na dodanie komentarza na temat restauracji. Za pomocą repozytorium znajdowana jest restauracja, tworzony jest obiekt klasy Review zawierający, date, IDrestauracji, w której się znajduje oraz sam tekst komentarza.
-            *</summary> 
-            * 
-            *<param name="id"> identyfikator komentarza
-            * </param>
-            *<param name="review"> Obiekt klasy Review reprezentujący komentarza
-            *</param>
-            * 
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure! \n
-            *W przypadku błędu podczas dodawaniu opinii: Błąd przy dodawaniu opinii\n
-            *W przypadku powodzenia: Mapa z opinią oraz jej widokiem\n
-            *</returns>
-            */
-
             try
             {
                 var user = await _userRepository.FindById(review.UserId);
@@ -134,25 +125,21 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda UpdateName pozwala na zmianę nazwy restauracji.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/[id restauracji]/UpdateName" metodą PUT należy w body umieścić nową nazwę restauracji oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="name">Nowa nazwa restauracji</param>
+        /// <param name="id">Id restauracji</param>
+        /// <returns>
+        /// W przypadku błędu bazy danych: Database Failure! \n
+        /// W przypadku błednego id restauracji: Status Code 404 oraz wiadomość "Nie udało się znaleźć resturacji o takim ID"
+        /// W przypadku powodzenia: Status Code 200 oraz obiekt opini reprezentowany przez klase ReviewViewModel\n
+        /// </returns>
         [HttpPost("{id:long}/[Action]")]
         [Authorize]
         public async Task<IActionResult> UpdateName([FromBody]string name, long id)
         {
-            /**
-            *  <summary>  
-            *Metoda UpdateName pozwala na zmiane nazwy restauracji. Za pomocą repozytorium znajdowana jest restauracja
-            *</summary> 
-            * 
-            *<param name="id"> identyfikator restauracji
-            * </param>
-            *<param name="name"> string z nową nazwą restauracji
-            *</param>
-            * 
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure! \n
-            *W przypadku powodzenia: zmieniona nazwa restauracji 
-            *</returns>
-            */
             try
             {
                 var result = await _restaurantRepository.FindById(id);
@@ -173,25 +160,22 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda UpdateAddress pozwala na zmiane adresu restauracji. Za pomocą repozytorium znajdowana jest restauracja i zmieniany jest jej adres.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/[id restauracji]/UpdateAddress" metodą POST należy w body umieścić obiekt DTO klasy AddressViewModel oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="addressViewModel">Obiekt DTO klasy AddressViewModel zawierający wymagane pola</param>
+        /// <param name="id">Id restauracji</param>
+        /// <returns>
+        /// W przypadku błędu bazy danych: Database Failure! \n
+        /// W przypadku błędu podczas zmieniana adresu:Status code 400 oraz wiadomość "Nie udało się zaktualizować adresu restauracji"\n
+        /// W przypadku błednego id restauracji: Status Code 404 oraz wiadomość "Nie udało się znaleźć resturacji o takim ID"
+        /// W przypadku powodzenia: Status Code 200 oraz obiekt klasy AddressViewModel reprezentujący zaktualizowane dane\n
+        /// </returns>
         [HttpPost("{id:long}/[Action]")]
         [Authorize]
         public async Task<ActionResult<AddressViewModel>> UpdateAddress([FromBody]AddressViewModel addressViewModel, long id)
         {
-            /**
-            *  <summary>  
-            *Metoda UpdateAddress pozwala na zmiane adresu restauracji. Za pomocą repozytorium znajdowana jest restauracja i zmieniany jest jej adres.
-            *</summary> 
-            * 
-            *<param name="id"> identyfikator restauracji
-            * </param>
-            *<param name="addressViewModel"> Obiekt klasy AddressViewModel zawierający widok edycji adresu.
-            *</param>
-            * 
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure! \n
-            *W przypadku powodzenia: mapa restauracji oraz widok nowych danych.
-            *</returns>
-            */
             try
             {
                 var restaurant = await _restaurantRepository.FindById(id);
@@ -225,19 +209,17 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda AllCuisines pozwala pobranie wszystkich dostępnych rodzajów kuchni.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/AllCuisines" metodą GET
+        /// </summary>
+        /// <returns>
+        /// W przypadku powodzenia: Tablicę stringow z nazwami typów kuchni
+        /// W przypadku błędu bazy danych: Database Failure! \n
+        /// </returns>
         [HttpGet("[action]")]
         public  async Task<ActionResult<string[]>> AllCuisines()
         {
-            /**
-            *  <summary>  
-            *Metoda AllCuisines pozwala pobranie wszystkich dostępnych rodzajów jedzenia w bazie danych.
-            *</summary> 
-            * 
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure! \n
-            *W przypadku powodzenia: tablica z rodzajami jedzenia.\n
-            *</returns>
-            */
             try
             {
                 HashSet<string> cuisines = new HashSet<string>();
@@ -256,24 +238,21 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Metoda CreateRestaurant pozwala na utworzenie nowej restauracji. Za pomocą repozytorium tworzona jest nowa restauracja o podanych w formularzu danych.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/" metodą PUT należy w body umieścić obiekt DTO klasy AddRestaurantViewModel oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="addRestaurantViewModel">Obiekt klasy AddRestaurantViewModel zawierający dane do wstawienia</param>
+        /// <returns>
+        /// W przypadku błędu bazy danych: Database Failure! \n
+        /// W przypadku błędu przy dodawaniu: Status code 400 oraz wiadomość "Nie udało się dodać restauracji"\n
+        /// W przypadku powodzenia: Status code 200 oraz ID nowo dodanej resturacji
+        /// </returns>
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> CreateRestaurant(AddRestaurantViewModel addRestaurantViewModel)
         {
-            /**
-            *  <summary>  
-            *Metoda CreateRestaurant pozwala na utworzenie nowej restauracji. Za pomocą repozytorium tworzona jest nowa restauracja o podanych w formularzu danych.
-            *</summary> 
-            * 
-            *<param name="addRestaurantViewModel"> Obiekt klasy AddRestaurantViewModel zawierający widok rejestracji nowej restauracji.
-            *</param>
-            * 
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure! \n
-            *W przypadku błędu przy dodawaniu: Nie udało się dodać restauracji"\n
-            *W przypadku powodzenia: mapa restauracji oraz widok nowych danych.
-            *</returns>
-            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(addRestaurantViewModel.Username);
@@ -325,9 +304,20 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda DeleteRestaurant pozwala na usunięcie istniejącej restauracji przez administratora
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/" metodą DELETE należy umieścić header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="id">Id restauracji</param>
+        /// <returns>
+        /// W przypadku błędnego ID: Status code 404 i wiadomość "Restauracja o takim ID nie istnieje"
+        /// W przypadku błedu podczas usuwania: Status Code 400 i wiadomość "Błąd podczas usuwania restauracji"
+        /// W przypadku powodzenia: Status Code 200 oraz wiadomość "Usuwanie restauracji powiodło się"
+        /// W przypadku błędy bazy danych: Wiadomość "Database Failure!"
+        /// </returns>
         [HttpDelete]
         [Route("{id:long}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRestaurant(long id)
         {
             try

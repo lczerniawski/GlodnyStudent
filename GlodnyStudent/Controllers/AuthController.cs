@@ -25,26 +25,21 @@ namespace GlodnyStudent.Controllers
             this.authService = authService;
             this.userRepository = userRepository;
         }
-
+        /// <summary>
+        /// Metoda Login znajduje użytkownika na podstawie danych logowania. Na podstawie emailu podanego w DTO sprawdza czy użytkownik istnieje,jeżeli tak to sprawdza czy podane haslo jest prawidłowe i czy użytkownik ma uprawnienia do korzystania z aplikacji.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Auth/login" metodą POST w żądaniu należy zawrzeć odpowiednie pola które opisuje klasa LoginViewModel
+        /// </summary>
+        /// <param name="model">Obiekt klasy LoginViewModel czyli DTO formularza logowania.</param>
+        /// <returns>
+        /// W przypadku podania złego adresu Email użykownika: Status Code: 400 oraz wiadomość "Podany użytkownik nie istnieje"\n
+        /// W przypadku podania złego  hasła: Status Code: 400 oraz wiadomość "Błędne hasło"\n
+        /// W przypadku powodzenia: Status Code: 200, ID, Token, ważność tokenu role. \n
+        /// W przypadku blędu modelu: Odpowiedni status code, oraz wiadomość z błędem
+        /// </returns>
         [HttpPost("login")]
-        public async Task<ActionResult<AuthData>> Post([FromBody]LoginViewModel model)
+        public async Task<ActionResult<AuthData>> Login([FromBody]LoginViewModel model)
         {
-            /**
-            *  <summary>  
-            *Metoda Post znajduje użytkownika na podstawie widoku logowania. Na podstawie emailu podanego w widoku sprawdza czy użytkownik istnieje, to sprawdza czy podane haslo jest prawidłowe i czy jest zbanowany.
-            *</summary> 
-            * 
-            *<param name="model">Obiekt klasy LoginViewModel czyli widok formularza logowania.
-            * </param>
-            * 
-            *<returns>
-            *W przypadku braku użykownika: Podany użytkownik nie istnieje\n
-            *W przypadku podania złego  hasła: Błędne hasło\n
-            *W przypadku powodzenia: ID, Username i role użytkownika. \n
-            *W przypadku blędu modelu: jego status
-            * 
-            *</returns>
-            */
+
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var user = await userRepository.FindUserByEmail(model.Email);
@@ -67,27 +62,20 @@ namespace GlodnyStudent.Controllers
             return authService.GetAuthData(user.Id,user.Username,user.Role);
         }
 
+        /// <summary>
+        /// Metoda Register tworzy użytkownika na podstawie danych podanych w formularzu rejestracji.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Auth/register" metodą POST w żądaniu należy zawrzeć odpowiednie pola które opisuje klasa RegisterViewModel
+        /// </summary>
+        /// <param name="model">Obiekt klasy RegisterViewModel czyli DTO formularza rejestracji.</param>
+        /// <returns>
+        /// W przypadku błędu modelu: jego status\n
+        /// W przypadku użykownika zarajestrowanego pod podanym adresem email: Status Code: 400 oraz wiadomość "Użytkownik z podanym adresem email już istnieje"\n
+        /// W przypadku użykownika zarajestrowanego pod podaną nazwą:  Status Code: 400 oraz wiadomość "Użytkownik z podaną nazwą już istnieje"\n
+        /// W przypadku powodzenia: Status Code: 200, ID, Token, ważność tokenu role. \n
+        /// </returns>
         [HttpPost("register")]
-        public async Task<ActionResult<AuthData>> Post([FromBody]RegisterViewModel model)
+        public async Task<ActionResult<AuthData>> Register([FromBody]RegisterViewModel model)
         {
-            /**
-            *  <summary>  
-            *Metoda Post tworzy użytkownika na podstawie widoku rejestracji.
-            *</summary> 
-            * 
-            *<param name="model">Obiekt klasy RegisterViewModel czyli widok formularza rejestracji.
-            * </param>
-            * 
-            *<returns>
-            *W przypadku blędu modelu: jego status\n
-            *W przypadku użykownika zarajestrowanego pod podanym adresem email: Użytkownik z podanym adresem email już istniej e\n
-            *W przypadku użykownika zarajestrowanego pod podaną bazwą: Użytkownik z podaną nazwą już istnieje \n
-            *W przypadku podania złego  hasła: Błędne hasło\n
-            *W przypadku powodzenia: ID, Username i role użytkownika.
-            * 
-            
-            *</returns>
-            */
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var emailUniq = await userRepository.isEmailUniq(model.Email);

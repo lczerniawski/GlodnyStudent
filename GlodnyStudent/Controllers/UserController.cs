@@ -30,25 +30,21 @@ namespace GlodnyStudent.Controllers
             _authService = authService;
         }
 
+        /// <summary>
+        /// Metoda ResetPassword za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika hasło jest resetowane i zmieniane na nowe podane w formularzu
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/User/reset" metodą PUT w żądaniu należy umieścić body z obiektem klasy ResetPasswordViewModel oraz header Authorization z tokenem wygenerowanym poprzez żądanie resetu hasła
+        /// </summary>
+        /// <param name="resetPasswordViewModel">Obiekt klasy ResetPasswordViewModel zawierający wymagane informacje</param>
+        /// <returns>
+        /// W przypadku wysłania błędnej nazwy użytkownika: Status code 404 oraz wiadomość "Podany użytkownik nie istnieje"
+        /// W przypadku gdy zmiana hasła się nie powiedzie: Status code 400 oraz wiadomość "Nie udało się zmienić hasła"
+        /// W przypadku powodzenia: Status code 200 oraz wiadomość "Hasło zmienione"
+        /// </returns>
         [Route("reset")]
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
-            /**
-            *  <summary>  
-            *Metoda ResetPassword za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika hasło jest resetowane i zmieniane na nowe podane w formularzu 
-            *</summary> 
-            *<param name="resetPasswordViewModel">Obiekt klasy ResetPasswordViewModel czyli inaczej widok formularza resetu hasła.</param>
-            *<returns>
-            *
-            *W przypadku braku użykownika: Podany użytkownik nie istnieje\n
-            *W przypadku błędu zmiany hasła: Nie udało się zmienić hasła\n
-            *W przypadku błędu bazy danych: Database Failure!\n
-            *W przypadku powodzenia: Hasło zmienione
-            * 
-            *</returns>
-            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(resetPasswordViewModel.Username);
@@ -61,7 +57,7 @@ namespace GlodnyStudent.Controllers
                 if (result == null)
                     return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić hasła"});
 
-                return Ok(new{status = StatusCodes.Status400BadRequest, message = "Hasło zmienione"});
+                return Ok(new{status = StatusCodes.Status200OK, message = "Hasło zmienione"});
 
             }
             catch (Exception)
@@ -71,35 +67,31 @@ namespace GlodnyStudent.Controllers
 
         }
 
+        /// <summary>
+        /// Metoda ChangePassword za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika sprawdza czy stare hasło podane w formularzu zgadza się z hasłem w bazie danych. 
+        /// W przypadku powodzenia stare hasło jest zmieniane na nowe.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/User/ChangePassword" metodą PUT w żądaniu należy umieścić body z obiektem klasy ChangePasswordViewModel oraz header Authorization z tokenem wygenerowanym poprzez zalogowanie się użytkownika
+        /// </summary>
+        /// <param name="changePasswordViewModel">Obiekt klasy ChangePasswordViewModel zawierający wymagane informacje</param>
+        /// <returns>
+        /// W przypadku braku użykownika: Status code 400 oraz wiadomość "Podany użytkownik nie istnieje"\n
+        /// W przypadku błędu zmiany hasła:Status code 400 oraz wiadomość " Błąd podczas zmiany hasła"\n
+        /// W przypadku podania złego starego hasła:Status code 409 oraz wiadomość " Błędne stare hasło"\n
+        /// W przypadku błędu bazy danych: Database Failure!\n
+        /// W przypadku powodzenia: Status code 200 oraz wiadomość "Hasło zmienione poprawnie
+        /// </returns>
         [Route("ChangePassword")]
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
         {
-            /**
-            *  <summary>  
-            *Metoda ChangePassword za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika sprawdza czy stare hasło podane w formularzu zgadza się z hasłem w bazie danych. 
-            *W przypadku powodzenia stare hasło jest zmieniane na nowe.
-            *</summary> 
-            * 
-            *<param name="changePasswordViewModel">Obiekt klasy ChangePasswordViewModel czyli inaczej widok formularza zmiany hasła. </param>
-            * 
-            *<returns>
-            *W przypadku braku użykownika: Podany użytkownik nie istnieje\n
-            *W przypadku błędu zmiany hasła: Błąd podczas zmiany hasła\n
-            *W przypadku podania złego starego hasła: Błędne stare hasło\n
-            *W przypadku błędu bazy danych: Database Failure!\n
-            *W przypadku powodzenia: Hasło zmienione poprawnie
-            * 
-            *</returns>
-            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(changePasswordViewModel.Username);
                 if (user == null)
                     return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Podany użytkownik nie istnieje"});
 
-                    if (_authService.VerifyPassword(changePasswordViewModel.OldPassword,user.Password))
+                if (_authService.VerifyPassword(changePasswordViewModel.OldPassword,user.Password))
                 {
                     user.Password = _authService.HashPassword(changePasswordViewModel.NewPassword);
                     var result = _userRepository.Update(user);
@@ -121,22 +113,21 @@ namespace GlodnyStudent.Controllers
 
         }
 
-
+        /// <summary>
+        /// Metoda SendResetMail sluży do wysłania wiadomość email z linkiem do resetowania hasła.
+        /// Przyjmuje nazwe emaila danego użytkownika, za pomocą repozytorium użytkownika sprawdza czy użykownik istnieje, jeśli tak to na podstawie jego tokenu tworzy link zmiany hasła.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/User/ChangePassword" metodą GET w żądaniu należy umieścić body z adresem email w postaci stringa
+        /// </summary>
+        /// <param name="email">Email użytkownika</param>
+        /// <returns>
+        /// W przypadku braku użykownika: Status code 404 oraz wiadomość"Nie ma takiego użytkownika"\n
+        /// W przypadku błędu bazy danych: Database Failure!\n
+        /// W przypadku powodzenia: Status code 200 oraz wiadomość "Mail wysłany"
+        /// </returns>
         [Route("sendresetmail/{email}")]
         [HttpGet]
         public async Task<IActionResult> SendResetMail(string email)
         {
-            /**
-            *  <summary>  
-            *Metoda SendResetMail przyjmuje nazwe emaila danego użytkownika, za pomocą repozytorium użytkownika sprawdza czy użykownik istnieje, jeśli tak to na podstawie jego tokenu tworzy link zmiany hasła.
-            *</summary> 
-            *<param name="email">String z emailem</param>
-            *<returns>
-            *W przypadku braku użykownika: Nie ma takiego użytkownika\n
-            *W przypadku błędu bazy danych: Database Failure!\n
-            *W przypadku powodzenia: Mail wysłany
-            *</returns>
-            */
             try
             {
                 var getUser = await _userRepository.FindUserByEmail(email);

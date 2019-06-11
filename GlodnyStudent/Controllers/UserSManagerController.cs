@@ -27,24 +27,18 @@ namespace GlodnyStudent.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Metoda ListAllUsers służy do tworzenia listy kont użytkowników o określonym początku ich nazwy, lista pobierana jest za pomocą repozytorium użytkownika. Wymaga praw administratora
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/UsersManager" metodą Get w żądaniu należy umieścić header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="startsWith">Poczatkowy ciag znaków na jakie ma zaczynac sie nazwa użytkownika</param>
+        /// <returns>
+        /// W przypadku nie znalezenia użytkowników ktorych nazwa zaczyna sie zadanym ciągiem: Status code 400 oraz wiadomość
+        /// W przypadku powodzenia tablica zawierająca obiekty klasy UserViewModel
+        /// </returns>
         [HttpGet]
         public async Task<ActionResult<UserViewModel[]>> ListAllUsers([FromQuery]string startsWith)
         {
-            /**
-            *  <summary>  
-            *Metoda ListAllUsers służy do tworzenia listy kont użytkowników o określonym początku ich nazwy, lista pobierana jest za pomocą repozytorium użytkownika. 
-
-            *</summary> 
-            *<param name="startsWith">
-            *string zawierający początek nazw użytkowników do pobrania. 
-            *</param>
-            *<returns>
-            *
-            *W przypadku braku użykownika: Błąd podczas pobierania użytkowników\n
-            *W przypadku błędu dostępu do bazy danych: Database Failure!\n
-            * 
-            *</returns>
-            */
             try
             {
                 var users = await _userRepository.FindAll();
@@ -75,25 +69,20 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda BanUnbanUser służy do blokowania i odblokowywania kont użytkowników. Za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika zmienia status jego konta na zbanowane lub aktywne.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/UsersManager" metodą Post w żądaniu należy umieścić body z nazwą użytkownika oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns>
+        /// W przypadku braku użykownika:Status code 400 oraz wiadomość "Nie ma takiego użytkownika"\n
+        /// W przypadku błędu aktualizacji bazy danych:Status code 400 oraz wiadomość "Błąd podczas zmiany statusu użytkownika"\n
+        /// W przypadku sukcesu: Status code 200 oraz nazwe uzytkownika i jego status
+        /// W przypadku błędu dostępu do bazy danych: Database Failure!\n
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<UserViewModel>> BanUnbanUser([FromBody]string username)
         {
-            /**
-            *  <summary>  
-            *Metoda BanUnbanUser służy do blokowania i odblokowywania kont użytkowników. Za pomocą repozytorium użytkownika sprawdza czy użytkownik istnieje. W przypadku znalezienia danego użytkownika zmienia status jego konta na zbanowane lub aktywne. 
-            
-            *</summary> 
-            *<param name="username">
-            * string zawierający nazwę użytkownika
-            * </param>
-            *<returns>
-            *
-            *W przypadku braku użykownika: Nie ma takiego użytkownika\n
-            *W przypadku błędu aktualizacji bazy danych: Błąd podczas blokowania użytkownika\n
-            *W przypadku błędu dostępu do bazy danych: Database Failure!\n
-            * 
-            *</returns>
-            */
             try
             {
                 var user = await _userRepository.FindUserByUsername(username);
@@ -108,7 +97,7 @@ namespace GlodnyStudent.Controllers
 
                 var updatedUser = await _userRepository.Update(user);
                 if (updatedUser == null)
-                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas blokowania użytkownika"});
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas zmiany statusu użytkownika"});
 
 
                 UserViewModel result = new UserViewModel

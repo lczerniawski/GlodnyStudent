@@ -28,25 +28,20 @@ namespace GlodnyStudent.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Metoda CreateMenuItem tworzy nowa danie w menu resturacji i zapisuje je w bazie danych.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/Menu" metodą POST w żądaniu należy zawżeć obiekt DTO MenuItemViewModel opisany odpowiednimi polami oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="menuItem">Obiekt klasy MenuItemViewModel czyli DTO zawierające pola wymagane aby dodać nowe danie</param>
+        /// <returns>
+        /// W przypadku błędu bazy danych: Database Failure!                   \n
+        /// W przypadu braku istnienia danej restauracji: Staus Code 404 oraz wiadomość "Nie udało się znaleźć restauracji o takim ID"
+        /// W przypadku błędu podczas dodawania pozycji do menu: Staus Code 404 oraz wiadomość "Dodawanie nie powiodło się"
+        /// W przypadku powodzenia: Status Code 200 oraz nowo dodany obiekt dania w celu wyswietlenia w aplikacji.
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<MenuViewModel>> CreateMenuItem(MenuItemViewModel menuItem)
         {
-            /**
-            *  <summary>  
-            *Metoda CreateMenuItem tworzy obiekt, który zotanie dodany do menu 
-            *</summary> 
-            * 
-            *<param name="menuItem">  Obiekt klasy MenuItemViewModel jest to widok obiektu, który ma zostać dodany do menu.-
-            *</param>
-
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure!                   \n
-            *W przypadu braku istnienia danej restauracji: Podana restauracja nie istnieje
-            *W przypadku błędu podczas dodawania pozycji do menu: Dodawanie nie powiodło się
-            *W przypadku powodzenia: przesyła nową mapę menu.
-            * 
-            *</returns>
-            */
             try
             {
                 var restaurant = await _restaurantRepository.FindById(menuItem.RestaurantId);
@@ -72,20 +67,19 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda DeleteMenuItem usuwa obiekt z menu restauracji
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/Menu/[id dania]" metodą DELETE oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="id">Id dania</param>
+        /// <returns>
+        /// W przypadku błędu bazy danych: Database Failure!                   \n
+        /// W przypadu braku istnienia danej restauracji: Staus Code 404 oraz wiadomość "Nie udało się znaleźć restauracji o takim ID"
+        /// W przypadku powodzenia: Status Code 200 oraz wiadomość "Poprawnie usunięto danie z menu".
+        /// </returns>
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteMenuItem(long id)
-        {      
-            /** *  <summary>  
-            *Metoda DeleteMenuItem usuwa obiekt z menu
-            *</summary> 
-            * 
-            *<param name="id">  id obiektu w menu
-            *</param>
-
-            *<returns>
-            *W przypadku błędu bazy danych: Database Failure!                   \n
-            *</returns>
-            */
+        {
             try
             {
                 var result = await _menuItemRepository.FindById(id);
@@ -108,18 +102,13 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda która aktualizuję największą cene w resutaracji, pole które wykorzysystywane jest podczas stosowania filtrów w wyszukiwaniu 
+        /// </summary>
+        /// <param name="restaurant">Obiekt klasy Restaurant w którym chcemy zaktualizować cenę</param>
+        /// <returns></returns>
         private async Task UpdateHihgestPrice(Restaurant restaurant)
         {
-
-            /** *  <summary>  
-            *Metoda UpdateHihgestPrice ustawia nową najwyższą cenę potrawy w danej restauracji 
-            *</summary> 
-            * 
-            *<param name="restaurant">  Obiekt klasy Restaurant. 
-            *</param>
-
-            */
-
             decimal maxPrice = restaurant.HighestPrice;
             foreach (var menuItemLoop in await _menuItemRepository.FindAllByRestaurantId(restaurant.Id))
             {

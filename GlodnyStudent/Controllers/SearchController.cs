@@ -28,23 +28,19 @@ namespace GlodnyStudent.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Metoda Get na podstawie podanego adresu tworzy widok z listą restrauracji pod danym adresem.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Search/[adres użytkownika]" metodą Get
+        /// </summary>
+        /// <param name="address">Adres użytkownika</param>
+        /// <returns>
+        /// W przypadku powodzenia: Tablice restuaracji
+        /// W przypadki niepowodzenia: Pusta tablica
+        /// W przypadku błędu z bazą danych: Widomość "Database Failure!"
+        /// </returns>
         [HttpGet("{address}")]
         public async Task<ActionResult<RestaurantListViewModel[]>> Get(string address)
         {
-            /**
-            *<summary>  
-            *Metoda Get na podstawie podanego adresu tworzy widok z listą restrauracji pod danym adresem.
-            *</summary> 
-            * 
-            *<param name="address">String zawierający adres danej restauracji
-            *</param>
-
-            * 
-            *<returns>
-            *W przypadku powodzenia: widok z listą restauracji.\n
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            *</returns>
-            */
             try
             {
                 var result = await _restaurantRepository.GetRestaurantsByStreet(address);
@@ -60,29 +56,23 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda Filters pozwala użytkownikowi na filtrowania za pomocą wybranych przez niego parametrów w menu aplikacji.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Search?&distance=[dystans]&highestPrice=[najwyzsza cena]&cuisine=[typ kuchni]&lat=[lat]&lng=[lng]" metodą Get
+        /// </summary>
+        /// <param name="distance">Odległość w kilometrach od użytkownika</param>
+        /// <param name="highestPrice">Najwyższa cena w danej restauracji</param>
+        /// <param name="cuisine">Typ kuchni</param>
+        /// <param name="lat">Szerokość geograficzna adresu użytkownika</param>
+        /// <param name="lng">Długość geograficzna adresu użytkownika</param>
+        /// <returns>
+        /// W przypadku powodzenia: Tablice restuaracji
+        /// W przypadki niepowodzenia: Pusta tablica
+        /// W przypadku błędu z bazą danych: Widomość "Database Failure!"
+        /// </returns>
         [HttpGet]
-        public async Task<ActionResult<RestaurantListViewModel[]>> Filters(string address, int distance, int highestPrice, string cuisine,double lat,double lng)
+        public async Task<ActionResult<RestaurantListViewModel[]>> Filters(int distance, int highestPrice, string cuisine,double lat,double lng)
         {
-            /**
-            *<summary>  
-            *Metoda Filters pozwala użytkownikowi na filtrowania za pomocą wybranych przez niego parametrów w menu aplikacji. 
-            *</summary> 
-            * 
-            *<param name="address">String zawierający adres danej restauracji
-            *</param>
-            *<param name="cuisine">String zawierający nazwę danego rodzaju jedzenia
-            *</param>
-            *<param name="highestPrice">liczba zawierająca maksymalną cenę szukanej potrawy
-            *</param>
-            *<param name="distance">Liczba zawierająca dystans liczony od podanego adresu
-            *</param>     
-
-            * 
-            *<returns>
-            *W przypadku powodzenia: widok listy z restauracjami w pobliżu podanej ulicy.  \n
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            *</returns>
-            */
             try
             {
                 IOrderedEnumerable<Restaurant> filteredResult;
@@ -123,22 +113,18 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda na podstawie adresu wyszukuje wszystkie typy kuchni restuaracji jakie znajdują sie na podanej ulicy
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Search/[ulica użytkownika]" metodą Get
+        /// </summary>
+        /// <param name="street">Adres użytkownika</param>
+        /// <returns>
+        /// W przypadku powodzenia: Tablice typow kuchni
+        /// W przypadku błędu połączenia z bazą wiadomość "Database Failure!"
+        /// </returns>
         [HttpGet("[action]/{street}")]
-        public  async Task<ActionResult<CuisineViewModel>> Cuisines(string street)
+        public async Task<ActionResult<CuisineViewModel>> Cuisines(string street)
         {
-            /**
-            *  <summary>  
-            *Metoda Cuisines na podstawie nazwy przekazanej ulicy poszukuje restauracje w pobliżu. 
-            *</summary> 
-            *<param name="street">
-            *String zawierający nazwę ulicy 
-            *</param>
-            *<returns>
-            *W przypadku powodzenia: lista z restauracjami w pobliżu podanej ulicy. \n
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            * 
-            *</returns>
-            */
             try
             {
                 HashSet<string> cuisines = new HashSet<string>();

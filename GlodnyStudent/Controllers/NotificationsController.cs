@@ -25,20 +25,19 @@ namespace GlodnyStudent.Controllers
             _restaurantRepository = restaurantRepository;
             _reviewRepository = reviewRepository;
         }
-
+        
+        /// <summary>
+        /// Metoda GetAll działa tylko jeśli użytkownik jest administratorem. Pobiera wszystkie zgłoszenia dotyczące restrauracji i komentarzy
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Notifications" metodą Get w żądaniu należy umieścić header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <returns>
+        /// W przypadku powodzenia: tablica powiadomień zgłoszonych restauracji i komentarzy.
+        /// W przypadku błędu połącznia z bazą danych: Database Failure!\n
+        /// </returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Notification[]>> GetAll()
-        {            /**
-            *<summary>  
-            *Metoda GetAll działa tylko jeśli użytkownik jest administratorem. Pobiera wszystkie zgłoszone restrauracje i komentarze
-            *</summary> 
-            *
-            *<returns>
-            *W przypadku powodzenia: tablica powiadomień zgłoszonych restauracji i komentarzy.
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            *</returns>
-            */
+        {            
             try
             {
                 var result = await _notificationRepository.FindAll();
@@ -53,24 +52,21 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda CreateReportRestaurant pozwala dowolnemu zalogowanemu użytkownikowi zgłosić restraurację w związku z występującymi w niej nieprawidłowościami
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Notifications/CreateReportRestaurant" metodą Post w żądaniu należy umieścić ID restauracji której ma dotyczyć zgłoszenie
+        /// </summary>
+        /// <param name="restaurantId">Id restauracji</param>
+        /// <returns>
+        /// W przypadku powodzenia: Status Code 200 oraz wiadomość o wysłąniu zgłoszenia.
+        /// W przypadku błędu zgłaszania: Status Code 400 oraz wiadomość "Nie udało się wysłać zgłoszenia"\n
+        /// W przypadku nie znalezienia restuaracji której zgłoszenie dotyczy: Status Code 404 oraz wiadomość "Nie ma restauracji o takim ID"\n
+        /// W przypadku błędu połączenia z bazą danych: Database Failure!\n
+        /// </returns>
         [HttpPost("[action]")]
         [Authorize]
         public async Task<ActionResult<Notification>> CreateReportRestaurant([FromBody] long restaurantId)
         {
-            /**
-            *<summary>  
-            *Metoda CreateReportRestaurant pozwala dowolnemu zalogowanemu użytkownikowi zgłosić restraurację. 
-            *</summary> 
-            *
-            *<param name="id">  id restauracji
-            *</param>
-            *<returns>
-            *W przypadku powodzenia: "Restrauacja [nazwa] została zgłoszona przez jednego z użytkowników.\n
-            *Restauracja wymaga weryfikacji przez administratora."\n
-            *W przypadku błędu zgłaszania: Nie udało się wysłać zgłoszenia\n
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            *</returns>
-            */
             try
             {
                 var restaurant = await _restaurantRepository.FindById(restaurantId);
@@ -96,25 +92,22 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Metoda CreateReportRestaurant pozwala dowolnemu zalogowanemu użytkownikowi zgłosić opinię w związku z występującymi w niej nieprawidłowościami
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Notifications/CreateReportRestaurant" metodą Post w żądaniu należy umieścić ID restauracji której ma dotyczyć zgłoszenie
+        /// </summary>
+        /// <param name="restaurantId">Id opinii</param>
+        /// <returns>
+        /// W przypadku powodzenia: Status Code 200 oraz wiadomość o wysłąniu zgłoszenia.
+        /// W przypadku błędu zgłaszania: Status Code 400 oraz wiadomość "Nie udało się wysłać zgłoszenia"\n
+        /// W przypadku nie znalezienia restuaracji której zgłoszenie dotyczy: Status Code 404 oraz wiadomość "Nie ma restauracji o takim ID"\n
+        /// W przypadku błędu połączenia z bazą danych: Database Failure!\n
+        /// </returns>
         [HttpPost("[action]")]
         [Authorize]
         public async Task<ActionResult<Notification>> CreateReportReview([FromBody] long reviewId)
         {
-            /**
-            *<summary>  
-            *Metoda CreateReportReview pozwala dowolnemu zalogowanemu użytkownikowi zgłosić opinię. 
-            *</summary> 
-            *
-            *<param name="id">  id opinii
-            *</param>
-            *<returns>
-            *W przypadku powodzenia: "Komentarz użytkownika  [nazwa użytkownika] " o treści: [treść] została zgłoszony przez jednego z użytkowników."\n
-            *Komentarz wymaga weryfikacji przez administratora.\n
-            *Restauracja wymaga weryfikacji przez administratora."\n
-            *W przypadku błędu zgłaszania: Nie udało się wysłać zgłoszenia\n
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            *</returns>
-            */
             try
             {
                 var review = await _reviewRepository.FindById(reviewId);
@@ -143,23 +136,19 @@ namespace GlodnyStudent.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda DeleteNotification pozwala administratorowi usunąć powiadomienie.
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Notifications/" metodą Delete w QueryStringu żądania należy umieścić ID oraz header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="id">Id powiadomienia</param>
+        /// <returns>
+        /// W przypadku nie znalezienia komentarza o podanym ID: Status code 404 oraz wiadomość "Nie ma komentarza o takim ID"\n
+        /// W przypadku błędu połącznia z bazą danych: Database Failure!\n
+        /// </returns>
         [HttpDelete]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Notification>> DeleteNotification([FromQuery] long id)
         {
-            /**
-            *<summary>  
-            *Metoda DeleteNotification pozwala administratorowi usunąć powiadomienie.
-            *</summary> 
-            *
-            *<param name="id">  id powiadomienia
-            *</param>
-            *<returns>
-            *Restauracja wymaga weryfikacji przez administratora."\n
-            *W przypadku błędu podczas usuwania: Nie ma komentarza o takim ID\n
-            *W przypadku błędu połącznia z bazą danych: Database Failure!\n
-            *</returns>
-            */
             try
             {
                 var notification = await _notificationRepository.FindById(id);

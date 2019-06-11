@@ -17,12 +17,26 @@ namespace GlodnyStudent.Services
         }
 
         public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
-
+        /// <summary>
+        /// Metoda służąca do wysyłania maili np o zmiane zapomnianego hasła do użytkowników
+        /// </summary>
+        /// <param name="email">Email odbiorcy</param>
+        /// <param name="subject">Temat wiadomości</param>
+        /// <param name="message">Treść wiadomości</param>
+        /// <returns></returns>
         public Task SendEmailAsync(string email, string subject, string message)
         {
             return Execute(Options.SendGridKey, subject, message, email);
         }
 
+        /// <summary>
+        /// Funkcja zajmująca sie wykonywaniem zadania jakim jest wysłanie maila
+        /// </summary>
+        /// <param name="apiKey">Klucz api z aplikacji SendGrid</param>
+        /// <param name="subject">Temat wiadomości</param>
+        /// <param name="message">Treść wiadomości</param>
+        /// <param name="email">Email odbiorcy</param>
+        /// <returns></returns>
         public Task Execute(string apiKey, string subject, string message, string email)
         {
             var client = new SendGridClient(apiKey);
