@@ -17,7 +17,6 @@ namespace GlodnyStudent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ImageController : ControllerBase
     {
         private readonly IImageRepository _imageRepository;
@@ -28,25 +27,6 @@ namespace GlodnyStudent.Controllers
             _imageRepository = imageRepository;
             _restaurantRepository = restaurantRepository;
         }
-
-        /*
-        public async Task<IActionResult> Upload(IFormFile model)
-        {
-            var file = model;
-
-            if (file.Length > 0) {
-                string path = Path.Combine(_hostingEnvironment.WebRootPath, "uploadFiles");
-                using (var fs = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
-                {
-                    await file.CopyToAsync(fs);
-                }
-
-                //model.Source = $"/uploadFiles{file.FileName}";
-                //model.Extension = Path.GetExtension(file.FileName).Substring(1);
-            }
-            return BadRequest();
-        }
-        */
 
         [HttpPost]
         [Route("{id:long}/Upload")]
@@ -107,6 +87,7 @@ namespace GlodnyStudent.Controllers
 
         [HttpDelete]
         [Route("Delete/{id:long}")]
+        [Authorize]
         public async Task<IActionResult> DeleteFile(long id)
         {
             /**
