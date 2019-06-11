@@ -37,17 +37,13 @@ namespace GlodnyStudent.Models.Repositories.Implementations
 
             return result;
         }
-
-<<<<<<< HEAD
-        public async Task Delete(long id)
-=======
         /// <summary>
         /// Metoda Delete przyjmuje nazwę typu kuchni i na jej podstawie asynchronicznie usuwa rekord z tablicy baz danych - Cuisines.
         /// </summary>
         /// <param name="name">Nazwa typu kuchni</param>
         /// <returns>Operację asynchroniczną</returns>
-        public async Task Delete(string name)
->>>>>>> de5da774fa2009f59eb6608ee6532041efe99345
+        public async Task Delete(long id)
+
         {
             Cuisine result = await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Id == id);
 
@@ -64,17 +60,14 @@ namespace GlodnyStudent.Models.Repositories.Implementations
         {
             return await _context.Cuisines.ToArrayAsync();
         }
-
-<<<<<<< HEAD
-        public async Task<Cuisine> FindById(long id)
-=======
+        
         /// <summary>
         /// Metoda FindByName przyjmuje nazwę typu kuchni, następnie według argumentu, szuka rekord z tablicy baz danych - Cuisines.
         /// </summary>
         /// <param name="name">Nazwa typu kuchni</param>
         /// <returns>Operację asynchroniczną, która zwraca obiekt typu Cuisine</returns>
-        public async Task<Cuisine> FindByName(string name)
->>>>>>> de5da774fa2009f59eb6608ee6532041efe99345
+        public async Task<Cuisine> FindById(long id)
+
         {
             return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Id == id);
         }
