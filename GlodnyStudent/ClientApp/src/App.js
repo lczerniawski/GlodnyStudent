@@ -8,6 +8,7 @@ import Registration from './components/Registration/Registration'
 import AddRestaurant from './components/AddRestaurant/AddRestaurant';
 import ResetPassword from './components/ForgetPassword/ResetPassword';
 import ChangePassword from './components/ChangePassword/ChangePassword';
+import NotFound from './components/NotFound/NotFound';
 
 
 export default class App extends Component {
@@ -22,6 +23,7 @@ export default class App extends Component {
         <Route path='/DodajRestauracje' exact component={AddRestaurant}/>
         <Route path='/ResetHasła' component={ResetPassword}/>
         <Route path='/ZmianaHasła' component={ChangePassword}/>
+        <Route path='/NieZnaleziono' component={NotFound}/>
       </Layout>
     );
   }

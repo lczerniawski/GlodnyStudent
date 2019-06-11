@@ -8,6 +8,7 @@ using GlodnyStudent.Models.Domain;
 using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.Models.Repositories.Implementations;
 using GlodnyStudent.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace GlodnyStudent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ImageController : ControllerBase
     {
         private readonly IImageRepository _imageRepository;
@@ -48,17 +50,18 @@ namespace GlodnyStudent.Controllers
 
         [HttpPost]
         [Route("{id:long}/Upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file,long id)
+        public async Task<IActionResult> UploadFile(IFormFile file, long id)
         {
             try
             {
                 if (file == null || file.Length == 0)
-                    return BadRequest();
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Plik który chcesz wysłać jest pusty" });
 
                 var restaurant = await _restaurantRepository.FindById(id);
 
                 if (restaurant == null)
-                    return NotFound();
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie ma restauracji o takim ID" });
+
 
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "UploadImages");
                 using (var fs = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
@@ -77,7 +80,8 @@ namespace GlodnyStudent.Controllers
                 return Ok(new
                 {
                     id = result.Id,
-                    filePath = result.FilePath
+                    filePath = result.FilePath,
+                    status = StatusCodes.Status200OK
                 });
             }
             catch (Exception)

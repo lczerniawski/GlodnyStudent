@@ -42,16 +42,19 @@ namespace GlodnyStudent.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<RestaurantDetailsViewModel>> RestaurantDetails(int id)
+        [HttpGet("{id:long}")]
+        public async Task<ActionResult<RestaurantDetailsViewModel>> RestaurantDetails(long id)
         {
             try
             {
                 var result = await _restaurantRepository.FindById(id);
                 if (result == null)
-                    return NotFound();
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie ma restauracji o takim ID" });
 
-                return _mapper.Map<Restaurant, RestaurantDetailsViewModel>(result);
+                var restaurant = _mapper.Map<Restaurant, RestaurantDetailsViewModel>(result);
+
+                return Ok(new { status = StatusCodes.Status200OK, message = "Ok", restaurant });
+
             }
             catch (Exception)
             {
@@ -61,7 +64,7 @@ namespace GlodnyStudent.Controllers
 
         [HttpPost("{id:int}/[action]")]
         [Authorize]
-        public async Task<ActionResult<RatingViewModel>> UpVote(int id)
+        public async Task<IActionResult> UpVote(int id)
         {
             try
             {
@@ -69,10 +72,10 @@ namespace GlodnyStudent.Controllers
                 restaurant.Score++;
 
                 var result = await _restaurantRepository.Update(restaurant);
-                if(result == null)
-                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu"});
-                
-                return new RatingViewModel{Rating = result.Score};
+                if (result == null)
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu" });
+
+                return Ok(new { status = StatusCodes.Status200OK, rating = result.Score });
             }
             catch (Exception)
             {
@@ -82,7 +85,7 @@ namespace GlodnyStudent.Controllers
 
         [HttpPost("{id:int}/[action]")]
         [Authorize]
-        public async Task<ActionResult<RatingViewModel>> DownVote(int id)
+        public async Task<IActionResult> DownVote(int id)
         {
             try
             {
@@ -90,10 +93,10 @@ namespace GlodnyStudent.Controllers
                 restaurant.Score--;
 
                 var result = await _restaurantRepository.Update(restaurant);
-                if(result == null)
-                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu"});
+                if (result == null)
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się zmienić ratingu" });
 
-                return new RatingViewModel{Rating = result.Score};
+                return Ok(new { status = StatusCodes.Status200OK, rating = result.Score });
             }
             catch (Exception)
             {
@@ -103,18 +106,19 @@ namespace GlodnyStudent.Controllers
 
         [HttpPut("{id:int}/[action]")]
         [Authorize]
-        public  async Task<ActionResult<ReviewViewModel>> AddReview([FromBody]Review review,int id)
+        public async Task<IActionResult> AddReview([FromBody]Review review, int id)
         {
             try
             {
                 var user = await _userRepository.FindById(review.UserId);
                 if (user == null)
-                    return BadRequest();
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać opini o restauracji" });
+
 
                 var restaurant = await _restaurantRepository.FindById(id);
 
                 if (restaurant == null)
-                    return BadRequest();
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać opini o restauracji" });
 
                 review.AddTime = DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + " " + DateTime.Now.Hour + ":" + DateTime.Now.Minute;
                 review.RestaurantId = id;
@@ -122,14 +126,17 @@ namespace GlodnyStudent.Controllers
 
                 var addedReview = await _reviewRepository.Create(review);
                 if (addedReview == null)
-                    return BadRequest("Błąd przy dodawaniu opinii");
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać opini o restauracji" });
 
                 restaurant.ReviewsCount++;
                 var result = await _restaurantRepository.Update(restaurant);
-                if(result == null)
-                    return BadRequest("Błąd przy dodawaniu opinii");
+                if (result == null)
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać opini o restauracji" });
 
-                return _mapper.Map<Review, ReviewViewModel>(addedReview);
+
+                var newReview = _mapper.Map<Review, ReviewViewModel>(addedReview);
+
+                return Ok(new { status = StatusCodes.Status200OK, newReview });
             }
             catch (Exception)
             {
@@ -139,19 +146,21 @@ namespace GlodnyStudent.Controllers
 
         [HttpPost("{id:long}/[Action]")]
         [Authorize]
-        public async Task<ActionResult<string>> UpdateName([FromBody]string name, long id)
+        public async Task<IActionResult> UpdateName([FromBody]string name, long id)
         {
             try
             {
                 var result = await _restaurantRepository.FindById(id);
                 if (result == null)
-                    return NotFound();
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie udało się znaleźć resturacji o takim ID" });
+
 
                 result.Name = name;
 
                 result = await _restaurantRepository.Update(result);
 
-                return result.Name;
+                return Ok(new { status = StatusCodes.Status200OK, message = "Poprawnie zaktualizowano nazwę", name = result.Name });
+
             }
             catch (Exception)
             {
@@ -167,10 +176,11 @@ namespace GlodnyStudent.Controllers
             {
                 var restaurant = await _restaurantRepository.FindById(id);
                 if (restaurant == null)
-                    return NotFound();
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie udało się znaleźć resturacji o takim ID" });
+
                 var restaurantAddressToUpdate = await _restaurantAddressRepository.FindById(restaurant.Address.Id);
                 if (restaurantAddressToUpdate == null)
-                    return NotFound();
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie udało się znaleźć adresu o takim ID" });
 
                 restaurantAddressToUpdate.District = addressViewModel.District;
                 restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
@@ -180,9 +190,12 @@ namespace GlodnyStudent.Controllers
                 var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
 
                 if (result == null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { status = StatusCodes.Status500InternalServerError, message = "Nie udało się zaktualizować adresu restauracji" });
 
-                return _mapper.Map<RestaurantAddress,AddressViewModel>(result);
+                var newAddress = _mapper.Map<RestaurantAddress, AddressViewModel>(result);
+
+                return Ok(new { status = StatusCodes.Status200OK, message = "Poprawnie zaktualizowano adres", newAddress });
+
             }
             catch (Exception)
             {

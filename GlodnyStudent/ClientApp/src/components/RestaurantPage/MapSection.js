@@ -8,12 +8,12 @@ export default class MapSection extends Component {
     constructor(props){
         super(props);
         this.state={
-            street:"",
+            streetName:"",
             streetNumber:"",
             localNumber:"",
             district:"Bemowo",
             disabledSubmit:true,
-            streetValidResult:false,
+            streetNameValidResult:false,
             streetNumberValidResult:false,
             localNumberValidResult:false,
             streetNumberErrorMessage:"",
@@ -50,8 +50,8 @@ export default class MapSection extends Component {
 
     
       makeAddresObject(){
-        const {street,streetNumber,localNumber,district} = this.state;
-       return {street,streetNumber,localNumber,district};
+        const {streetName,streetNumber,localNumber,district} = this.state;
+       return {streetName,streetNumber,localNumber,district};
       }
 
 
@@ -59,7 +59,7 @@ export default class MapSection extends Component {
       const value = event.target.value;
       const name = event.target.name;
       const nameValid = name + "ValidResult";
-      const {streetNumberValidResult,streetValidResult,localNumberValidResult} = this.state;
+      const {streetNumberValidResult,streetNameValidResult,localNumberValidResult} = this.state;
       let validResult =true;
       let eventValid = false;
       const regNumbersAndOneLetterAtEnd = /^\d+[a-zA-Z]?$/;
@@ -70,22 +70,22 @@ export default class MapSection extends Component {
         validResult =false;
       }else{
         switch(event.target.name) {
-          case "street":
+          case "streetName":
               eventValid= (event.target.value.length > 0)?true:false;   
                validResult = eventValid && streetNumberValidResult && localNumberValidResult;
             break;
           case "streetNumber":
               eventValid = regNumbersAndOneLetterAtEnd.test(String(event.target.value));
-              validResult = eventValid && streetValidResult && localNumberValidResult;
+              validResult = eventValid && streetNameValidResult && localNumberValidResult;
               errorMessage  = (eventValid  )?"":"Numer ulicy musi składać się z ciągu samych cyfr, ewentulalnie zakończonego jedną literą";            
             break;
           case "localNumber":
               eventValid = value;
-              validResult = eventValid && streetNumberValidResult && streetValidResult;           
+              validResult = eventValid && streetNumberValidResult && streetNameValidResult;           
             break;
           case "district":
               eventValid= true;
-              validResult = localNumberValidResult && streetNumberValidResult && streetValidResult;           
+              validResult = localNumberValidResult && streetNumberValidResult && streetNameValidResult;           
             break;       
           default:
         }
@@ -102,7 +102,7 @@ export default class MapSection extends Component {
     }
 
     render() {
-      const {street,streetNumber,localNumber,district} = this.props.address;
+      const {streetName,streetNumber,localNumber,district} = this.props.address;
         const districts = ["Bemowo","Białołęka","Bielany","Mokotów","Ochota","Praga-Południe","Praga-Północ","Rembertów","Śródmieście",
                            "Targówek","Ursus","Ursynów","Wawer","Wesoła","Wilanów","Włochy","Wola","Żoliborz"];
         const districtsList = districts.map(district=><option key={district} value={district}>{district}</option>);
@@ -110,10 +110,10 @@ export default class MapSection extends Component {
 
 
         const editInputs = this.props.ownerLogIn&&sessionStorage.getItem("id")?
-        <form onSubmit={(e)=>this.props.updateAddress(e,"address", this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
+        <form onSubmit={(e)=>this.props.updateAddress(e,this.makeAddresObject(),`${this.props.restaurantId}/UpdateAddress`)} id="addressInfo">
         <div className="label-form">
-            <label htmlFor="street">Ulica</label> 
-            <input id="street" className="inputStyle" type="text" name="street" onChange={this.inputValidate} />
+            <label htmlFor="streetName">Ulica</label> 
+            <input id="streetName" className="inputStyle" type="text" name="streetName" onChange={this.inputValidate} />
         </div>
         <div className="label-form">
             <label htmlFor="streetNumber">Numer ulicy</label>
@@ -152,7 +152,7 @@ export default class MapSection extends Component {
               <div className="mapInfo">
                   <h3 className="wow fadeIn" data-wow-duration="2s">Znajdź nas na mapie!</h3>                  
                   <address className="wow fadeIn" data-wow-duration="2s">
-                    <i className="fas fa-map-marker-alt fa-2x"></i> {street} {streetNumber}/{localNumber} {district}
+                    <i className="fas fa-map-marker-alt fa-2x"></i> {streetName} {streetNumber}/{localNumber} {district}
                   </address>
                     {editInputs}
                   <button className="wow fadeIn" data-wow-duration="2s">Zobacz na mapach google</button>

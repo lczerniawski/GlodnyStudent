@@ -29,21 +29,26 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MenuViewModel>> CreateMenuItem (MenuItemViewModel menuItem)
+        public async Task<ActionResult<MenuViewModel>> CreateMenuItem(MenuItemViewModel menuItem)
         {
             try
             {
                 var restaurant = await _restaurantRepository.FindById(menuItem.RestaurantId);
                 if (restaurant == null)
-                    return BadRequest("Podana restauracja nie istnieje");
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie udało się znaleźć restauracji o takim ID" });
 
                 var result = await _menuItemRepository.Create(_mapper.Map<MenuItemViewModel, MenuItem>(menuItem));
+
                 if (result == null)
-                    return BadRequest("Dodawanie nie powiodło się");
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Dodawanie nie powiodło się" });
+
 
                 await UpdateHihgestPrice(restaurant);
 
-                return _mapper.Map<MenuItem, MenuViewModel>(result);
+                var newMenuItem = _mapper.Map<MenuItem, MenuViewModel>(result);
+
+                return Ok(new { status = StatusCodes.Status200OK, message = "Dodawanie powiodło się", newMenuItem });
+
             }
             catch (Exception)
             {
@@ -58,7 +63,8 @@ namespace GlodnyStudent.Controllers
             {
                 var result = await _menuItemRepository.FindById(id);
                 if (result == null)
-                    return NotFound();
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie udało się znaleźć restauracji o takim ID" });
+
 
                 var restaurant = await _restaurantRepository.FindById(result.RestaurantId);
 
@@ -66,7 +72,8 @@ namespace GlodnyStudent.Controllers
 
                 await UpdateHihgestPrice(restaurant);
 
-                return Ok();
+                return Ok(new { status = StatusCodes.Status200OK, message = "Poprawnie usunięto danie z menu" });
+
             }
             catch (Exception)
             {
