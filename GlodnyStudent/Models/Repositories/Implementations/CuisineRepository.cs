@@ -25,9 +25,9 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             return result;
         }
 
-        public async Task Delete(string name)
+        public async Task Delete(long id)
         {
-            Cuisine result = await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name);
+            Cuisine result = await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Id == id);
 
             _context.Entry(result).State = EntityState.Deleted;
 
@@ -39,9 +39,9 @@ namespace GlodnyStudent.Models.Repositories.Implementations
             return await _context.Cuisines.ToArrayAsync();
         }
 
-        public async Task<Cuisine> FindByName(string name)
+        public async Task<Cuisine> FindById(long id)
         {
-            return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Name == name);
+            return await _context.Cuisines.FirstOrDefaultAsync(cuisine => cuisine.Id == id);
         }
 
         public async Task<Cuisine> Update(Cuisine cuisine)

@@ -8,6 +8,7 @@ namespace GlodnyStudent.ViewModels
     public class UserViewModel
     {
         public string Username { get; set; }
-        public string Status { get; set; }
+        public string UserStatus { get; set; }
+        public int Status { get; set; }
     }
 }

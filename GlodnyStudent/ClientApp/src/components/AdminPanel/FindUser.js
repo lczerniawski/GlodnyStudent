@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class FindUser extends Component {
     render() {
-        const usersList = this.props.users.map(user=><li id={user.username}>{user.username}<button onClick={this.props.banUser} value={user.username}>{user.status}</button></li>);
+        const usersList = this.props.users.map(user=><li id={user.username}>{user.username}<button onClick={this.props.banUser} value={user.username}>{user.userStatus}</button></li>);
         return (
             <div>
                 <h3>Wyszukaj użytkownika</h3>

@@ -36,16 +36,17 @@ namespace GlodnyStudent.Controllers
 
             if (user == null)
             {
-                return BadRequest(new { email = "no user with this email" });
+                return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Niepoprawny adres email"});
             }
 
             if (user.Status == StatusType.Banned)
-                return BadRequest("Zostałeś zbanowany");
+                return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Zostałeś zbanowany"});
+
 
             var passwordValid = authService.VerifyPassword(model.Password, user.Password);
             if (!passwordValid)
             {
-                return BadRequest(new { password = "invalid password" });
+                return StatusCode(StatusCodes.Status409Conflict,new{status = StatusCodes.Status409Conflict, message = "Niepoprawne hasło"});
             }
 
             return authService.GetAuthData(user.Id,user.Username,user.Role);
@@ -57,9 +58,12 @@ namespace GlodnyStudent.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var emailUniq = await userRepository.isEmailUniq(model.Email);
-            if (!emailUniq) return BadRequest(new { email = "user with this email already exists" });
+            if (!emailUniq)
+                return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Użytkownik o takim emailu już istnieje"});
+
             var usernameUniq = await userRepository.IsUsernameUniq(model.Username);
-            if (!usernameUniq) return BadRequest(new { username = "user with this email already exists" });
+            if (!usernameUniq)
+                return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Użytkownik o takiej nazwie już istnieje"});
 
             var id = Guid.NewGuid().ToString();
             var user = new User
@@ -72,7 +76,8 @@ namespace GlodnyStudent.Controllers
             var userCreated = await userRepository.Create(user);
 
             if (userCreated == null)
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError,new{status = StatusCodes.Status500InternalServerError, message = "Tworzenie konta nie powiodło się"});
+
 
             return authService.GetAuthData(id,user.Username,user.Role);
         }

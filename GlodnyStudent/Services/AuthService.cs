@@ -5,6 +5,7 @@ using System.Text;
 using GlodnyStudent.ViewModels;
 using CryptoHelper;
 using GlodnyStudent.Models.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GlodnyStudent.Services
@@ -44,7 +45,8 @@ namespace GlodnyStudent.Services
                 TokenExpirationTime = ((DateTimeOffset)expirationTime).ToUnixTimeSeconds(),
                 Id = id,
                 Username = username,
-                Role = role.ToString()
+                Role = role.ToString(),
+                Status = StatusCodes.Status200OK
             };
         }
 

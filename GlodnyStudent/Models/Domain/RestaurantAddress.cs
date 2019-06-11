@@ -20,7 +20,7 @@ namespace GlodnyStudent.Models.Domain
         public string StreetNumber { get; set; }
                 
         public int LocalNumber { get; set; }
-        
+
         public IPoint Location { get; set; }
 
         public long RestaurantId { get; set; }

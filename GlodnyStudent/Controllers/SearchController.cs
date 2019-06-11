@@ -9,6 +9,7 @@ using GlodnyStudent.Models.Repositories;
 using GlodnyStudent.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.Geometries;
 
 namespace GlodnyStudent.Controllers
 {
@@ -17,11 +18,13 @@ namespace GlodnyStudent.Controllers
     public class SearchController : ControllerBase
     {
         private readonly IRestaurantRepository _restaurantRepository;
+        private readonly IRestaurantAddressRepository _restaurantAddressRepository;
         private readonly IMapper _mapper;
 
-        public SearchController(IRestaurantRepository restaurantRepository,IMapper mapper)
+        public SearchController(IRestaurantRepository restaurantRepository,IRestaurantAddressRepository restaurantAddressRepository,IMapper mapper)
         {
             _restaurantRepository = restaurantRepository;
+            _restaurantAddressRepository = restaurantAddressRepository;
             _mapper = mapper;
         }
 
@@ -44,24 +47,30 @@ namespace GlodnyStudent.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<RestaurantListViewModel[]>> Filters(string address, int distance, int highestPrice, string cuisine)
+        public async Task<ActionResult<RestaurantListViewModel[]>> Filters(string address, int distance, int highestPrice, string cuisine,double lat,double lng)
         {
             try
             {
                 IOrderedEnumerable<Restaurant> filteredResult;
 
-                var result = await _restaurantRepository.GetRestaurantsByStreet(address);
+                List<Restaurant> filteredRestaurants = new List<Restaurant>();
+                var restaurantsAddress = await _restaurantAddressRepository.FindAllByDistance(distance*1000, new Point(lng, lat){SRID = 4326});
+
+                foreach (var restaurantAddress in restaurantsAddress)
+                {
+                    filteredRestaurants.Add(await _restaurantRepository.FindById(restaurantAddress.RestaurantId));
+                }
 
                 if (cuisine.Equals("Wszystkie"))
                 {
-                    filteredResult = from r in result
+                    filteredResult = from r in filteredRestaurants
                                      where r.HighestPrice <= highestPrice
                                      orderby r.HighestPrice
                                      select r;
                 }
                 else
                 {
-                    filteredResult = from r in result
+                    filteredResult = from r in filteredRestaurants
                                      where r.HighestPrice <= highestPrice && r.Cuisine.Name == cuisine
                                      orderby r.HighestPrice
                                      select r;
@@ -73,7 +82,7 @@ namespace GlodnyStudent.Controllers
                 else
                     return new RestaurantListViewModel[] { };
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
 

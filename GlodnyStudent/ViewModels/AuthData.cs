@@ -12,5 +12,6 @@ namespace GlodnyStudent.ViewModels
         public string Id { get; set; }
         public string Username { get; set; }
         public string Role { get; set; }
+        public int Status { get; set; }
     }
 }

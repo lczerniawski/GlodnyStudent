@@ -13,7 +13,8 @@ export class NavMenu extends Component {
     super();
     this.state={
       email:"",
-      password:""
+      password:"",
+      responseMessage:null
     }
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -52,14 +53,31 @@ export class NavMenu extends Component {
     }).then(res => res.json())
     .then((data) => {
 
-      if(data.id != null){
-        sessionStorage.setItem('token',data.token);
-        sessionStorage.setItem('username',data.username);
-        sessionStorage.setItem('id',data.id);
-        sessionStorage.setItem('role',data.role);
+      let res=null;
+      console.log(data.status);
+      switch(data.status){
+          case 200:
+            sessionStorage.setItem('token',data.token);
+            sessionStorage.setItem('username',data.username);
+            sessionStorage.setItem('id',data.id);
+            sessionStorage.setItem('role',data.role);
+            window.location.reload();
+          break;
+          default:
+              res = data.message;
       }
-      
-      window.location.reload();
+        
+      this.setState({
+         responseMessage: res,
+         email:"",
+         password:""
+        });
+
+
+
+
+
+
     } )
     .catch((err)=>console.log(err));  
 
@@ -86,7 +104,7 @@ export class NavMenu extends Component {
 
   render () {
     const menuList = sessionStorage.getItem("token")?
-    <LogInUserMenu handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel}  />:<GusetMenu handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
+    <LogInUserMenu handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel}  />:<GusetMenu email={this.state.email} password={this.state.password} handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
     return (
       <header>
         <nav className="menuBar wow fadeInDown" data-wow-duration="2s">
@@ -96,6 +114,8 @@ export class NavMenu extends Component {
                 <img src={logo} alt ="Głodny Student Logo"/>
               </a>
             </div>
+
+            {this.state.responseMessage} {/* Umieść to tak aby bylo dobrze */}
 
             <div className="topnav" id="myTopnav">
               {menuList}

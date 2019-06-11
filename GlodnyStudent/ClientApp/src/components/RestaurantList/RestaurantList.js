@@ -6,6 +6,13 @@ import Search from  '../MainPage/Search';
 import './RestaurantList.css';
 import './Search.css'; 
 /* import {host} from '../../config' */
+import Geocode from "react-geocode";
+ 
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+Geocode.setApiKey("AIzaSyBxvJXLoj0DtoGczKojLEo_Kc3LsdlPxCQ ");
+ 
+// Enable or disable logs. Its optional.
+Geocode.enableDebug();
 
 export class RestaurantList extends Component {
 
@@ -19,15 +26,13 @@ export class RestaurantList extends Component {
       distance:20,// tu wstawić jako poczatkowa wartosc wartosc highestDistance
       price:0,// tu wstawić jako poczatkowa wartosc wartosc highestPrice
       cuisine:'Wszystkie',
-      cuisines: [/* 'Amerykańska','Polska','Włoska','Azjatycka' */], // tu wstawic liste wszystkich typow kuchni z serwera
+      cuisines: [], // tu wstawic liste wszystkich typow kuchni z serwera
       highestPrice:0,// tu wstawić maksymalna wartość dostarczona z serwera
       sort:'priceGrowingly',
-      restaurations: [ // przykladowe dane statyczne , dane z serwera beda pobierane po 20 i po kliknieciu  "dalej" beda doladowyawane
-        /* {id:"0",name: "Piękna restauracja1", cuisine: "Włoska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:99,distance:11},
-        {id:"1",name: "Piękna restauracja2", cuisine: "Polska", address: "Jana Pawła2 21/37",reviewsCount:"169", image: '',highestPrice:50,distance:100},
-        {id:"2",name: "Piękna restauracja3", cuisine: "Azjatycka", address: "Jana Pawła2 21/37",reviewsCount:"169", image: '',highestPrice:25,distance:13},
-        {id:"3",name: "Piękna restauracja4", cuisine: "Amerykańska", address: "Jana Pawła2 21/37",reviewsCount:"69", image: '',highestPrice:100,distance:12}    */
-      ]
+      restaurations: [],
+      mapResonseMessage:null,
+      lat:null,
+      lng:null
       
     };
   }
@@ -35,6 +40,7 @@ export class RestaurantList extends Component {
 componentDidMount(){
   this.getDataByAddress();
   this.getCuisinesAndHighestPrice();
+  this.getCoords(this.state.location);
 }
 
 getDataByAddress(){
@@ -81,8 +87,37 @@ getCuisinesAndHighestPrice(firstTime=true){
 }
 
 
+
+
+getCoords(streetName){
+
+Geocode.fromAddress(streetName).then(
+  response => {
+    console.log(response.results[0].geometry.location);
+    this.setState({
+
+          lat: response.results[0].geometry.location.lat,
+          lng: response.results[0].geometry.location.lng,
+          mapResonseMessage:null
+     });
+  },
+  error => {
+    console.error(error);
+    this.setState({
+      mapResonseMessage:"Ulica nie została znaleziona."
+    }); 
+  }
+);
+}
+
+
+
+
+
+
+
     getDataByFilters(){
-      const address = `api/Search?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}`;
+      const address = `api/Search?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}&lat=${this.state.lat}&lng=${this.state.lng}`;
       fetch(address).then((response) => {
         if (response.ok) {
           return response.json();
@@ -146,7 +181,7 @@ getCuisinesAndHighestPrice(firstTime=true){
         <div className="searchRestaurant">
           <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.location}/>
         </div>
-
+        {this.state.mapResonseMessage}
         <div className="filersBar">
       <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
           <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />

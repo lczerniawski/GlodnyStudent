@@ -34,7 +34,8 @@ namespace GlodnyStudent.Controllers
             {
                 var users = await _userRepository.FindAll();
                 if (users == null)
-                    return BadRequest("Błąd podczas pobierania użytkowników");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas pobierania użytkowników"});
+
 
                 List<UserViewModel> usersList = new List<UserViewModel>();
 
@@ -45,7 +46,8 @@ namespace GlodnyStudent.Controllers
                         usersList.Add(new UserViewModel
                         {
                             Username = user.Username,
-                            Status = user.Status.ToString()
+                            UserStatus = user.Status.ToString(),
+                            Status = StatusCodes.Status200OK
                         });
                     }
                 }
@@ -65,7 +67,8 @@ namespace GlodnyStudent.Controllers
             {
                 var user = await _userRepository.FindUserByUsername(username);
                 if (user == null)
-                    return NotFound("Nie ma takiego użytkownika");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie ma takiego użytkownika"});
+
 
                 if (user.Status == StatusType.Active)
                     user.Status = StatusType.Banned;
@@ -74,12 +77,14 @@ namespace GlodnyStudent.Controllers
 
                 var updatedUser = await _userRepository.Update(user);
                 if (updatedUser == null)
-                    return BadRequest("Błąd podczas blokowania użytkownika");
+                    return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Błąd podczas blokowania użytkownika"});
+
 
                 UserViewModel result = new UserViewModel
                 {
                     Username = updatedUser.Username,
-                    Status = updatedUser.Status.ToString()
+                    UserStatus = updatedUser.Status.ToString(),
+                    Status = StatusCodes.Status200OK
                 };
 
                 return result;

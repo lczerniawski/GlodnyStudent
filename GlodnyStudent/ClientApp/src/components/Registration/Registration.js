@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Registration.css';
+import PropTypes from 'prop-types';
 
 export default class Registration extends Component {
 
@@ -20,7 +21,8 @@ export default class Registration extends Component {
             repeatedPasswordErrorText:"",
             disabledRepeatedPassword:true,
             disabledSubmit:true,
-            typingTimer:null
+            typingTimer:null,
+            responseMessage:null
           };
           this.handleInputChange = this.handleInputChange.bind(this);
           this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,12 +48,27 @@ export default class Registration extends Component {
          })
        }).then(res => res.json())
        .then((data) => {
-          console.log(`Klaszczemy uztkownikowi :${data.username}`);
-       
+          if(data.status === 200){
+            
+            sessionStorage.setItem('token',data.token);
+            sessionStorage.setItem('username',data.username);
+            sessionStorage.setItem('id',data.id);
+            sessionStorage.setItem('role',data.role);
+            this.context.router.history.push(`/`).reload();  
+          }else{
+            this.setState({
+              responseMessage: data.message
+            });
+          }
+
        } )
        .catch((err)=>console.log(err));
       }
 
+
+      static contextTypes = {
+        router: PropTypes.object
+      }
 
 
       handleInputChange(event) {
@@ -89,8 +106,8 @@ export default class Registration extends Component {
 
         switch(event.target.name) {
           case "name":
-            validResult = (event.target.value.length > 0)?true:false;
-            errorMessage  = (validResult)?"":"To pole jest wymagane.";
+            validResult = (event.target.value.length >= 2)?true:false;
+            errorMessage  = (validResult)?"":"Nazwa musi składać sie conajmniej z dwuch znaków.";
             otherField  = emailValidResult && passwordValidResult && repeatedPasswordValidResult;           
             break;
           case "email":
@@ -133,6 +150,7 @@ export default class Registration extends Component {
         <div className="backgroundDark">
             <div className="containerLight">
               <p className="text wow fadeIn" data-wow-duration="2s">Uzupełnij poniższy formularz rejestracyjny i dołącz do grona Głodnych Studentów!</p>
+              {this.state.responseMessage}
               <form  onSubmit={this.handleSubmit} >
                   <div className="label-form wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel">Nazwa użytkownika</label>

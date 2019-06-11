@@ -28,6 +28,8 @@ export default class Gallery extends Component {
                     {galleryList}
                   </ul>
                   {editInput}
+                  {this.props.responseMessageUploadImage}
+                  {this.props.responseMessageRemoveImage}
               </div>
         )
     }

@@ -8,12 +8,12 @@ namespace GlodnyStudent.Models.Repositories
     {
         Task<Cuisine> Create(Cuisine cuisine);
 
-        Task<Cuisine> FindByName(string name);
+        Task<Cuisine> FindById(long id);
 
         Task<Cuisine[]> FindAll();
 
         Task<Cuisine> Update(Cuisine cuisine);
 
-        Task Delete(string name);
+        Task Delete(long id);
     }
 }

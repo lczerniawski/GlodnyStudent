@@ -34,7 +34,7 @@ namespace GlodnyStudent.Controllers
             {
                 var result = await _notificationRepository.FindAll();
                 if (result == null)
-                    return NotFound("Brak powiadomień");
+                    return new Notification[]{};
 
                 return result.ToArray();
             }
@@ -52,7 +52,7 @@ namespace GlodnyStudent.Controllers
             {
                 var restaurant = await _restaurantRepository.FindById(restaurantId);
                 if (restaurant == null)
-                    return NotFound("Nie ma restauracji o takim ID");
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie ma restauracji o takim ID" });
 
                 Notification newNotification = new Notification
                 {
@@ -63,9 +63,9 @@ namespace GlodnyStudent.Controllers
 
                 var result = await _notificationRepository.Create(newNotification);
                 if (result == null)
-                    return BadRequest("Nie udało się wysłać zgłoszenia");
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się wysłać zgłoszenia" });
 
-                return result;
+                return Ok(new { status = StatusCodes.Status200OK, message = "Wysłano zgłoszenie" });
             }
             catch (Exception)
             {
@@ -81,20 +81,23 @@ namespace GlodnyStudent.Controllers
             {
                 var review = await _reviewRepository.FindById(reviewId);
                 if (review == null)
-                    return NotFound("Nie ma komentarza o takim ID");
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie ma komentarza o takim ID" });
+
 
                 Notification newNotification = new Notification
                 {
-                    Content = "Komentarz użytkownika " + review.User.Username + " o treści: " + review.Description +" została zgłoszony przez jednego z użytkowników." +
+                    Content = "Komentarz użytkownika " + review.User.Username + " o treści: " + review.Description + " została zgłoszony przez jednego z użytkowników." +
                               Environment.NewLine + "Komentarz wymaga weryfikacji przez administratora.",
                     RestaurantId = review.RestaurantId
                 };
 
-                var result = await _notificationRepository.Create(newNotification);
-                if (result == null)
-                    return BadRequest("Nie udało się wysłać zgłoszenia");
+                var notification = await _notificationRepository.Create(newNotification);
+                if (notification == null)
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się wysłać zgłoszenia" });
 
-                return result;
+
+                return Ok(new { status = StatusCodes.Status200OK, message = "Wysłano zgłoszenie" });
+
             }
             catch (Exception)
             {
@@ -110,11 +113,12 @@ namespace GlodnyStudent.Controllers
             {
                 var notification = await _notificationRepository.FindById(id);
                 if (notification == null)
-                    return NotFound("Nie ma komentarza o takim ID");
+                    return NotFound(new{status = StatusCodes.Status404NotFound, message = "Nie ma komentarza o takim ID"});
+
 
                 await _notificationRepository.Delete(id);
                 
-                return notification;
+                return Ok(new{status = StatusCodes.Status200OK,notification});
             }
             catch (Exception)
             {

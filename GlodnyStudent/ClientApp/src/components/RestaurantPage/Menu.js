@@ -49,6 +49,8 @@ export default class Menu extends Component {
             const addItemForm = this.props.ownerLogIn&&sessionStorage.getItem("id")?
             <div className="addMenu">
                     <h3>Dodaj danie do menu</h3>
+                    {this.props.responseMessageMenuAddItem}
+                    {this.props.responseMessageRemoveMenuItem}
                     <form>
                         <div className="label-form">
                             <label for="nameMenu">Danie:</label>
@@ -58,7 +60,7 @@ export default class Menu extends Component {
                             <label for="priceMenu">Cena (zł):</label>
                             <input id="priceMenu" className="inputStyle" type="number" name="price" onChange={this.inputValidate} />
                         </div>                        
-                        <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} onClick={(e)=>this.props.addMenuItem(e,"menu",{name:this.state.name,price:this.state.price,restaurantId:this.props.restaurantId},"Menu")} value="Dodaj"/>
+                        <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} onClick={(e)=>this.props.addMenuItem(e,{name:this.state.name,price:this.state.price,restaurantId:this.props.restaurantId},"Menu")} value="Dodaj"/>
                     </form> 
                 </div>:null;
 
