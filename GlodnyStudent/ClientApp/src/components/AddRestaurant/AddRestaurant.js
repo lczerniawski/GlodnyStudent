@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import KRScheck from './KRScheck';
 import PropTypes from 'prop-types';
+import Geocode from "react-geocode";
+ 
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+Geocode.setApiKey("AIzaSyBxvJXLoj0DtoGczKojLEo_Kc3LsdlPxCQ ");
+ 
+// Enable or disable logs. Its optional.
+Geocode.enableDebug();
 
 export default class AddRestaurant extends Component {
 
@@ -14,7 +21,9 @@ export default class AddRestaurant extends Component {
                 streetName:"",
                 streetNumber:"",
                 localNumber:null,
-                district:"Bemowo"
+                district:"Bemowo",
+                lat: null,
+                lng: null
             }, 
             wantToBeOwner:false,
             KRS:null,
@@ -124,11 +133,20 @@ export default class AddRestaurant extends Component {
       }
 
     render() {
+      Geocode.fromAddress("Eiffel Tower").then(
+        response => {
+          console.log(response.results[0].geometry.location);
+        },
+        error => {
+          console.error(error);
+        }
+      );
 
         const cousinesList = this.state.cuisines.map(cusine=><option key={cusine} value={cusine}>{cusine}</option>);
         const districts = ["Bemowo","Białołęka","Bielany","Mokotów","Ochota","Praga-Południe","Praga-Północ","Rembertów","Śródmieście",
         "Targówek","Ursus","Ursynów","Wawer","Wesoła","Wilanów","Włochy","Wola","Żoliborz"];
         const districtsList = districts.map(district=><option key={district} value={district}>{district}</option>);
+        
 
         return (
             <div>
@@ -150,6 +168,7 @@ export default class AddRestaurant extends Component {
                     <select name="distric" onChange={this.handleInputChange}>
                       {districtsList}
                     </select>
+                    <p>Długość: <br/>Szerokość: </p>
                 </form>
             </div>
         )
