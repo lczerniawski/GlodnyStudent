@@ -23,13 +23,17 @@ export default class KRScheck extends Component {
                         errorMsg:res?"Poprawny numer KRS.":"Niepoprawny numer KRS."
                     });
                 }
+                
             )
             .catch((error) => {
                 console.log(error);
                 this.setState({
                     errorMsg:"Niepoprawny numer KRS."
                 });
-            });
+            })
+            .then(res => this.props.blockButtonKrsCheck())
+            
+            
     }
 
 
@@ -55,7 +59,7 @@ export default class KRScheck extends Component {
             <div>
             <label for="KRS">Numer KRS</label>
             <input className="inputStyle" id="KRS" type="number" disabled={!this.props.wantToBeOwner} name="KRS" onChange={this.handleInputChange}/>
-            <button disabled={!this.props.wantToBeOwner} onClick={this.CheckKRS} >Sprawdź</button>
+            <button disabled={!this.props.wantToBeOwner} onClick={this.CheckKRS}  >Sprawdź</button>
             <p className="error">{this.state.errorMsg}</p>
             </div>
     )

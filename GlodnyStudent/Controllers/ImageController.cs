@@ -42,6 +42,7 @@ namespace GlodnyStudent.Controllers
         /// </returns>
         [HttpPost]
         [Route("{id:long}/Upload")]
+        [Authorize]
         public async Task<IActionResult> UploadFile(IFormFile file, long id)
         {
             try

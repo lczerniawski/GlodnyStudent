@@ -41,7 +41,9 @@ export default class AddRestaurant extends Component {
             streetNumberErrorMessage:"",
             localNumberErrorMessage:"",
             restaurantNameErrorMessage:"",
-            disabledSubmit:true
+            disabledSubmit:true,
+
+            validResult:false
 
         }
         this.getCuisines = this.getCuisines.bind(this);
@@ -53,6 +55,7 @@ export default class AddRestaurant extends Component {
         this.getCoords = this.getCoords.bind(this);
         this.setKRSValidationResult = this.setKRSValidationResult.bind(this);
         this.toggleWantToBeOwner = this.toggleWantToBeOwner.bind(this);
+        this.blockButtonKrsCheck = this.blockButtonKrsCheck.bind(this);
     }
 
     componentDidMount(){
@@ -157,9 +160,10 @@ export default class AddRestaurant extends Component {
 
 
 
-      getCoords(streetName,streetNumber){
+      async getCoords(streetName,streetNumber){
           const address =`${streetName} ${streetNumber}`
-        Geocode.fromAddress(address).then(
+          let res=null;
+        await Geocode.fromAddress(address).then(
           response => {
             console.log(response.results[0].geometry.location);
             this.setState(prevState => ({
@@ -169,15 +173,18 @@ export default class AddRestaurant extends Component {
                   lng: response.results[0].geometry.location.lng,
               },
               mapResonseMessage:null
-             }));
+             }),
+             ()=>res =true);
           },
           error => {
             console.error(error);
             this.setState({
               mapResonseMessage:"Ulica nie została znaleziona."
-            }); 
+            },()=>res=false); 
           }
         );
+        console.log(`res ${res}`);
+        return res;
       }
 //#############################################################
 startCountdownToValidate(event){
@@ -194,12 +201,12 @@ clearTheCountdownToValidate(){
 }
 
 
-inputValidate(event){
+async inputValidate(event){
   const value = event.target.value;
       const name = event.target.name;
       const nameValid = name + "ValidResult";
       const errMsg = name + "ErrorMessage";
-      const {streetNumberValidResult,streetNameValidResult,localNumberValidResult,restaurantNameValidResult} = this.state;
+      const {streetNumberValidResult,streetNameValidResult,localNumberValidResult,restaurantNameValidResult,wantToBeOwner,KRSValid} = this.state;
       let validResult =true;
       let eventValid = false;
       const regNumbersAndOneLetterAtEnd = /^\d+[a-zA-Z]?$/;
@@ -219,14 +226,17 @@ inputValidate(event){
               validResult = localNumberValidResult && streetNumberValidResult && streetNameValidResult && restaurantNameValidResult;
             break;  */  
           case "streetName":
-              this.getCoords(event.target.value,this.state.restaurant.streetNumber);  
-              eventValid= this.state.mapResonseMessage?false:true;
-               validResult = eventValid && streetNumberValidResult && localNumberValidResult && restaurantNameValidResult;;
+              
+              
+              eventValid= await this.getCoords(event.target.value,this.state.restaurant.streetNumber);
+                console.log(`mapResponseMessage ${this.state.mapResonseMessage}
+              eventValid ${eventValid}`);
+               validResult = eventValid && streetNumberValidResult && localNumberValidResult && restaurantNameValidResult;
+              
             break;
           case "streetNumber":
-              this.getCoords(this.state.restaurant.streetName,event.target.value);
-              let crdres = this.state.mapResonseMessage?false:true;
-              eventValid = regNumbersAndOneLetterAtEnd.test(String(event.target.value)) && crdres;
+            
+              eventValid = regNumbersAndOneLetterAtEnd.test(String(event.target.value));
               validResult = eventValid && streetNameValidResult && localNumberValidResult && restaurantNameValidResult;
               errorMessage  = (regNumbersAndOneLetterAtEnd.test(String(event.target.value)) )?null:"Numer ulicy musi składać się z ciągu samych cyfr, ewentulalnie zakończonego jedną literą";           
             break;
@@ -241,23 +251,40 @@ inputValidate(event){
           default:
         }
       }
-     // dopisac wersje z krs
+     // dopisac wersje z krs  
 
+      console.log(`validResult: ${validResult}`);
       this.setState({
-        disabledSubmit: !validResult,
+        disabledSubmit: !(validResult && (wantToBeOwner?KRSValid:true)),
         [name]: value,
         [nameValid]:eventValid,
-        [errMsg]:errorMessage
+        [errMsg]:errorMessage,
+        validResult:validResult
+
       });
 
 }
+
+
+blockButtonKrsCheck(){
+  this.setState({
+    disabledSubmit: !(this.state.validResult && (this.state.wantToBeOwner?this.state.KRSValid:true))
+  });
+}
+
+
+
 //#############################################################
 
 
 toggleWantToBeOwner(){
-  this.setState(prevState => ({
-    wantToBeOwner: !prevState.wantToBeOwner
-  }));
+
+    this.setState(prevState =>({
+      wantToBeOwner: !prevState.wantToBeOwner
+  }), () => {
+    this.blockButtonKrsCheck();
+  });
+  
 }
 
 
@@ -299,13 +326,13 @@ toggleWantToBeOwner(){
                   </div>  
                   <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel" for="localNumber">Numer lokalu</label>
-                    <input className="inputStyle" id="localNumber" type="number" name="localNumber"onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.localNumberErrorMessage}
+                    <input className="inputStyle" id="localNumber" type="number"   min="0" name="localNumber"onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.localNumberErrorMessage}
                   </div>  
                   <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
                     <input className="wantToBeOwnerInput" id="wantToBeOwner" type="checkbox"  name="wantToBeOwner" onClick={this.toggleWantToBeOwner} /> <label className="wantToBeOwnerLabel" for="wantToBeOwner">Chcę zostać włascicielem</label> 
                   </div>
                   <div className="label-form rowLine wow fadeIn" data-wow-duration="2s">
-                    <KRScheck wantToBeOwner={this.state.wantToBeOwner} setKRSValidationResult={this.setKRSValidationResult} />
+                    <KRScheck blockButtonKrsCheck={this.blockButtonKrsCheck} wantToBeOwner={this.state.wantToBeOwner} setKRSValidationResult={this.setKRSValidationResult} />
                   </div>
                   <div className="label-form wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel" htmlFor="district">Dzielnica</label>

@@ -85,9 +85,9 @@ namespace GlodnyStudent.Controllers
         /// W przypadku błędu podczas dodawaniu opinii:Status code 400 oraz wiadomość "Błąd przy dodawaniu opinii"\n
         /// W przypadku powodzenia: Status Code 200 oraz obiekt opini reprezentowany przez klase ReviewViewModel\n
         /// </returns>
-        [HttpPut("{id:int}/[action]")]
+        [HttpPut("{id:long}/[action]")]
         [Authorize]
-        public async Task<IActionResult> AddReview([FromBody]Review review, int id)
+        public async Task<IActionResult> AddReview([FromBody]Review review, long id)
         {
             try
             {
@@ -118,6 +118,46 @@ namespace GlodnyStudent.Controllers
                 var newReview = _mapper.Map<Review, ReviewViewModel>(addedReview);
 
                 return Ok(new { status = StatusCodes.Status200OK, newReview });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
+            }
+        }
+
+        /// <summary>
+        /// Metoda usuwa opinie o resturacji z bazy danych, dostep do metody posiada tylko administrator
+        /// Odwołanie do API następuje po adresie "nazwahosta/api/Restaurants/DeleteReview/[id opini]" metodą DELETE należy umieścić header Authorization z tokenem wygenerowanym poprzez logowanie
+        /// </summary>
+        /// <param name="id">Id </param>
+        /// <returns>
+        /// W przypadku nie znalezenia opiniii o takim ID: Status code 404 oraz wiadomość "Nie ma opinii o takim ID"
+        /// W przypadku powodzenia: Status code 200 oraz wiadomość o poprawnym usunięciu
+        /// W przypadku błedu w bazie: "Database Failure"
+        /// </returns>
+        [HttpDelete("[action]/{id:long}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteReview(long id)
+        {
+            try
+            {
+                var review = await _reviewRepository.FindById(id);
+                if(review == null)
+                    return NotFound(new { status = StatusCodes.Status404NotFound, message = "Nie ma opinii o takim ID" });
+
+                await _reviewRepository.Delete(review.Id);
+
+                var restaurant = await _restaurantRepository.FindById(review.RestaurantId);
+
+                if (restaurant == null)
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się usunąć opinii o restauracji" });
+                
+                restaurant.ReviewsCount--;
+                var result = await _restaurantRepository.Update(restaurant);
+                if (result == null)
+                    return BadRequest(new { status = StatusCodes.Status400BadRequest, message = "Nie udało się usunąć opinii o restauracji" });
+
+                return Ok(new { status = StatusCodes.Status200OK, message="Usuwanie opinii nie powiodło się" });
             }
             catch (Exception)
             {

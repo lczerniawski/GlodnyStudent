@@ -24,6 +24,7 @@ constructor(props){
           responseMessageRemoveMenuItem:null,
           responseMessageReviews:null,
           responseMessage:null,
+          responseMessageRemoveReviews:null,
           fields: {},
           ownerLogIn:false,
           location:window.location.href.slice(window.location.href.lastIndexOf("/")+1),
@@ -55,6 +56,7 @@ constructor(props){
     this.changeName = this.changeName.bind(this);
     this.changeAddress = this.changeAddress.bind(this);
     this.addMenuItem = this.addMenuItem.bind(this);
+    this.handleRemoveRevievs = this.handleRemoveRevievs.bind(this)
 }
   
     componentDidMount(){
@@ -209,7 +211,7 @@ constructor(props){
       }
 
       
-/* ################################## POCZĄTEK STREFY DUZYCH ZMIAN ########################## */
+/* ##################################  ########################## */
      /* SendRestaurantInfo(event,name,value,addressToFetch) {
        
          event.preventDefault();
@@ -378,7 +380,7 @@ constructor(props){
           .catch((err)=>console.log(err))
      
   }
-/* ################################## KONIEC STREFY DUZYCH ZMIAN ########################## */
+/* ##################################  ########################## */
 
      /* Upload Gallery */
      uploadJustFile(e) {
@@ -395,7 +397,10 @@ constructor(props){
           form.append('file', element);
       }
 
-      axios.post(`api/Image/${this.state.restaurant.id}/Upload`, form)
+      /* axios.post(`api/Image/${this.state.restaurant.id}/Upload`, form) */
+      axios.post(`api/Image/${this.state.restaurant.id}/Upload`, form, {
+     headers: { Authorization: "Bearer " +  sessionStorage.getItem("token") }
+        })
           .then((result) => {
 
 
@@ -532,8 +537,41 @@ constructor(props){
       } 
 
 
-    
 
+
+      handleRemoveRevievs(e){       
+        const id = e.target.value;
+        const adr =`/api/Restaurants/DeleteReview/${id}`;
+
+          fetch(adr, {
+              method: 'DELETE',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization':'Bearer ' + sessionStorage.getItem("token")
+
+              },
+              body: JSON.stringify()
+          }).then((data) => {
+
+            if(data.status === 200){
+              let index = this.state.restaurant.reviews.findIndex((review)=>review.id == id); // Celowo ==
+              if ( index !== -1){ 
+                  this.state.restaurant.reviews.splice(index,1);
+                  this.setState({
+                    menu: this.state.restaurant.reviews
+                  });
+              }
+            }else{
+              this.setState({
+                responseMessageRemoveReviews: data.message
+              });
+            }
+
+          });
+
+      }
+    
 
   render() {
     return (
@@ -558,8 +596,9 @@ constructor(props){
           </section>
           <section className="reviews">
             {this.state.responseMessageReviews}
+            {this.state.responseMessageRemoveReviews}
             {sessionStorage.getItem("id")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}
-            <ReviewsList makeReport={this.makeReport}  reviews={this.state.restaurant.reviews}/>            
+            <ReviewsList handleRemoveRevievs={this.handleRemoveRevievs} makeReport={this.makeReport}  reviews={this.state.restaurant.reviews}/>            
           </section>
         </div>
       </div>
