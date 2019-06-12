@@ -206,8 +206,7 @@ namespace GlodnyStudent.Controllers
                 restaurantAddressToUpdate.LocalNumber = addressViewModel.LocalNumber;
                 restaurantAddressToUpdate.StreetName = addressViewModel.StreetName;
                 restaurantAddressToUpdate.StreetNumber = addressViewModel.StreetNumber;
-                restaurantAddressToUpdate.Location.X = addressViewModel.LocationX;
-                restaurantAddressToUpdate.Location.Y = addressViewModel.LocationY;
+                restaurantAddressToUpdate.Location =  new Point(addressViewModel.LocationX,addressViewModel.LocationY){SRID = 4326};
 
                 var result = await _restaurantAddressRepository.Update(restaurantAddressToUpdate);
 
@@ -219,7 +218,7 @@ namespace GlodnyStudent.Controllers
                 return Ok(new { status = StatusCodes.Status200OK, message = "Poprawnie zaktualizowano adres", newAddress });
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure!");
             }
@@ -317,7 +316,7 @@ namespace GlodnyStudent.Controllers
                 if(result == null)
                     return BadRequest(new{status = StatusCodes.Status400BadRequest, message = "Nie udało się dodać restauracji"});
 
-                return Ok(new {status = StatusCodes.Status200OK, message = "Dodano nową restauracje",id = result.Id});
+                return Ok(new {status = StatusCodes.Status200OK, message = "Dodano nową restauracje",id = newRestaurant.Id});
             }
             catch (Exception e)
             {
