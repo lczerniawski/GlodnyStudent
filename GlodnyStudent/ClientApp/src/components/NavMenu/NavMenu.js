@@ -106,27 +106,31 @@ export class NavMenu extends Component {
     const menuList = sessionStorage.getItem("token")?
     <LogInUserMenu handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel}  />:<GusetMenu email={this.state.email} password={this.state.password} handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
     return (
-      <header>
-        <nav className="menuBar wow fadeInDown" data-wow-duration="2s">
+      <div>
+        <header>
+          <nav className="menuBar wow fadeInDown" data-wow-duration="2s">
 
-            <div className="navLogo">
-              <a href="/">
-                <img src={logo} alt ="Głodny Student Logo"/>
+              <div className="navLogo">
+                <a href="/">
+                  <img src={logo} alt ="Głodny Student Logo"/>
+                </a>
+              </div>
+
+              <div className="topnav" id="myTopnav">
+                {menuList}
+              </div>
+    
+              <a id="menuIcon" className="menuIcon">
+                <span className="fas fa-bars fa-2x"></span>
               </a>
-            </div>
+          </nav>
+        
+        </header>
 
-            {this.state.responseMessage} {/* Umieść to tak aby bylo dobrze */}
-
-            <div className="topnav" id="myTopnav">
-              {menuList}
-            </div>
-  
-            <a id="menuIcon" className="menuIcon">
-              <span className="fas fa-bars fa-2x"></span>
-            </a>
-        </nav>
-       
-      </header>
+        <aside className="errorLogin">
+          {this.state.responseMessage}
+        </aside>
+      </div>
     );
   }
 }

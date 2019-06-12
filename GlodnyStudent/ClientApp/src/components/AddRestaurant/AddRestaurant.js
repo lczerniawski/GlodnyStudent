@@ -209,7 +209,7 @@ async inputValidate(event){
       const {streetNumberValidResult,streetNameValidResult,localNumberValidResult,restaurantNameValidResult,wantToBeOwner,KRSValid} = this.state;
       let validResult =true;
       let eventValid = false;
-      const regNumbersAndOneLetterAtEnd = /^\d+[a-zA-Z]?$/;
+      const regNumbersAndOneLetterAtEnd = /^\d{1,3}[a-zA-Z]?$/;
       const regEmp = /^$/;
       let errorMessage = "";  
 
@@ -238,7 +238,7 @@ async inputValidate(event){
             
               eventValid = regNumbersAndOneLetterAtEnd.test(String(event.target.value));
               validResult = eventValid && streetNameValidResult && localNumberValidResult && restaurantNameValidResult;
-              errorMessage  = (regNumbersAndOneLetterAtEnd.test(String(event.target.value)) )?null:"Numer ulicy musi składać się z ciągu samych cyfr, ewentulalnie zakończonego jedną literą";           
+              errorMessage  = (regNumbersAndOneLetterAtEnd.test(String(event.target.value)) )?null:"Numer ulicy musi składać się z ciągu maksymalnie 3 cyfr, ewentualnie zakończonego jedną literą";           
             break;
           case "localNumber":
               eventValid= (event.target.value.length > 0)?true:false;
@@ -303,12 +303,14 @@ toggleWantToBeOwner(){
             </div>
             <div className="backgroundDark">
               <div className="containerLight">
-                {this.state.responseMessage}
-                {this.state.mapResonseMessage}
+                <h3 className="error">{this.state.responseMessage}</h3>
+                <h3 className="error">{this.state.mapResonseMessage}</h3>
                 <form>
                   <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
                     <label for="restaurantName">Nazwa restauracji</label>
-                    <input className="inputStyle" id="restaurantName" name="restaurantName" type="text" onChange={this.handleInputChange} onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} />{this.state.restaurantNameErrorMessage}
+                    <input className="inputStyle" id="restaurantName" name="restaurantName" type="text" onChange={this.handleInputChange} onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} />
+                    
+                    <p className="error">{this.state.restaurantNameErrorMessage}</p>
                   </div>
                   <div className="label-form selectInput wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel" for="cuisine">Typ kuchni</label>
@@ -318,15 +320,21 @@ toggleWantToBeOwner(){
                   </div>
                   <div className="label-form rowLine wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel" for="streetName">Ulica</label>
-                    <input className="inputStyle" id="streetName" type="text" name="streetName" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.streetNameErrorMessage}
+                    <input className="inputStyle" id="streetName" type="text" name="streetName" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>
+                    
+                    <p className="error">{this.state.streetNameErrorMessage}</p>
                   </div>  
                   <div className="label-form wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel" for="streetNumber">Numer ulicy</label>
-                    <input className="inputStyle" id="streetNumber" type="text" name="streetNumber" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate}  onChange={this.handleInputChange}/>{this.state.streetNumberErrorMessage}
+                    <input className="inputStyle" id="streetNumber" type="text" name="streetNumber" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate}  onChange={this.handleInputChange}/>
+                    
+                    <p className="error">{this.state.streetNumberErrorMessage}</p>
                   </div>  
                   <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
                     <label className="filedLabel" for="localNumber">Numer lokalu</label>
-                    <input className="inputStyle" id="localNumber" type="number"   min="0" name="localNumber"onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.localNumberErrorMessage}
+                    <input className="inputStyle" id="localNumber" type="number" min="0" name="localNumber"onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>
+                    
+                    <p className="error">{this.state.localNumberErrorMessage}</p>
                   </div>  
                   <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
                     <input className="wantToBeOwnerInput" id="wantToBeOwner" type="checkbox"  name="wantToBeOwner" onClick={this.toggleWantToBeOwner} /> <label className="wantToBeOwnerLabel" for="wantToBeOwner">Chcę zostać włascicielem</label> 

@@ -5,6 +5,7 @@
         background: #404040;
     }
     #adminPanel .containerLight {
+        min-height: 200px;
         padding: 40px;
     }
     #adminPanel .tickets h3 {
@@ -40,6 +41,7 @@
     }
     #adminPanel .containerLight {
         padding: 15px;
+        min-height: 200px;
     }
     #adminPanel .tickets h3 {
         text-align: center;
@@ -77,6 +79,39 @@
     text-align: center;
     margin: 0 auto;
     width: 100%;
+}
+
+#adminPanel .buttonSubmit {
+    float: left;
+    clear: both;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 40px;
+    overflow: hidden;
+}
+
+@media(max-width: 900px) {
+    #adminPanel .buttonSubmit button {
+        width: 95%;
+        margin-bottom: 10px;
+    }
+}
+@media(min-width: 901px) {
+    #adminPanel .buttonSubmit button {
+        width: 400px;
+    }
+}
+
+#adminPanel .buttonSubmit button {
+    border: 1px solid #404040;
+    padding: 10px 15px 10px 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}   
+
+#adminPanel .disabled {
+    display: none;
 }
 
 #adminPanel .findUser .statusAccount {

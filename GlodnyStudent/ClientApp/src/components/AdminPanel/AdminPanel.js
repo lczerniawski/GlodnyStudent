@@ -10,13 +10,19 @@ export default class AdminPanel extends Component {
         this.state={
             nickname:"",
             users:[],
-            reports:[]
+            reports:[],
+            openedFind: true,
+            openedReports: false,
+            notifyDisableBtn:false,
+          findUserDisableBtn:true
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.banUser = this.banUser.bind(this);
         this.getReports = this.getReports.bind(this);
         this.removeReport = this.removeReport.bind(this);
+        this.toggleAdminPanel = this.toggleAdminPanel.bind(this);
+        
     }
 
 
@@ -136,17 +142,45 @@ export default class AdminPanel extends Component {
         .catch((err)=>console.log(err))  
       } 
 
+      toggleAdminPanel(e) {
+        const { openedFind,openedReports } = this.state;
+        const name = e.target.name;
 
+        this.setState(prevState => ({
+          openedFind: !prevState.openedFind,
+          openedReports: !prevState.openedReports,
+          notifyDisableBtn:name ==="notifyDisableBtn"?true:false,
+          findUserDisableBtn:name ==="findUserDisableBtn"?true:false
+          
+        }));
+      }
 
+     
 
     render() {
-        
+
+    
+
+        const { openedFind, openedReports } = this.state;
         return (
             <div id="adminPanel">
               <div className="backgroundDark">
                 <div className="containerLight">
-                  <FindUser banUser={this.banUser}  users={this.state.users}  getUsers={this.getUsers} handleInputChange={this.handleInputChange} />
-                  <Reports  removeReport={this.removeReport} getReports={this.getReports} reports={this.state.reports} />
+                  <div className="buttonSubmit rowLine wow fadeIn" data-wow-duration="2s">
+                    <p>Wybierz opcję, która Cię interesuje</p>
+                    <button onClick={this.toggleAdminPanel} disabled={this.state.notifyDisableBtn} name="notifyDisableBtn" id="findButtonAdmin">Wyświetl zgłoszenia</button>
+                    <button onClick={this.toggleAdminPanel} disabled={this.state.findUserDisableBtn} name="findUserDisableBtn" id="reportsButtonAdmin">Znajdź użytkownika</button>
+                  </div>
+                  {openedFind && (
+                    <div id="findUserAdmin">
+                      <FindUser banUser={this.banUser}  users={this.state.users}  getUsers={this.getUsers} handleInputChange={this.handleInputChange} />
+                    </div>
+                  )}
+                  {openedReports && (
+                    <div id="reportsAdmin">
+                      <Reports  removeReport={this.removeReport} getReports={this.getReports} reports={this.state.reports} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

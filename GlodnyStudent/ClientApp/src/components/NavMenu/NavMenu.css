@@ -21,6 +21,16 @@ header .userName {
   margin-left: 10px;
 }
 
+.errorLogin {
+  float: left;
+  width: 100%;
+  clear: both;
+  background-color: red;
+  color: #fff;
+  margin-top: 80px;
+  text-align: center;
+}
+
 header .logoutMenu, header .menuAdmin {
   background-color: #404040;
   font-size: 20px;
