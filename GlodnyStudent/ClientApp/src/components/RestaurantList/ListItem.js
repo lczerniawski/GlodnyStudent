@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './ListItem.css';
 import PropTypes from 'prop-types';
+import imageRestaurant from'../assets/restaurantImage.jpg';
 
 export default class listItem extends Component {
 
@@ -31,7 +32,9 @@ export default class listItem extends Component {
     const badge = this.PopularityBadge();
     return (
         <div className="listItemContainer wow fadeInDown" data-wow-duration="1s" onClick={this.handleClickElement}>
-          <div className="image"></div> {/* <- w tym divie docelowo bedzie zdjecie  */}
+          <div className="image">
+            <img src={imageRestaurant} />
+          </div>
           <div className="restaurantName">
               <h3>{this.props.name}</h3>
               {badge}
@@ -42,7 +45,6 @@ export default class listItem extends Component {
               </address>
 
               <ul>
-                <li><i className="far fa-star fa-2x"></i> Liczba punktów: {this.props.rate} </li>
                 <li><i className="far fa-comments fa-2x"></i> Ilość komentarzy: {this.props.reviewsCount}</li>
               </ul>
             </div>

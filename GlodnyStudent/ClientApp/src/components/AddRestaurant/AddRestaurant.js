@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import KRScheck from './KRScheck';
 import PropTypes from 'prop-types';
 import Geocode from "react-geocode";
+import './AddRestaurant.css';
  
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey("AIzaSyBxvJXLoj0DtoGczKojLEo_Kc3LsdlPxCQ ");
@@ -269,28 +270,64 @@ toggleWantToBeOwner(){
         
 
         return (
-            <div>
+          <div className="mainSection">
+            <div className="titlePage">
+                <h2 className="wow fadeInLeft" data-wow-duration="1s">Dodaj restauracje</h2>
+            </div>
+            <div className="backgroundDark">
+              <div className="containerLight">
                 {this.state.responseMessage}
                 {this.state.mapResonseMessage}
                 <form>
-                    <label>Nazwa restauracji <input name="restaurantName" type="text" onChange={this.handleInputChange} onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} />{this.state.restaurantNameErrorMessage}</label>
-                    <label>Typ kuchni
-                    <select  name="cuisine" onChange={this.handleInputChange} >
+                  <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
+                    <label for="restaurantName">Nazwa restauracji</label>
+                    <input className="inputStyle" id="restaurantName" name="restaurantName" type="text" onChange={this.handleInputChange} onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} />
+                    
+                    <p className="error">{this.state.restaurantNameErrorMessage}</p>
+                  </div>
+                  <div className="label-form selectInput wow fadeIn" data-wow-duration="2s">
+                    <label className="filedLabel" for="cuisine">Typ kuchni</label>
+                    <select className="inputStyle" id="cuisine" name="cuisine" onChange={this.handleInputChange} >
                         {cousinesList}
                     </select>
-                    </label>
-                    <label>Ulica <input type="text" name="streetName" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.streetNameErrorMessage}</label>
-                    <label>Numer ulicy <input type="text" name="streetNumber" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate}  onChange={this.handleInputChange}/>{this.state.streetNumberErrorMessage}</label>
-                    <label>Numer lokalu <input type="number" name="localNumber"onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.localNumberErrorMessage}</label>
-                    <label>Chcę zostać włascicielem <input type="checkbox"  name="wantToBeOwner" onClick={this.toggleWantToBeOwner} /></label>
+                  </div>
+                  <div className="label-form rowLine wow fadeIn" data-wow-duration="2s">
+                    <label className="filedLabel" for="streetName">Ulica</label>
+                    <input className="inputStyle" id="streetName" type="text" name="streetName" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>
+                    
+                    <p className="error">{this.state.streetNameErrorMessage}</p>
+                  </div>  
+                  <div className="label-form wow fadeIn" data-wow-duration="2s">
+                    <label className="filedLabel" for="streetNumber">Numer ulicy</label>
+                    <input className="inputStyle" id="streetNumber" type="text" name="streetNumber" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate}  onChange={this.handleInputChange}/>
+                    
+                    <p className="error">{this.state.streetNumberErrorMessage}</p>
+                  </div>  
+                  <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
+                    <label className="filedLabel" for="localNumber">Numer lokalu</label>
+                    <input className="inputStyle" id="localNumber" type="number" name="localNumber"onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>
+                    
+                    <p className="error">{this.state.localNumberErrorMessage}</p>
+                  </div>  
+                  <div className="label-form margin-left wow fadeIn" data-wow-duration="2s">
+                    <input className="wantToBeOwnerInput" id="wantToBeOwner" type="checkbox"  name="wantToBeOwner" onClick={this.toggleWantToBeOwner} /> <label className="wantToBeOwnerLabel" for="wantToBeOwner">Chcę zostać włascicielem</label> 
+                  </div>
+                  <div className="label-form rowLine wow fadeIn" data-wow-duration="2s">
                     <KRScheck wantToBeOwner={this.state.wantToBeOwner} setKRSValidationResult={this.setKRSValidationResult} />
-                    <button disabled={this.state.disabledSubmit} onClick ={this.handleSubmit}>Dodaj resturacje</button>
-                    <label htmlFor="district">Dzielnica</label>
-                    <select name="distric" onChange={this.handleInputChange} >
+                  </div>
+                  <div className="label-form wow fadeIn" data-wow-duration="2s">
+                    <label className="filedLabel" htmlFor="district">Dzielnica</label>
+                    <select className="inputStyle" name="distric" onChange={this.handleInputChange} >
                       {districtsList}
                     </select>
+                  </div>
+                  <div className="buttonSubmit rowLine wow fadeIn" data-wow-duration="2s">
+                    <button disabled={this.state.disabledSubmit} onClick ={this.handleSubmit}>Dodaj resturacje</button>
+                  </div>
                 </form>
+              </div>
             </div>
+          </div>
         )
     }
 }

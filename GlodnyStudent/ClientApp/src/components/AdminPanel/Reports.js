@@ -11,15 +11,17 @@ export default class Reports extends Component {
 
     render() {
         const reportsList = this.props.reports.length !== 0?this.props.reports.map(report=><li id={report.id}>
-            <p>Informacja o zgłoszeniu: {report.content}</p>
-            <p>Link:<a href={`/Restauracja/${report.restaurantId}`} >Przejdz do restauracji</a></p>
-            <button value={report.id} onClick={(e)=>this.props.removeReport(e)} >X</button>
+            <button className="buttonDelete" value={report.id} onClick={(e)=>this.props.removeReport(e)} ><span>Usuń</span></button>
+            <span className="detail">   
+                <p><span className="ticketInfo">Informacja o zgłoszeniu:</span><br/>{report.content}</p>
+                <p>Link: <a href={`/Restauracja/${report.restaurantId}`} >Przejdz do restauracji</a></p>
+            </span>
             </li>):<li>Brak zgłoszeń</li>;
         return (
-            <div>
+            <div className="tickets">
                 <h3>Zgłoszenia</h3>
-                <button onClick={this.props.getReports} >Odświerz listę zgłoszeń</button>
-                <ul>
+                <button className="refresh" onClick={this.props.getReports} >Odświerz listę zgłoszeń</button>
+                <ul className="informations">
                     {reportsList}
                 </ul>
             </div>

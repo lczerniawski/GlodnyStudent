@@ -143,7 +143,7 @@ export default class Registration extends Component {
 
   render() {
     return (
-      <div className="registration">
+      <div className="mainSection">
         <div className="titlePage">
             <h2 className="wow fadeInLeft" data-wow-duration="1s">Zarejestruj się</h2>
         </div>

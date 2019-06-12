@@ -17,7 +17,7 @@ export default class Gallery extends Component {
       <div className="label-form">
           <label className="buttonAccept" htmlFor="uploadGallery">Wgraj nowe zdjęcie do galerii</label>
           <input type="file" id="uploadGallery"  accept="image/x-png,image/gif,image/jpeg" onChange={this.props.filesOnChange} />
-          <button type="text" onClick={this.props.uploadJustFile}>Wyślij plik</button>
+          <button className="sendFile" type="text" onClick={this.props.uploadJustFile}>Wyślij plik</button>
       </div>:"";
 
 
