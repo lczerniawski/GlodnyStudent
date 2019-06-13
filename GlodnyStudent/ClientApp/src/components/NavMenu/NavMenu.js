@@ -95,7 +95,8 @@ export class NavMenu extends Component {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('role');
-    window.location.reload();
+   // window.location.reload();
+    this.context.router.history.push(`/`);
   }
 
 

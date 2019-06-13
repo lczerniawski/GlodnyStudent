@@ -65,7 +65,7 @@ export default class ForgetPassword extends Component {
                     <div className="containerLight">
                         <h3>Resetuj hasło</h3>
                         <p>Na podany adres, zostanie wysłany email z likiem do resetowania hasła.</p>
-                        <p>{this.state.responseMessage}</p>
+                        <h4 id="response">{this.state.responseMessage}</h4>
                         <form onSubmit={this.handleSubmit} >
                             <input className="inputStyle" name="email" type="email" value={this.state.email} onChange={this.handleInputChange} />
                             <input type="submit" value="Wyślij" />

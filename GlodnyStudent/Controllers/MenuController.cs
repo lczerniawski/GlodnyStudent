@@ -117,6 +117,8 @@ namespace GlodnyStudent.Controllers
             }
 
             restaurant.HighestPrice = maxPrice;
+
+            await _restaurantRepository.Update(restaurant);
         }
     }
 }
