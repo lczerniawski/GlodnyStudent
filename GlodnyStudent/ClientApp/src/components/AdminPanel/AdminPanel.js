@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './AdminPanel.css'
 import FindUser from './FindUser';
 import Reports from './Reports';
 
@@ -164,9 +163,9 @@ export default class AdminPanel extends Component {
         const { openedFind, openedReports } = this.state;
         return (
             <div id="adminPanel">
-              <div className="backgroundDark">
-                <div className="containerLight">
-                  <div className="buttonSubmit rowLine wow fadeIn" data-wow-duration="2s">
+              <div>
+                <div>
+                  <div>
                     <p>Wybierz opcję, która Cię interesuje</p>
                     <button onClick={this.toggleAdminPanel} disabled={this.state.notifyDisableBtn} name="notifyDisableBtn" id="findButtonAdmin">Wyświetl zgłoszenia</button>
                     <button onClick={this.toggleAdminPanel} disabled={this.state.findUserDisableBtn} name="findUserDisableBtn" id="reportsButtonAdmin">Znajdź użytkownika</button>

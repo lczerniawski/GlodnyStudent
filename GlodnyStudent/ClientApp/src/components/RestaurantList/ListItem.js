@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './ListItem.css';
 import PropTypes from 'prop-types';
 import imageRestaurant from'../assets/restaurantImage.jpg';
 
@@ -13,7 +12,7 @@ export default class listItem extends Component {
 
 
   PopularityBadge() {
-   if(this.props.reviewsCount > 100) return <p className="badge">Popularne Miejsce</p>;
+   if(this.props.reviewsCount > 100) return <p>Popularne Miejsce</p>;
   }
 
 
@@ -31,21 +30,21 @@ export default class listItem extends Component {
   render() {
     const badge = this.PopularityBadge();
     return (
-        <div className="listItemContainer wow fadeInDown" data-wow-duration="1s" onClick={this.handleClickElement}>
-          <div className="image">
+        <div onClick={this.handleClickElement}>
+          <div>
             <img src={imageRestaurant} />
           </div>
-          <div className="restaurantName">
+          <div>
               <h3>{this.props.name}</h3>
               {badge}
           </div>
-          <div className="restaurantInfo">
+          <div>
               <address>
-                <i className="fas fa-map-marker-alt fa-2x"></i> {this.props.address}
+                <i ></i> {this.props.address} {/* className="fas fa-map-marker-alt fa-2x" */}
               </address>
 
               <ul>
-                <li><i className="far fa-comments fa-2x"></i> Ilość komentarzy: {this.props.reviewsCount}</li>
+                <li><i ></i> Ilość komentarzy: {this.props.reviewsCount}</li> {/* className="far fa-comments fa-2x" */}
               </ul>
             </div>
           </div>

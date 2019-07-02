@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './ReviewsCreator.css';
 
 
 export default class ReviewsCreator extends Component {
@@ -16,9 +15,8 @@ export default class ReviewsCreator extends Component {
 
   render() {
     return (
-      <form className="reviewForm wow fadeInDown" data-wow-duration="1s" onSubmit={this.props.onSendReview}>
+      <form onSubmit={this.props.onSendReview}>
           <textarea name="newReview" type="text" onChange={this.handleReviewChange}></textarea>
-
           <input  type="submit" value="Wyślij"/>
       </form>
     )

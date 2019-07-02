@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './Search.css';
 import PropTypes from 'prop-types';
+import './Search.css'
 
 export default class Search extends Component {
 
@@ -39,9 +39,9 @@ export default class Search extends Component {
     const defAddress = this.props.address?decodeURIComponent(this.props.address):"";
     return (
 
-        <form id="search" className="searchContainer wow fadeInLeft" data-wow-duration="2s" onSubmit={sub}>
-          <input className="searchInput" type="text" defaultValue={defAddress}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
-          <input className="searchBtn" type="submit" value="Szukaj"/>
+        <form id="search" onSubmit={sub}>
+          <input id="SearchInput" type="text" defaultValue={defAddress}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
+          <input id="SearchBtn" type="submit" value="Szukaj"/>
         </form>
     )
   }

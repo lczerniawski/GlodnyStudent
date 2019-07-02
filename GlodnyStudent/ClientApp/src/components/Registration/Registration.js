@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Registration.css';
 import PropTypes from 'prop-types';
 
 export default class Registration extends Component {
@@ -143,45 +142,44 @@ export default class Registration extends Component {
 
   render() {
     return (
-      <div className="mainSection">
-        <div className="titlePage">
-            <h2 className="wow fadeInLeft" data-wow-duration="1s">Zarejestruj się</h2>
+      <div>
+        <div>
+            <h2>Zarejestruj się</h2>
         </div>
-        <div className="backgroundDark">
-            <div className="containerLight">
-              <p className="text wow fadeIn" data-wow-duration="2s">Uzupełnij poniższy formularz rejestracyjny i dołącz do grona Głodnych Studentów!</p>
+        <div>
+            <div>
+              <p>Uzupełnij poniższy formularz rejestracyjny i dołącz do grona Głodnych Studentów!</p>
               {this.state.responseMessage}
               <form  onSubmit={this.handleSubmit} >
-                  <div className="label-form wow fadeIn" data-wow-duration="2s">
-                    <label className="filedLabel">Nazwa użytkownika</label>
-                    <input className="inputStyle" name="name" type="text" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate}
-                    onBlur={this.inputValidate} onChange={this.handleInputChange}/> 
-                    
-                    <p className="error">{this.state.nameErrorText}</p>
+                  <div>
+                    <label>Nazwa użytkownika
+                      <input name="name" type="text" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate}
+                      onBlur={this.inputValidate} onChange={this.handleInputChange}/> 
+                    </label>
+                    <p>{this.state.nameErrorText}</p>
                   </div>
-
-                  <div className="label-form wow fadeIn" data-wow-duration="2s">
-                    <label className="filedLabel">Adres E-mail</label>
-                    <input className="inputStyle" name="email" type="email" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange} /> 
-                    
+                  <div>
+                    <label>Adres E-mail
+                      <input name="email" type="email" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate}
+                       onBlur={this.inputValidate} onChange={this.handleInputChange} /> 
+                    </label>
                     <p className="error">{this.state.emailErrorText}</p>
                   </div>
-
-                  <div className="label-form wow fadeIn" data-wow-duration="2s">
-                    <label className="filedLabel">Hasło</label>
-                    <input className="inputStyle" name="password" type="password" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange} /> 
-                    
-                    <p className="error">{this.state.passwordErrorText}</p>
+                  <div>
+                    <label>Hasło
+                      <input name="password" type="password" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} 
+                      onBlur={this.inputValidate} onChange={this.handleInputChange} /> 
+                    </label>
+                    <p>{this.state.passwordErrorText}</p>
                   </div>
-
-                  <div className="label-form wow fadeIn" data-wow-duration="2s">
-                    <label className="filedLabel"> Powtórz hasło</label>
-                    <input className="inputStyle" name="repeatedPassword" disabled={this.state.disabledRepeatedPassword} type="password" onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange} /> 
-                  
+                  <div>
+                    <label> Powtórz hasło
+                      <input name="repeatedPassword" disabled={this.state.disabledRepeatedPassword} type="password" onKeyUp={this.startCountdownToValidate}
+                       onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange} /> 
+                    </label>
                     <p className="error">{this.state.repeatedPasswordErrorText}</p>
                   </div>
-
-                  <input className="filedLabel wow fadeIn" data-wow-duration="2s" type="submit" disabled={this.state.disabledSubmit}  value="Zarejestruj się" />
+                  <input type="submit" disabled={this.state.disabledSubmit}  value="Zarejestruj się" />
               </form>
             </div>
         </div>

@@ -1,100 +1,131 @@
-.welcome {
-    float: left;
-    clear: both;
+#HomeBackground{
     width: 100%;
-    height: calc(100vh - 148px);
-    left: 0;
-    background-attachment: fixed;
+    height: calc(100vh - 73px);
+    min-height: 500px;
     background-image: url(../assets/homeBackground.jpg);
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 100px;
+    position: relative;
 }
 
-.welcome .info h1, .welcome .info h2 {
-    color: #fff;
+#HomePageText{
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    animation: 1s 0.7s  appearText both ;
 }
 
-.welcome h1:after {
-    content: "";
+#HomePageSearch{
+    animation: 1s 0.7s appearText both ;
+}
+
+#HomePageContent{
+    position: absolute;
+    bottom: 40%;
+    left: 5%;
+}
+
+#HomePageContent::before{
+    content: '';
+    position: absolute;
     display: block;
-    height: 3px;
-    background: #F2994A;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    height: 150px;
+    width: 150px;
+    /* left: -35px; */
+    border: solid #F2994A;
+    border-width: 3px 0 0 3px;
+    animation: 2s  borderSlideLeft both;
 }
 
-@media (min-width: 740px) {
-    .welcome {
-        background-position: center center;
-    }
+#HomePageContent::after{
+    content: '';
+    position: absolute;
+    display: block;
+    height: 150px;
+    width: 150px;
+   /*  right: -35px;*/
+    /* bottom: -35px; */ 
+    border: solid #F2994A;
+    border-width: 0 3px 3px 0;
+    animation: 2s  borderSlideRight both;
 }
 
-@media (max-width: 740px) {
-    .welcome {
-        background-position: left left;
-    }
-}
+@keyframes appearText {
+    0% { 
+        opacity: 0;
+        transform:scale(0.1,0.1);
+     }
+    100% {
+         opacity: 1;
+         transform:scale(1,1); 
+        }
+  }
 
-@media(min-width: 1200px) {
-    .welcome .info {
-        width: 50vw;
-        margin-top: 13vh;
-    }
+@keyframes borderSlideLeft {
+    0% { transform: translate(150px,150px);}
+    100% { transform: translate(-35px,0px);}
+  }
 
-    .welcome .info h1 {
-        font-size: 60px;
-    }
+  @keyframes borderSlideRight {
+    0% { transform: translate(150px,-50px);}
+    100% { transform: translate(440px,-110px);}
+  }
 
-    .welcome h1:after {
-        width: 450px;
-    }
 
-    .search {
-        margin-top: 100px;
-    }
-}
+   @media (max-width:850px) { 
 
-@media (min-width: 781px) and (max-width: 1199px)
-{
-    .welcome .info {
-        width: 90vw;
-        margin-top: 4vh;
-    }
-
-    .welcome .info h1 {
-        font-size: 35px;
+    #HomePageContent{
+        max-height: 100%;
+        width: 90%;
+        text-align: center;
+        bottom: 30%;
     }
 
-    .welcome h1:after {
-        width: 250px;
-    }
-
-    .welcome .info h2 {
-        font-size: 20px;
-    }
-
-    .search {
-        margin-top: 20px;
-    }
-}
-
-@media(max-width: 780px)
-{
-    .welcome .info h1 {
-        font-size: 30px;
-    }
-
-    .welcome h1:after {
-        width: 140px;
-    }
-
-    .welcome .info h2 {
-        font-size: 20px;
+    #HomePageContent::before{
+        content: none;
+        animation:none;
     }
     
+    #HomePageContent::after{
+        content: none;
+        animation: none;
+    }
+
+    #HomePageText{
+        animation: none;
+        display: block;
+        padding-bottom: 40px;
+   }
+    
+    #HomePageText h1::after{
+        content: '';
+        position: absolute;
+        display: block;
+        width: 50%;
+        height: 3px;
+        background:#F2994A;
+        left: 25%;
+    }
+
+
+    #HomePageSearch{
+        animation: none;
+    }
+
+    #SearchBtn{
+        font-size: 16px;
+        height: 38px;
+        width: calc(90% + 4px);
+    }
+    
+    #SearchInput{
+        font-size: 12px;
+        width: 90%;
+        height: 32px;
+    }
+
+   }
+
+   @media(max-height: 700px){
+    #HomePageContent{
+        bottom: 10%;
+    }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './RestaurantPage.css';
 import ReviewsCreator from './ReviewsCreator';
 import PropTypes from 'prop-types';
 import Gallery from './Gallery';
@@ -575,26 +574,26 @@ constructor(props){
 
   render() {
     return (
-      <div className="singleRestaurant">
+      <div>
         {this.state.responseMessage}
-        {(sessionStorage.getItem("role") === "Admin")?<button className="deleteRestaurant" onClick={this.removeRestaurant} >Usuń restauracje</button>:null}
-        <button  onClick={this.makeReport} className="report" name="CreateReportRestaurant">Zgłoś nieprawidłowości na stronie</button>
-        <div className="header">
-          <button className="back wow fadeInDown" data-wow-duration="2s" onClick={this.backToRestaurationList}>Powrót do listy</button>        
+        {(sessionStorage.getItem("role") === "Admin")?<button onClick={this.removeRestaurant} >Usuń restauracje</button>:null}
+        <button  onClick={this.makeReport}  name="CreateReportRestaurant">Zgłoś nieprawidłowości na stronie</button>
+        <div>
+          <button onClick={this.backToRestaurationList}>Powrót do listy</button>        
           <HeaderImage />
-          <div className="title wow fadeInDown" data-wow-duration="1s">
+          <div>
             <RestaurantName responseMessageChangeName={this.state.responseMessageChangeName} ownerLogIn={this.state.ownerLogIn} name={this.state.restaurant.name} setName={this.changeName} restaurantId={this.state.restaurant.id}/>
           </div>
         </div>
-        <div className="entryContent">
-          <section className="localization">
+        <div>
+          <section>
               <MapSection lng={this.state.restaurant.lng} lat={this.state.restaurant.lat} ownerLogIn={this.state.ownerLogIn} address={this.state.restaurant.address} restaurantId={this.state.restaurant.id} updateAddress={this.changeAddress}  />
           </section>
-          <section className="importantInformation">
+          <section >
               <Gallery responseMessageRemoveImage={this.responseMessageRemoveImage} responseMessageUploadImage={this.state.responseMessageUploadImage} ownerLogIn={this.state.ownerLogIn} addImage={this.handleImageAdd} removeImage={this.handleImageRemove} gallery={this.state.restaurant.gallery} filesOnChange={this.filesOnChange} uploadJustFile = {this.uploadJustFile} />
               <Menu responseMessageMenuAddItem={this.state.responseMessageMenuAddItem} responseMessageRemoveMenuItem={this.state.responseMessageRemoveMenuItem}  ownerLogIn={this.state.ownerLogIn} restaurantId={this.state.restaurant.id} addMenuItem={this.addMenuItem}  deleteMenuItem={this.handleRemoveMenuItem}   menu={this.state.restaurant.menu} />
           </section>
-          <section className="reviews">
+          <section>
             {this.state.responseMessageReviews}
             {this.state.responseMessageRemoveReviews}
             {sessionStorage.getItem("id")?<ReviewsCreator onReviewInput={this.handleInputChange} onSendReview={this.sendReview}/>:null}

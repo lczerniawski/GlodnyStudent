@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import './NavMenu.css';
 import logo from'../assets/navbarLogo.png';
 import GusetMenu from './GusetMenu';
 import LogInUserMenu from './LogInUserMenu';
 import PropTypes from 'prop-types';
-
+import './NavMenu.css';
+import NavListMobile from './NavListMobile';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 
 export class NavMenu extends Component {
@@ -14,11 +15,15 @@ export class NavMenu extends Component {
     this.state={
       email:"",
       password:"",
-      responseMessage:null
+      responseMessage:null,
+      isDesktop: false,
+      showMenu:false
     }
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.updateViewportSize = this.updateViewportSize.bind(this);
+    this.showMenu = this.showMenu.bind(this);
   }
   
 
@@ -73,11 +78,6 @@ export class NavMenu extends Component {
          password:""
         });
 
-
-
-
-
-
     } )
     .catch((err)=>console.log(err));  
 
@@ -100,38 +100,66 @@ export class NavMenu extends Component {
   }
 
 
+  componentDidMount() {
+    this.updateViewportSize();
+    window.addEventListener("resize", this.updateViewportSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateViewportSize);
+  }
+
+  updateViewportSize() {
+    this.setState({ isDesktop: window.innerWidth >  1100 });
+  }
  
+  showMenu(){
+    this.setState(state => ({
+      showMenu: !state.showMenu
+    }));
+  }
 
 
   render () {
-    const menuList = sessionStorage.getItem("token")?
-    <LogInUserMenu handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel}  />:<GusetMenu email={this.state.email} password={this.state.password} handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />;
+    const menuList = this.state.isDesktop?
+    sessionStorage.getItem("token")?
+      <LogInUserMenu handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel} />:
+      <GusetMenu email={this.state.email} password={this.state.password} handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn} />:
+    <div id="menuIcon" onClick={(e)=>this.showMenu()} >
+      <div className="menuIconBars"></div>
+      <div className="menuIconBars"></div>
+      <div id="menuIconBarsLast" className="menuIconBars" ></div>
+    </div> ; 
+
+    const user = (this.state.isDesktop && sessionStorage.getItem("username"))?<p id="Username" className="navMenuListItem">{sessionStorage.getItem("username")}</p>:null;
+
+    const responseMsg = this.state.responseMessage?<p>{this.state.responseMessage}</p>:null;
+
+    const menuMobile = (this.state.showMenu && !this.state.isDesktop)?
+     <NavListMobile handleLogOut={this.handleLogOut}  toggleAdminPanel={this.props.toggleAdminPanel} email={this.state.email} password={this.state.password} handleInputChange={this.handleInputChange} handleLogIn={this.handleLogIn}/>:null;
+
     return (
-      <div>
+     
         <header>
-          <nav className="menuBar wow fadeInDown" data-wow-duration="2s">
-
-              <div className="navLogo">
-                <a href="/">
-                  <img src={logo} alt ="Głodny Student Logo"/>
-                </a>
-              </div>
-
-              <div className="topnav" id="myTopnav">
-                {menuList}
-              </div>
-    
-              <a id="menuIcon" className="menuIcon">
-                <span className="fas fa-bars fa-2x"></span>
+          <nav id="navBar">
+            <div id="menuNavLogoAndNameLogin" className="menuNavLogoAndName" >
+              <a href="/">
+                <img id="logo" src={logo} alt ="Głodny Student Logo"/>
               </a>
+              {user}
+            </div>        
+            {responseMsg}
+            {menuList}           
           </nav>
-        
-        </header>
-
-        <aside className="errorLogin">
-          {this.state.responseMessage}
-        </aside>
-      </div>
+          <ReactCSSTransitionGroup
+             transitionName="menu"
+             transitionEnterTimeout={1000}
+             transitionLeaveTimeout={1000}
+           >
+            {menuMobile}
+          </ReactCSSTransitionGroup>             
+        </header>  
+         
     );
   }
 }

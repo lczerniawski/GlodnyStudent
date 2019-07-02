@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './Layout.css';
 import { NavMenu } from './NavMenu/NavMenu';
-import AdminPanel from './AdminPanel/AdminPanel'
+import AdminPanel from './AdminPanel/AdminPanel';
+import './Layout.css';
 
 export class Layout extends Component {
 
@@ -23,14 +23,14 @@ export class Layout extends Component {
 
   render () {
     return (
-      <div>
+      <div id="layoutGlobal">
         <NavMenu  toggleAdminPanel={this.toggleAdminPanel} />
         {(this.state.adminPanelOpen&&(sessionStorage.getItem("role") === "Admin"))?<AdminPanel/>:null}      
         <main>
           {this.props.children}
         </main>
         <footer>
-          <p className="wow fadeIn" data-wow-duration="2s">2019 &copy; GłodnyStudent.pl. Wszelkie prawa zastrzeżone.</p>
+          <p>2019 &copy; GłodnyStudent.pl</p>
         </footer>
       </div>
     );

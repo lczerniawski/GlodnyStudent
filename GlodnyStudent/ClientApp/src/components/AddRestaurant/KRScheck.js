@@ -57,10 +57,11 @@ export default class KRScheck extends Component {
     render() {
         return (
             <div>
-            <label for="KRS">Numer KRS</label>
-            <input className="inputStyle" id="KRS" type="number" disabled={!this.props.wantToBeOwner} name="KRS" onChange={this.handleInputChange}/>
+            <label>Numer KRS
+                <input id="KRS" type="number" disabled={!this.props.wantToBeOwner} name="KRS" onChange={this.handleInputChange}/>
+            </label>
             <button disabled={!this.props.wantToBeOwner} onClick={this.CheckKRS} >Sprawdź</button>
-            <p className="error">{this.state.errorMsg}</p>
+            <p>{this.state.errorMsg}</p>
             </div>
     )
 }

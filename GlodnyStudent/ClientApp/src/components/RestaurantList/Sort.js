@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Sort.css'
 
 export default class Sort extends Component {
 
@@ -35,9 +34,9 @@ export default class Sort extends Component {
 
   render() {
     return (
-      <div className="sort">
-        <div className="form-label-right wow fadeIn" data-wow-duration="2s">
-          <div className="title">Sortowanie:</div> 
+      <div>
+        <div>
+          <div>Sortowanie:</div> 
           <select name="sort" onChange={this.handleInputChange}>
             <option value='priceGrowingly'>Cena rosnąca</option>
             <option value='priceDecreasing'>Cena malejąca</option>

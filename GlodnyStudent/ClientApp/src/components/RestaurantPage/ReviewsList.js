@@ -4,22 +4,22 @@ export default class ReviewsList extends Component {
     render() {
 
         const reviewsList = this.props.reviews.map(row=>
-            <div className="singleReview wow fadeIn" data-wow-duration="1s" key={row.id}>
-              <div className="details">
+            <div key={row.id}>
+              <div>
                 <ul>
-                  <li><i className="far fa-user"></i>{row.userUsername }</li>
+                  <li><i ></i>{row.userUsername }</li> {/* className="far fa-user" */}
                   <li>{row.addTime}</li>
-                  <li className="reportLi"><button className="reportComment" name="CreateReportReview" value={row.id} onClick={(e)=>this.props.makeReport(e)} >Zgłoś komentarz</button></li>
+                  <li><button name="CreateReportReview" value={row.id} onClick={(e)=>this.props.makeReport(e)} >Zgłoś komentarz</button></li>
                   <li>{(sessionStorage.getItem("role") === "Admin")?<button  value={row.id} onClick={(e)=>this.props.handleRemoveRevievs(e)}>Usuń komentarz</button>:null}</li>
                 </ul>
               </div>
-              <div className="description">
+              <div>
                 {row.description}
               </div>
             </div>);
 
         return (
-            <div className="reviewsList">
+            <div>
                 {reviewsList}
               </div> 
         )

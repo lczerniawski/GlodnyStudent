@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
-import './MapSection.css';
 import Geocode from "react-geocode";
  
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
@@ -165,26 +164,30 @@ export default class MapSection extends Component {
           {this.state.streetNameErrorMessage}
           {this.state.localNumberErrorMessage}
           {this.state.restaurantNameErrorMessage}
-        <div className="label-form">
-            <label htmlFor="streetName">Ulica</label> 
-            <input id="streetName" className="inputStyle" type="text" name="streetName" onChange={this.inputValidate} />
+        <div>
+            <label>Ulica
+              <input id="streetName" type="text" name="streetName" onChange={this.inputValidate} />
+            </label> 
         </div>
-        <div className="label-form">
-            <label htmlFor="streetNumber">Numer ulicy</label>
-            <input id="streetNumber" className="inputStyle" type="text" name="streetNumber" onChange={this.inputValidate} />
-            <p className="errorInfo">{this.state.streetNumberErrorMessage}</p>
+        <div>
+            <label>Numer ulicy
+              <input id="streetNumber" type="text" name="streetNumber" onChange={this.inputValidate} />
+            </label>
+            <p>{this.state.streetNumberErrorMessage}</p>
         </div>
-        <div className="label-form">
-            <label htmlFor="localNumber">Numer lokalu</label>
-            <input id="localNumber" className="inputStyle" type="number" min="0" name="localNumber" onChange={this.inputValidate} />
+        <div>
+            <label>Numer lokalu
+              <input id="localNumber" type="number" min="0" name="localNumber" onChange={this.inputValidate} />
+            </label>
         </div>
-        <div className="label-form">
-            <label htmlFor="district">Dzielnica</label>
-            <select id="district" className="inputStyle" name="district" onChange={this.inputValidate}>
-              {districtsList}
-            </select>
+        <div>
+            <label>Dzielnica
+              <select id="district" name="district" onChange={this.inputValidate}>
+                {districtsList}
+              </select>
+            </label>
         </div>
-      <input className="buttonAccept" type="submit" disabled={this.state.disabledSubmit} value="Zapisz"/>
+      <input type="submit" disabled={this.state.disabledSubmit} value="Zapisz"/>
   </form>:"";
 
 
@@ -193,23 +196,23 @@ export default class MapSection extends Component {
 
         return (
             <div>
-              <div className="map">
-                  <div className="mainMap">
+              <div>
+                  <div>
                   <Map center={[this.props.lat,this.props.lng]} zoom={this.state.zoom}>
                     <Marker anchor={[this.props.lat,this.props.lng]} payload={1} onClick={({ event, anchor, payload }) => {}}/>
                   </Map>
                   </div>
 
-                  <button onClick={this.zoomIn}><i className="fas fa-search-plus"></i></button>
-                  <button onClick={this.zoomOut}><i className="fas fa-search-minus"></i></button>
+                  <button onClick={this.zoomIn}><i ></i></button> {/* className="fas fa-search-plus" */}
+                  <button onClick={this.zoomOut}><i ></i></button> {/* className="fas fa-search-minus" */}
               </div>
-              <div className="mapInfo">
-                  <h3 className="wow fadeIn" data-wow-duration="2s">Znajdź nas na mapie!</h3>                  
-                  <address className="wow fadeIn" data-wow-duration="2s">
-                    <i className="fas fa-map-marker-alt fa-2x"></i> {streetName} {streetNumber}/{localNumber} {district}
+              <div>
+                  <h3>Znajdź nas na mapie!</h3>                  
+                  <address>
+                    <i ></i> {streetName} {streetNumber}/{localNumber} {district} {/* className="fas fa-map-marker-alt fa-2x" */}
                   </address>
                     {editInputs}
-                  <button className="wow fadeIn" data-wow-duration="2s">Zobacz na mapach google</button>
+                  <button>Zobacz na mapach google</button>
               </div>
             </div>
         )

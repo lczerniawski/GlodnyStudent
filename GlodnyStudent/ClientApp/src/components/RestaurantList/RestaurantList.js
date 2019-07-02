@@ -3,8 +3,7 @@ import ListItem from './ListItem';
 import Filters from './Filters';
 import Sort from './Sort';
 import Search from  '../MainPage/Search';
-import './RestaurantList.css';
-import './Search.css'; 
+
 /* import {host} from '../../config' */
 import Geocode from "react-geocode";
  
@@ -162,8 +161,7 @@ Geocode.fromAddress(streetName).then(
     const { restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
     let list 
     if (restaurations.length === 0) {
-      list= <div className="notFound wow bounce" data-wow-duration="1s">
-        <i className="fas fa-bug fa-4x"></i>
+      list= <div>
         <h2>Upsss... nic nie znaleziono</h2>
         <p>Nie znaleziono restauracji o podanych parametrach.</p>
         </div>; 
@@ -171,23 +169,21 @@ Geocode.fromAddress(streetName).then(
        list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.score}
         reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} />);
     }   
+
     return (    
-      <div className="restaurantListContainer">
-
-        <div className="titlePage">
-          <h2 className="wow fadeInLeft" data-wow-duration="1s">Lista restauracji</h2>
+      <div>
+        <div>
+          <h2>Lista restauracji</h2>
         </div>
-
-        <div className="searchRestaurant">
+        <div>
           <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.location}/>
         </div>
         {this.state.mapResonseMessage}
-        <div className="filersBar">
-      <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
+        <div>
+          <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
           <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
-        </div>
-        
-        <div className="restaurantList">
+        </div>  
+        <div>
           {list}
         </div>
       </div>

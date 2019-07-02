@@ -126,7 +126,7 @@ export default class NewResetPassword extends Component {
                     onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.passwordErrorText}</label>
                     <label>Powtórz hasło:<input name="repeatedPassword" type="password"  disabled={this.state.disabledRepeatedPassword} value={this.state.repeatedPassword}
                     onKeyUp={this.startCountdownToValidate} onKeyDown={this.clearTheCountdownToValidate} onBlur={this.inputValidate} onChange={this.handleInputChange}/>{this.state.repeatedPasswordErrorText}</label>
-                    <input className="filedLabel wow fadeIn" data-wow-duration="2s" type="submit" disabled={this.state.disabledSubmit}  value="Zapisz" />
+                    <input type="submit" disabled={this.state.disabledSubmit}  value="Zapisz" />
                 </form>
             </div>
         )

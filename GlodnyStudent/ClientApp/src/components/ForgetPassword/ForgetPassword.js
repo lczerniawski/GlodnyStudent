@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './forgetPassword.css';
 
 export default class ForgetPassword extends Component {
 
@@ -57,17 +56,17 @@ export default class ForgetPassword extends Component {
 
     render() {
         return (
-            <div className="mainSection resetPassword">
-                <div className="titlePage">
-                    <h2 className="wow fadeInLeft" data-wow-duration="1s">Resetuj hasło</h2>
+            <div>
+                <div>
+                    <h2>Resetuj hasło</h2>
                 </div>
-                <div className="backgroundDark">
-                    <div className="containerLight">
+                <div>
+                    <div>
                         <h3>Resetuj hasło</h3>
                         <p>Na podany adres, zostanie wysłany email z likiem do resetowania hasła.</p>
                         <h4 id="response">{this.state.responseMessage}</h4>
                         <form onSubmit={this.handleSubmit} >
-                            <input className="inputStyle" name="email" type="email" value={this.state.email} onChange={this.handleInputChange} />
+                            <input name="email" type="email" value={this.state.email} onChange={this.handleInputChange} />
                             <input type="submit" value="Wyślij" />
                         </form>
                     </div>

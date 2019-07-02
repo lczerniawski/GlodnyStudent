@@ -1,257 +1,262 @@
-﻿header {
-  position: fixed;
-  overflow: hidden;
-  top: 0;
-  width: 100%;
-  height: 80px;
-  background-color: #F2994A;
-  padding: 10px;
-  z-index: 3000;
-}
-
-header .navLogo {
-  float: left;
-  padding-bottom: 15px;
-}
-
-header .userName {
-  float: left;
-  font-size: 22px;
-  margin-top: 10px;
-  margin-left: 10px;
-}
-
-.errorLogin {
-  float: left;
-  width: 100%;
-  clear: both;
-  background-color: red;
-  color: #fff;
-  margin-top: 80px;
-  text-align: center;
-}
-
-header .logoutMenu, header .menuAdmin {
-  background-color: #404040;
-  font-size: 20px;
-  color: #F2994A;
-  padding: 10px;
-  margin-top: -8px;
-  margin-left: 10px;
-}
-
-header .navLogo img {
-  width: auto;
-  height: 60px;
-}
-
-header .navList li {
-  display: inline-block;
-}
-
-header .formLogin {
-  margin-top: 10px;
-  margin-right: -10px;
-}
-
-header .formLogin input {
-  border: none;
-  box-shadow: transparent;
-  padding: 7px 15px 7px 15px;
-}
-
-header .formLogin input[type=submit] {
-  font-size: 18px;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
-  text-align: center;
-  -o-transition:.5s;
-  -ms-transition:.5s;
-  -moz-transition:.5s;
-  -webkit-transition:.5s;
-  transition:.5s;
-}
-
-header .formLogin input[type=submit]:hover {
-  color: #F2994A;
-}
-
-.menuIconBar {
-  width: 35px;
-  height: 5px;
-  background-color: black;
-  margin: 6px 0;
-}
-
-.menuIcon {
-  float: right;
-  padding: 5px;
-  margin-top: 8px;
-}
-
-.menuIcon.visible {
-  background: #404040;
-}
+header {
+/*     position: fixed; */
+    /* overflow: hidden; */
+  /*   top: 0; */
+    width: 100%;
+    /* min-height: 70px; */
+    background: #404040;
+    
+   /*  background-color: #F2994A; */
+    /* z-index: 3000; */
 
 
-@media (min-width: 1200px) {
-  header .formLogin, header .navList {
-    float: right;
   }
 
-  .menuIcon {
-    display: none;
-  }
+header nav{
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+ /*    min-height: 70px;
+    max-height: 140px; */
+    height: 70px;
+    position: fixed;
+    top: 0;
+    background-color: #F2994A;
+    z-index: 3000;
+    width: 100%;
+}  
 
-  header .navList {
-    margin-top: 13px;
-  }
 
-  header .navList li {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
+.menuMobileContainer{
+  height: 100vh;
+  box-sizing: border-box;
+  /* background: #404040; */
+}
 
-  header .navList li a {
-    font-size: 20px;
-    color: #404040;
+
+#logo{
+    height: 70px;
+}
+
+.menuNavLogoAndName{
+  display: flex;
+  justify-content: space-between;
+  max-width:5%;
+}
+
+#menuNavLogoAndNameLogin{
+  max-width: 20%;
+}
+
+#menuIcon {
+    cursor: pointer;
+    height: 27px;
+    padding: 10px;
+    align-self:center;
   }
   
-  header .navList li a:hover {
-    color: #fff;
+  .menuIconBars {
+    width: 35px;
+    height: 5px;
+    background-color: #404040;
+    margin-bottom: 6px;
   }
 
-  header .formLogin input {
-    margin-left: 10px;
+  #menuIconBarsLast{
+    margin-bottom: 0;
+  }
+
+  .navMenuList{
+    display: flex;
+    justify-content:space-evenly;
+    width: 95%;
+    padding-left: 0;
+  }
+
+  #navMenuListLogin{
+    width: 70%;
+  }
+  
+  .navMenuListItem{
+    display:inline-block;
+    font-size: 24px;
+    align-self: center;
+  }
+
+  .navMenuListItemInput{
+    font-size: 24px;
     margin-right: 10px;
   }
 
-  header .formLogin input[type=submit] {
-    color: #fff;
-    background: #404040;
-  }
-}
-
-@media (min-width: 901px) and (max-width: 1199px) {
-  header .formLogin, header .navList {
-    float: right;
-  }
-
-  .menuIcon {
-    display: none;
-  }
-
-  header .navList {
-    margin-top: 19px;
-  }
-
-  header .navList li:nth-of-type(1) {
-    padding-left: 0 !important;
-  }
-
-  header .navList li {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  header .navList li a {
-    font-size: 17px;
+  .navMenuListLink{
+    text-decoration: none;
     color: #404040;
-  }
-  
-  header .navList li a:hover {
-    color: #fff;
+    cursor: pointer;
   }
 
-  header .formLogin input[type=text], header .formLogin input[type=password] {
-    width: 170px;
-    margin-left: 5px;
-    margin-right: 5px;
+  .navMenuListButton{
+      background: #404040;
+      border-color: #404040;
+      color: white;
+      cursor: pointer;
   }
 
-  header .formLogin input[type=submit] {
-    color: #fff;
-    background: #404040;
-    width: 140px;
-  }
-}
-
-@media (max-width: 900px) { 
-  #myTopnav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin-top: 78px;
-    background-color: #404040;
-    -o-transition:  all 1s ease;
-    -ms-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -webkit-transition: all 1s ease;
-    transition: all 1s ease;
-    z-index: 3000;
+  #navMenuInputList{
+    display: flex;
+    flex-wrap: nowrap;
   }
 
-  header .userName {
+  #Username{
+      align-self: flex-start;
+  }
+
+  .NavMenuLabels{
+    display: none;
+    color: white;
     text-align: center;
-    color: #fff;
-    margin: 0 auto;
-    width: 100%;
-    padding-bottom: 20px;
+    font-size: 1.5em;
+    padding-top: 50px;
+    padding-bottom: 15px;
   }
 
-  header .navList {
-    margin-top: 30px;
-    margin-left: -20px;
-  }
 
-  header .navList li {
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  @media (max-width:1100px){
 
-  }
+    .navMenuList{
+      width: 100%; 
+      display: block;
+      margin-top: 0;
+    }
 
-  header .navList li a {
-    float: left;
-    width: 95%;
-    font-size: 20px;
-    color: #fff;
-    border: 1px solid #F2994A;
-    text-transform: uppercase;
-    padding: 10px 0 10px 0;
-  }
+    .navMenuListItem{
+      display:block;
+      margin:auto;
+      text-align: center;
+    }
   
-  header .navList li a:hover {
+    .navMenuListItemInput{
+      display: block;
+      margin:auto;
+    }
+
+    #navMenuInputList{
+      display: block;
+      margin:auto;
+      padding-top: 125px;
+    }
+
+    .navMenuListButton{
+      background: #F2994A;
+      border-color: #F2994A;
+      margin-top:20px;
+  }
+
+  .NavMenuLabels{
+    display: block;
+  }
+
+  .navMenuListLink{
     color: #F2994A;
   }
 
-  header .formLogin {
-    float: left;
-    clear: both;
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    padding-bottom: 20px;
+  #ForgetPasswordTextChange{
+    display: none;
   }
 
-  header .formLogin input {
-    width: 90%;
-    margin-top: 20px;
-    text-align: center;
+  #forgetPassword::after{
+    content: 'Resetuj hasło';
+    
   }
 
-  header .formLogin input[type=submit] {
-    color: #404040;
-    background: #F2994A;
-    padding: 10px 0 10px 0;
+  /* #menuMobileContainer{
+    animation: 1s menuAppear both;
+    
+  } */
+
+ /*  #EmailLabel{
+    padding-top: 100px;
+  } */
+
   }
 
-  header .formLogin input[type=submit]:hover {
-    color: #fff !important;
-  }
 
+@media (min-width: 1100px) and (max-width: 1300px) { 
+
+    .navMenuListItem{
+        font-size: 20px;
+      }
+
+      .navMenuListItemInput{
+        font-size: 20px;
+      }
+
+ }
+
+/*  @keyframes menuAppear{
+  0%{
+    transform: translateY(-100vh);
+    height: 0;
+   }
+  100%{ 
+    height: calc(100vh - 140px );
+    transform:translateY(0);
+ }
+} */
+
+
+
+.menu-enter {
+  height: 0;
 }
+
+.menu-enter.menu-enter-active {
+  height: 100vh;
+  transition: height 1s;
+}
+
+.menu-leave {
+  height: 100vh;
+}
+
+.menu-leave.menu-leave-active {
+  height: 0;
+  transition: height 1s;
+}
+
+
+@media(max-height: 700px){
+
+  #navMenuInputList{
+    padding-top: 90px;
+  }
+
+  .NavMenuLabels{
+    font-size: 1em;
+    padding-top: 20px;
+    padding-bottom: 5px;
+  }
+
+  /* .menuMobileContainer{
+    height: 650px;
+  }
+
+  .menu-enter {
+    height: 0;
+  }
+  
+  .menu-enter.menu-enter-active {
+    height:650px;
+    transition: height 1s;
+  }
+  
+  .menu-leave {
+    height: 650px;
+  }
+  
+  .menu-leave.menu-leave-active {
+    height: 0;
+    transition: height 1s;
+  } */
+
+
+  }
