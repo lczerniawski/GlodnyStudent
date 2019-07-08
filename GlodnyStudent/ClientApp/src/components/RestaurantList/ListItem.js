@@ -12,7 +12,7 @@ export default class listItem extends Component {
 
 
   PopularityBadge() {
-   if(this.props.reviewsCount > 100) return <p>Popularne Miejsce</p>;
+   if(this.props.reviewsCount > 100) return <div className="PopularityBadge"><i class="fas fa-fire-alt fa-2x"></i><p>Popularne miejsce</p></div>;
   }
 
 
@@ -28,24 +28,19 @@ export default class listItem extends Component {
 
 
   render() {
-    const badge = this.PopularityBadge();
+    const PopularityBadge = this.PopularityBadge();
     return (
-        <div onClick={this.handleClickElement}>
-          <div>
-            <img src={imageRestaurant} />
-          </div>
-          <div>
-              <h3>{this.props.name}</h3>
-              {badge}
-          </div>
-          <div>
-              <address>
-                <i ></i> {this.props.address} {/* className="fas fa-map-marker-alt fa-2x" */}
-              </address>
-
-              <ul>
-                <li><i ></i> Ilość komentarzy: {this.props.reviewsCount}</li> {/* className="far fa-comments fa-2x" */}
-              </ul>
+        <div onClick={this.handleClickElement} className="RestaurationListItemContainer">
+            <img className="restaurantImg" src={imageRestaurant} alt="Zdjecie restauracji" />
+          <div className="RestaurationListItemInfo">
+            <h3>{this.props.name}</h3>         
+            <address>
+              <i className="fas fa-map-marker-alt fa-2x" ></i>
+               <p>{this.props.address}</p>
+            </address>
+            <i className="far fa-comments fa-2x" ></i>
+            <p>Ilość komentarzy: {this.props.reviewsCount}</p>
+              {PopularityBadge} 
             </div>
           </div>
     )

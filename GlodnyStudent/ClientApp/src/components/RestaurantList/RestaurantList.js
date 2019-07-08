@@ -3,6 +3,8 @@ import ListItem from './ListItem';
 import Filters from './Filters';
 import Sort from './Sort';
 import Search from  '../MainPage/Search';
+import './RestaurantList.css';
+import _, {debounce} from 'lodash';
 
 /* import {host} from '../../config' */
 import Geocode from "react-geocode";
@@ -31,16 +33,38 @@ export class RestaurantList extends Component {
       restaurations: [],
       mapResonseMessage:null,
       lat:null,
-      lng:null
+      lng:null,
+      currentPage: 1,
+      restaurantsPerPage: 10,
+      searchFixed:false
       
     };
+
+    this.handlePaginationClick = this.handlePaginationClick.bind(this);
+    this.changeClassForSearchInput = this.changeClassForSearchInput.bind(this);
   }
 
+  handlePaginationClick(event) {
+    this.setState({currentPage: Number(event.target.id)});
+  }
+
+  
 componentDidMount(){
   this.getDataByAddress();
   this.getCuisinesAndHighestPrice();
   this.getCoords(this.state.location);
+  this.changeClassForSearchInput();
 }
+
+  changeClassForSearchInput(){
+    document.addEventListener('scroll', _.debounce(()=>{
+        if(window.pageYOffset >= 270){
+          this.setState({searchFixed:true});
+        }else{
+          this.setState({searchFixed:false});
+        }
+      },500));
+  }
 
 getDataByAddress(){
   const address = `api/Search/${this.state.location}`;
@@ -110,11 +134,6 @@ Geocode.fromAddress(streetName).then(
 }
 
 
-
-
-
-
-
     getDataByFilters(){
       const address = `api/Search?address=${this.state.location}&distance=${this.state.distance}&highestPrice=${this.state.price}&cuisine=${this.state.cuisine}&lat=${this.state.lat}&lng=${this.state.lng}`;
       fetch(address).then((response) => {
@@ -158,7 +177,14 @@ Geocode.fromAddress(streetName).then(
   
 
   render() {
-    const { restaurations,cuisines,distance,price,highestPrice,sort} = this.state;
+    const { restaurations,cuisines,distance,price,highestPrice,sort,currentPage,restaurantsPerPage} = this.state;
+
+    const indexOfLastRestaurant = currentPage * restaurantsPerPage;
+    const indexOfFirstRestaurant = indexOfLastRestaurant - restaurantsPerPage;
+    const currentRestaurants = restaurations.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+
+
+    
     let list 
     if (restaurations.length === 0) {
       list= <div>
@@ -166,25 +192,52 @@ Geocode.fromAddress(streetName).then(
         <p>Nie znaleziono restauracji o podanych parametrach.</p>
         </div>; 
     } else {
-       list = restaurations.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address} rate={restauration.score}
+       list = currentRestaurants.map((restauration)=><ListItem key={restauration.id} name={restauration.name} address={restauration.address}
         reviewsCount={restauration.reviewsCount} image={restauration.image} id={restauration.id} />);
     }   
 
+
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(restaurations.length / restaurantsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <div
+          className="paginationItem"
+          key={number}
+          id={number}
+          onClick={this.handlePaginationClick}
+        >
+          {number}
+        </div>
+      );
+    });
+    
+    if(this.state.mapResonseMessage !== null) alert(this.state.mapResonseMessage);
+    const searchClass = this.state.searchFixed ?"searchFixed":"search";
+
     return (    
-      <div>
-        <div>
-          <h2>Lista restauracji</h2>
+      <div className="restaurantListContainer">
+        <div className="header">
+          <h1>Lista restauracji</h1>
         </div>
-        <div>
-          <Search onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.location}/>
+        <div className={searchClass} >
+          <Search searchFixed={this.state.searchFixed} onAddressUpdate={this.addressUpdate} isMain={false} address={this.state.location}/>
         </div>
-        {this.state.mapResonseMessage}
-        <div>
-          <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
-          <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
+        <div className="filters">
+          <div className="filtersBox" >
+            <Filters  cuisines={cuisines} distance={distance} price={price} highestPrice={highestPrice} onSetFilter={this.handleInputChange} />
+            <Sort sort={sort} restaurations={restaurations} onSetSort={this.handleInputChange} />
+          </div>
         </div>  
-        <div>
+        <div className="list">
           {list}
+        </div>
+        <div className="paginationContainer">
+          {renderPageNumbers}
         </div>
       </div>
     )

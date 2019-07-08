@@ -34,16 +34,25 @@ export default class Sort extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <div>Sortowanie:</div> 
-          <select name="sort" onChange={this.handleInputChange}>
-            <option value='priceGrowingly'>Cena rosnąca</option>
-            <option value='priceDecreasing'>Cena malejąca</option>
-            <option value='distanceDecreasing' >Odległość malejąca</option>
-            <option value='distanceGrowingly' >Odległość rosnąca</option>
-          </select>
-        </div>
+      <div className="sortContainer" >
+        <h3>Sortowanie</h3>
+          <div className="filterDropbox">
+            <label htmlFor="restaurantsPerPage">Wyśietlaj po:</label> 
+            <select id="restaurantsPerPage" name="restaurantsPerPage" onChange={(e)=>this.props.onSetSort(e)}>
+              <option value='10'>10</option>
+              <option value='20'>20</option>
+              <option value='30' >30</option>
+            </select>
+          </div>
+          <div className="filterDropbox">
+            <label htmlFor="sort">Sortowanie:</label>
+            <select id="sort" name="sort" onChange={this.handleInputChange}>
+              <option value='priceGrowingly'>Cena rosnąca</option>
+              <option value='priceDecreasing'>Cena malejąca</option>
+              <option value='distanceDecreasing' >Odległość malejąca</option>
+              <option value='distanceGrowingly' >Odległość rosnąca</option>
+            </select>       
+          </div>
       </div>
     )
   }

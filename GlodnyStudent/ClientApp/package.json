@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "leaflet": "^1.5.1",
+    "lodash": "^4.17.11",
     "pigeon-maps": "^0.13.0",
     "pigeon-marker": "^0.3.4",
     "prop-types": "^15.7.2",

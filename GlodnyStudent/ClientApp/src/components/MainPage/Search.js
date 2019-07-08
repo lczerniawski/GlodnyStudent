@@ -35,13 +35,19 @@ export default class Search extends Component {
 
 
   render() {
+
+    const btnClasss = this.props.isMain ? "SearchBtnMain":
+    this.props.searchFixed ?"SearchBtnFixed":"SearchBtn";
+    const inputClasss = this.props.isMain ? "SearchInputMain":"SearchInput";
+    const searchContainerClasss = this.props.isMain ?null:
+    this.props.searchFixed ?"SearchContainerFixed":"SearchContainer";
     const sub =this.props.isMain ? this.handleSubmitMain : this.handleSubmitRestaurationList;
     const defAddress = this.props.address?decodeURIComponent(this.props.address):"";
     return (
 
-        <form id="search" onSubmit={sub}>
-          <input id="SearchInput" type="text" defaultValue={defAddress}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
-          <input id="SearchBtn" type="submit" value="Szukaj"/>
+        <form id="search" className={searchContainerClasss} onSubmit={sub}>
+          <input className={inputClasss} type="text" defaultValue={defAddress}  placeholder="Tu wpisz nazwę ulicy" onChange={this.handleChange} required/>
+          <input className={btnClasss} type="submit" value="Szukaj"/>
         </form>
     )
   }
